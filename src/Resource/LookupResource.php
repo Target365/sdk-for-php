@@ -4,10 +4,9 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Resource;
 
-use Target365\ApiSdk\Exception\ApiClientException;
+use GuzzleHttp\Exception\RequestException;
 use Target365\ApiSdk\Model\AbstractModel;
 use Target365\ApiSdk\Model\Lookup;
-use Target365\ApiSdk\Model\StrexMerchant;
 
 class LookupResource extends AbstractResource // intentionally not extending AbstractCrudResource
 {
@@ -27,7 +26,7 @@ class LookupResource extends AbstractResource // intentionally not extending Abs
      *
      * @param string $phoneNumber international phone number in E.164 format
      */
-    public function get(string $phoneNumber): AbstractModel
+    public function get(string $phoneNumber): ?AbstractModel
     {
 
         $queryStringData = [
@@ -38,8 +37,13 @@ class LookupResource extends AbstractResource // intentionally not extending Abs
 
         try {
             $response = $this->apiClient->request('get', $uri);
-        } catch (ApiClientException $e) {
-            dd(get_class($e));
+        } catch (RequestException $e) {
+            // Specifically to the lookup endpoint, we do not want to throw an Exception on 404
+            if ($e->getResponse()->getStatusCode() == 404) {
+                return null;
+            } else {
+                throw $e;
+            }
         }
 
         $responseData = $this->decodeResponseJson($response);

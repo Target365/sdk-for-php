@@ -17,4 +17,13 @@ class LookupResourceTest extends AbstractTestCase
         $this->assertEquals('+4798079008', $lookup->getMsisdn());
         $this->assertEquals('Oslo', $lookup->getCity());
     }
+
+    public function testGetNotFound()
+    {
+        $apiClient = $this->getApiClient();
+
+        $lookup = $apiClient->lookupResource()->get('+47000000'); //Invalid number
+
+        $this->assertNull($lookup);
+    }
 }
