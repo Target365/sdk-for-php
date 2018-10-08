@@ -10,7 +10,6 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Psr\Log\LoggerInterface;
 use Target365\ApiSdk\ApiClient;
-use Target365\ApiSdk\PrivateKey;
 
 abstract class AbstractTestCase extends TestCase
 {
@@ -85,8 +84,8 @@ abstract class AbstractTestCase extends TestCase
         return $logger;
     }
 
-    protected function getPrivateKey(): PrivateKey
+    protected function getPrivateKey(): string
     {
-        return PrivateKey::fromFile();
+        return file_get_contents('private.key');
     }
 }

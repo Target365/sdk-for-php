@@ -11,7 +11,12 @@ class Signer
 {
     private $privateKey;
 
-    public function __construct(PrivateKey $privateKey)
+    /**
+     * @param string $privateKey base64-encoded private key in pcks#8 format
+     */
+    public function __construct(
+        string $privateKey
+    )
     {
         if ( defined('CRYPT_RSA_PKCS15_COMPAT')) {
             if (CRYPT_RSA_PKCS15_COMPAT !== true) {
@@ -60,7 +65,7 @@ class Signer
     {
         $rsa = new RSA();
         $rsa->setHash('sha256');
-        $rsa->loadKey($this->privateKey->getValue());
+        $rsa->loadKey($this->privateKey);
         $rsa->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
         $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
 

@@ -26,13 +26,13 @@ class ApiClient
     /**
      * @param string $domainUri e.g. https://shared.target365.io/
      * @param string $authKeyName
-     * @param PrivateKey $privateKey
+     * @param string $privateKey base64-encoded private key in pcks#8 format
      * @param LoggerInterface|null $logger
      */
     public function __construct(
         string $domainUri,
         string $authKeyName,
-        PrivateKey $privateKey,
+        string $privateKey,
         LoggerInterface $logger = null
     )
     {
