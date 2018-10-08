@@ -11,7 +11,7 @@ abstract class AbstractCrudResource extends AbstractResource
     /**
      * GET /{resource}
      */
-    public function getList(): array
+    public function list(): array
     {
         $uri = $this->getResourceUri();
 
@@ -31,7 +31,7 @@ abstract class AbstractCrudResource extends AbstractResource
     /**
      * GET /{resource}/{identifier}
      */
-    public function getOne($identifier): AbstractModel
+    public function get($identifier): AbstractModel
     {
         $uri = $this->getResourceUri() . '/' . $identifier;
 

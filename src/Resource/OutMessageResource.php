@@ -20,7 +20,7 @@ class OutMessageResource extends AbstractCrudResource
         return OutMessage::class;
     }
 
-    public function getList(): array
+    public function list(): array
     {
         throw new ApiClientException('This method is not available for this resource');
     }

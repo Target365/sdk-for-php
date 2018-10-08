@@ -51,7 +51,7 @@ class StrexMerchantResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $strexMerchants = $apiClient->strexMerchantResource()->getList();
+        $strexMerchants = $apiClient->strexMerchantResource()->list();
 
         // expecting at least 1 item as we just posted one
         $this->assertGreaterThanOrEqual(1, count($strexMerchants));
@@ -68,7 +68,7 @@ class StrexMerchantResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $strexMerchant = $apiClient->strexMerchantResource()->getOne($identifier);
+        $strexMerchant = $apiClient->strexMerchantResource()->get($identifier);
 
         $this->assertInstanceOf(StrexMerchant::class, $strexMerchant);
 
@@ -102,7 +102,7 @@ class StrexMerchantResourceTest extends AbstractTestCase
         $apiClient = $this->getApiClient();
 
         // This should 404 as it should have been deleted
-        $apiClient->strexMerchantResource()->getOne($strexMerchant->getIdentifier());
+        $apiClient->strexMerchantResource()->get($strexMerchant->getIdentifier());
     }
 
 

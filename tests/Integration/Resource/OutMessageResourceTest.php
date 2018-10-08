@@ -118,7 +118,7 @@ class OutMessageResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $outMessage = $apiClient->outMessageResource()->getOne($identifier);
+        $outMessage = $apiClient->outMessageResource()->get($identifier);
 
         $this->assertInstanceOf(OutMessage::class, $outMessage);
 
@@ -141,7 +141,7 @@ class OutMessageResourceTest extends AbstractTestCase
 
         $apiClient->outMessageResource()->put($outMessage);
 
-        $outMessageChanged = $apiClient->outMessageResource()->getOne($outMessage->getIdentifier());
+        $outMessageChanged = $apiClient->outMessageResource()->get($outMessage->getIdentifier());
 
         $this->assertEquals($changedUrl, $outMessageChanged->getDeliveryReportUrl());
 
@@ -172,7 +172,7 @@ class OutMessageResourceTest extends AbstractTestCase
         $apiClient = $this->getApiClient();
 
         // This should 404 as it should have been deleted
-        $apiClient->outMessageResource()->getOne($outMessage->getIdentifier());
+        $apiClient->outMessageResource()->get($outMessage->getIdentifier());
     }
 
 }

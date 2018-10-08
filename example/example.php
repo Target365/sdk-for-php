@@ -18,7 +18,7 @@ $apiClient = new \Target365\ApiSdk\ApiClient(
 
 // ## Get List
 
-$apiClient->keywordResource()->getList();
+$apiClient->keywordResource()->list();
 
 // ## Post
 
@@ -31,7 +31,7 @@ $apiClient->keywordResource()->post($keyword);
 
 // ## Get One
 
-$existingKeyword = $apiClient->keywordResource()->getOne();
+$existingKeyword = $apiClient->keywordResource()->get();
 
 // ## Put
 
@@ -88,11 +88,11 @@ $apiClient->strexMerchantResource()->put($strexMerchant);
 
 // ## Get List
 
-$strexMerchants = $apiClient->strexMerchantResource()->getList();
+$strexMerchants = $apiClient->strexMerchantResource()->list();
 
 // ## Get One
 
-$strexMerchant = $apiClient->strexMerchantResource()->getOne($identifier);
+$strexMerchant = $apiClient->strexMerchantResource()->get($identifier);
 
 // ## Delete
 

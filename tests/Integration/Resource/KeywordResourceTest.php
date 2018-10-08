@@ -37,7 +37,7 @@ class KeywordResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $keywords = $apiClient->keywordResource()->getList();
+        $keywords = $apiClient->keywordResource()->list();
 
         // We know there is at least 1 item as we just posted one
         $this->assertGreaterThanOrEqual(1, count($keywords));
@@ -54,7 +54,7 @@ class KeywordResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $keyword = $apiClient->keywordResource()->getOne($identifier);
+        $keyword = $apiClient->keywordResource()->get($identifier);
 
         $this->assertInstanceOf(Keyword::class, $keyword);
 
@@ -77,7 +77,7 @@ class KeywordResourceTest extends AbstractTestCase
 
         $apiClient->keywordResource()->put($keyword);
 
-        $keywordChanged = $apiClient->keywordResource()->getOne($keyword->getIdentifier());
+        $keywordChanged = $apiClient->keywordResource()->get($keyword->getIdentifier());
 
         $this->assertEquals($changedForwardUrl, $keywordChanged->getForwardUrl());
 
@@ -108,7 +108,7 @@ class KeywordResourceTest extends AbstractTestCase
         $apiClient = $this->getApiClient();
 
         // This should 404 as it should have been deleted
-        $apiClient->keywordResource()->getOne($keyword->getIdentifier());
+        $apiClient->keywordResource()->get($keyword->getIdentifier());
     }
 
 
