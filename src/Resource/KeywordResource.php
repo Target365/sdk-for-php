@@ -18,5 +18,21 @@ class KeywordResource extends AbstractCrudResource
         return Keyword::class;
     }
 
+    public function list(
+        $shortNumberId = null,
+        string $keywordText = null,
+        string $mode = null,
+        string $tag = null
+    ): array
+    {
+        $queryStringData = [
+            'shortNumberId' => $shortNumberId,
+            'keywordText' => $keywordText,
+            'mode' => $mode,
+            'tag' => $tag,
+        ];
+
+        return parent::listBase($queryStringData);
+    }
 
 }

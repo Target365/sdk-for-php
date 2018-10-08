@@ -13,7 +13,16 @@ abstract class AbstractCrudResource extends AbstractResource
      */
     public function list(): array
     {
+        return $this->listBase();
+    }
+
+    protected function listBase(array $queryStringData = null): array
+    {
         $uri = $this->getResourceUri();
+
+        if (array_filter($queryStringData)) {
+            $uri = $uri . '?' . http_build_query(array_filter($queryStringData));
+        }
 
         $response = $this->apiClient->request('get', $uri);
 

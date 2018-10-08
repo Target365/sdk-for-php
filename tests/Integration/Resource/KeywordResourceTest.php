@@ -44,6 +44,11 @@ class KeywordResourceTest extends AbstractTestCase
         foreach ($keywords as $keyword) {
             $this->assertInstanceOf(Keyword::class, $keyword);
         }
+
+        // This time expecting no results as we have applied a strict filter
+        $keywords = $apiClient->keywordResource()->list('a','b','c','d');
+        $this->assertCount(0, $keywords);
+
     }
 
     /**
