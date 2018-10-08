@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Tests\Integration\Resource;
 
-use Target365\ApiSdk\ApiClientException;
 use Target365\ApiSdk\Model\Keyword;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
@@ -103,7 +102,7 @@ class KeywordResourceTest extends AbstractTestCase
      */
     public function testConfirmDelete(Keyword $keyword)
     {
-        $this->expectException(ApiClientException::class);
+        $this->expectException(\Exception::class);
 
         $apiClient = $this->getApiClient();
 

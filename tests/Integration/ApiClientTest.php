@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Tests\Integration;
 
-use Target365\ApiSdk\ApiClientException;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
 class ApiClientTest extends AbstractTestCase
@@ -31,7 +30,7 @@ class ApiClientTest extends AbstractTestCase
 
     public function testRequestFail()
     {
-        $this->expectException(ApiClientException::class);
+        $this->expectException(\Exception::class);
 
         $apiClient = $this->getApiClient();
 

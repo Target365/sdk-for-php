@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Resource;
 
-use Target365\ApiSdk\ApiClientException;
+use Target365\ApiSdk\Exception\ApiClientException;
 use Target365\ApiSdk\Model\AbstractModel;
 use Target365\ApiSdk\Model\Lookup;
 use Target365\ApiSdk\Model\StrexMerchant;
@@ -36,7 +36,11 @@ class LookupResource extends AbstractResource // intentionally not extending Abs
 
         $uri = $this->getResourceUri() . '?' . http_build_query($queryStringData);
 
-        $response = $this->apiClient->request('get', $uri);
+        try {
+            $response = $this->apiClient->request('get', $uri);
+        } catch (ApiClientException $e) {
+            dd(get_class($e));
+        }
 
         $responseData = $this->decodeResponseJson($response);
 

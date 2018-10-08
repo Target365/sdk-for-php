@@ -183,18 +183,18 @@ class ApiClient
             $httpOptions['body'] = $bodyContents;
         }
 
-        try {
+//        try {
             $response = $httpClient->request(
                 $requestMethod,
                 $requestUri,
                 $httpOptions
             );
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            $exceptionMessage = 'HTTP Request failed. Response Status Code: ' . $e->getResponse()->getStatusCode() . PHP_EOL .
-                                'Response Body: ' . $e->getResponse()->getBody()->__toString();
-
-            throw new ApiClientException($exceptionMessage, 0, $e);
-        }
+//        } catch (\GuzzleHttp\Exception\ClientException $e) {
+//            $exceptionMessage = 'HTTP Request failed. Response Status Code: ' . $e->getResponse()->getStatusCode() . PHP_EOL .
+//                                'Response Body: ' . $e->getResponse()->getBody()->__toString();
+//
+//            throw new ApiClientException($exceptionMessage, 0, $e);
+//        }
 
         $this->log('Response Body', $response->getBody()->__toString());
         $this->log('Response Headers', \GuzzleHttp\json_encode($response->getHeaders()));

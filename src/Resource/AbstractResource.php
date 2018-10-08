@@ -6,7 +6,7 @@ namespace Target365\ApiSdk\Resource;
 
 use Psr\Http\Message\ResponseInterface;
 use Target365\ApiSdk\ApiClient;
-use Target365\ApiSdk\ApiClientException;
+use Target365\ApiSdk\Exception\ApiClientException;
 use Target365\ApiSdk\Model\AbstractModel;
 
 abstract class AbstractResource

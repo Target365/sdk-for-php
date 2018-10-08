@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Model;
 
-use Target365\ApiSdk\ApiClientException;
+use Target365\ApiSdk\Exception\ApiClientException;
 
 class Lookup extends AbstractModel
 {

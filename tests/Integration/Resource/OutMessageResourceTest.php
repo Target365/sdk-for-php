@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Tests\Integration\Resource;
 
-use Target365\ApiSdk\ApiClientException;
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
 use Target365\ApiSdk\Model\OutMessage;
 use Target365\ApiSdk\Tests\AbstractTestCase;
@@ -167,7 +166,7 @@ class OutMessageResourceTest extends AbstractTestCase
      */
     public function testConfirmDelete(OutMessage $outMessage)
     {
-        $this->expectException(ApiClientException::class);
+        $this->expectException(\Exception::class);
 
         $apiClient = $this->getApiClient();
 

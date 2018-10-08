@@ -4,9 +4,8 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Tests\Unit\Model;
 
-use Target365\ApiSdk\ApiClientException;
+use Target365\ApiSdk\Exception\ApiClientException;
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
-use Target365\ApiSdk\Model\Keyword;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
 class DateTimeAttributeTest extends AbstractTestCase
