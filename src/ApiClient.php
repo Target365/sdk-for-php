@@ -15,25 +15,60 @@ use Target365\ApiSdk\Resource\StrexMerchantResource;
 
 class ApiClient
 {
-    const BASE_URI = 'https://test.target365.io/api/'; // TODO hard coded to sandbox
-
     private $authKeyName;
 
-    private $logger;
+    private $logger = null;
 
     private $resources;
 
+    private $signer;
+
+    /**
+     * @param string $domainUri e.g. https://shared.target365.io/
+     * @param string $authKeyName
+     * @param PrivateKey $privateKey
+     * @param LoggerInterface|null $logger
+     */
     public function __construct(
+        string $domainUri,
         string $authKeyName,
-        LoggerInterface $logger // TODO make logger optional, consider defaulting to VoidLogger
+        PrivateKey $privateKey,
+        LoggerInterface $logger = null
     )
     {
+        // TODO update doc block for this method
+
         $this->authKeyName = $authKeyName;
 
         $this->logger = $logger;
 
         $this->instantiateResourceObjects();
 
+        $this->signer = new Signer($privateKey);
+
+        $this->baseUri = $this->tidyDomainUri($domainUri) . 'api/';
+
+    }
+
+    private function tidyDomainUri(string $domainUri)
+    {
+        // Add trailing slash if it is not present on the domain URI
+        if (substr($domainUri, -1, 1) !== '/')
+        {
+            return $domainUri . '/';
+        }
+
+        return $domainUri;
+    }
+
+    protected function getSigner(): Signer
+    {
+        return $this->signer;
+    }
+
+    protected function getLogger(): ?LoggerInterface
+    {
+        return $this->logger;
     }
 
     private function instantiateResourceObjects()
@@ -81,7 +116,9 @@ class ApiClient
 
     protected function log($logEntryTitle, $value, $logLevel = LogLevel::DEBUG)
     {
-        return $this->logger->log($logLevel, "{$logEntryTitle}: {$value}");
+        if ($this->getLogger()) {
+            $this->getLogger()->log($logLevel, "{$logEntryTitle}: {$value}");
+        }
     }
 
     /**
@@ -97,9 +134,9 @@ class ApiClient
         array $bodyData = null
     ): ResponseInterface
     {
-        $requestUri = self::BASE_URI . $requestUriPath;
+        $requestUri = $this->baseUri . $requestUriPath;
 
-        $signer = new Signer();
+        $signer = $this->getSigner();
 
         $nonce = (string) uniqid((string) time(), true);
 

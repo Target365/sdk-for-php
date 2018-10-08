@@ -9,7 +9,9 @@ use phpseclib\Crypt\RSA;
 
 class Signer
 {
-    public function __construct()
+    private $privateKey;
+
+    public function __construct(PrivateKey $privateKey)
     {
         if ( defined('CRYPT_RSA_PKCS15_COMPAT')) {
             if (CRYPT_RSA_PKCS15_COMPAT !== true) {
@@ -19,6 +21,7 @@ class Signer
             define('CRYPT_RSA_PKCS15_COMPAT', true);
         }
 
+        $this->privateKey = $privateKey;
     }
 
     public function signRequest(
@@ -57,7 +60,7 @@ class Signer
     {
         $rsa = new RSA();
         $rsa->setHash('sha256');
-        $rsa->loadKey(file_get_contents('private.key')); //TODO key hard coded
+        $rsa->loadKey($this->privateKey->getValue());
         $rsa->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
         $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
 

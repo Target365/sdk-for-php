@@ -10,15 +10,22 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Psr\Log\LoggerInterface;
 use Target365\ApiSdk\ApiClient;
+use Target365\ApiSdk\PrivateKey;
 
 abstract class AbstractTestCase extends TestCase
 {
 
-    protected $authKeyName = 'RsaTestKey'; //TODO see if I can acoud hard coding this
+    protected $authKeyName = 'RsaTestKey';
 
     protected function getApiClient(): ApiClient
     {
-        $apiClient = new ApiClient($this->authKeyName, $this->getStdoutLogger());
+        $apiClient = new ApiClient(
+            'https://test.target365.io/',
+            $this->authKeyName,
+            $this->getPrivateKey(),
+            $this->getStdoutLogger()
+
+        );
 
         return $apiClient;
     }
@@ -75,8 +82,11 @@ abstract class AbstractTestCase extends TestCase
         $logger = new Logger('name');
         $logger->pushHandler($handler);
 
-
-
         return $logger;
+    }
+
+    protected function getPrivateKey(): PrivateKey
+    {
+        return PrivateKey::fromFile();
     }
 }

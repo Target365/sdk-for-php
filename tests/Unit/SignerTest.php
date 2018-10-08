@@ -12,7 +12,7 @@ class SignerTest extends AbstractTestCase
 
     public function testGetAuthHeader()
     {
-        $signer = new Signer();
+        $signer = new Signer($this->getPrivateKey());
 
         $authHeader = $signer->getAuthHeader(
             $this->authKeyName,
@@ -30,7 +30,7 @@ class SignerTest extends AbstractTestCase
 
     public function testSignString()
     {
-        $signer = new Signer();
+        $signer = new Signer($this->getPrivateKey());
 
         $signedString = $signer->signString('TEST');
 
@@ -43,7 +43,7 @@ class SignerTest extends AbstractTestCase
 
     public function testHashBodyContents()
     {
-        $signer = new Signer();
+        $signer = new Signer($this->getPrivateKey());
 
         $signedString = $signer->hashBodyContents('TEST');
 
