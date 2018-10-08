@@ -27,7 +27,7 @@ class LookupResource extends AbstractResource // intentionally not extending Abs
      *
      * @param string $phoneNumber international phone number in E.164 format
      */
-    public function getOne(string $phoneNumber): AbstractModel
+    public function get(string $phoneNumber): AbstractModel
     {
 
         $queryStringData = [

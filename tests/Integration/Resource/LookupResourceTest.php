@@ -12,7 +12,7 @@ class LookupResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $lookup = $apiClient->lookupResource()->getOne('+4798079008');
+        $lookup = $apiClient->lookupResource()->get('+4798079008');
 
         $this->assertEquals('+4798079008', $lookup->getMsisdn());
         $this->assertEquals('Oslo', $lookup->getCity());

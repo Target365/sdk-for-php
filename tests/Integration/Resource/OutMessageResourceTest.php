@@ -114,7 +114,7 @@ class OutMessageResourceTest extends AbstractTestCase
     /**
      * @depends testPost
      */
-    public function testGetOne($identifier)
+    public function testGet($identifier)
     {
         $apiClient = $this->getApiClient();
 
@@ -128,7 +128,7 @@ class OutMessageResourceTest extends AbstractTestCase
     }
 
     /**
-     * @depends testGetOne
+     * @depends testGet
      */
     public function testPut(OutMessage $outMessage)
     {

@@ -47,7 +47,7 @@ class StrexMerchantResourceTest extends AbstractTestCase
     /**
      * @depends testPut
      */
-    public function testGetList($identifer)
+    public function testList($identifer)
     {
         $apiClient = $this->getApiClient();
 
@@ -64,7 +64,7 @@ class StrexMerchantResourceTest extends AbstractTestCase
     /**
      * @depends testPut
      */
-    public function testGetOne($identifier)
+    public function testGet($identifier)
     {
         $apiClient = $this->getApiClient();
 
@@ -79,7 +79,7 @@ class StrexMerchantResourceTest extends AbstractTestCase
 
 
     /**
-     * @depends testGetOne
+     * @depends testGet
      */
     public function testDelete(StrexMerchant $strexMerchant)
     {

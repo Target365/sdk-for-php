@@ -43,7 +43,7 @@ $apiClient->keywordResource()->delete($existingKeyword->getIdentifier());
 
 // #### Lookup ####
 
-$lookupData = $apiClient->lookupResource()->getOne('+4798079008');
+$lookupData = $apiClient->lookupResource()->get('+4798079008');
 
 // #### OutMessages ####
 

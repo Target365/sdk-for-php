@@ -33,7 +33,7 @@ class KeywordResourceTest extends AbstractTestCase
         return $identifier;
     }
 
-    public function testGetList()
+    public function testList()
     {
         $apiClient = $this->getApiClient();
 
@@ -50,7 +50,7 @@ class KeywordResourceTest extends AbstractTestCase
     /**
      * @depends testPost
      */
-    public function testGetOne($identifier)
+    public function testGet($identifier)
     {
         $apiClient = $this->getApiClient();
 
@@ -64,7 +64,7 @@ class KeywordResourceTest extends AbstractTestCase
     }
 
     /**
-     * @depends testGetOne
+     * @depends testGet
      */
     public function testPut(Keyword $keyword)
     {
