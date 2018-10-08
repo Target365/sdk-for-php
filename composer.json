@@ -1,0 +1,29 @@
+{
+    "name": "target-365/api-sdk",
+    "description": "SDK for Target365 API",
+    "type": "library",
+    "require": {
+        "php": ">=7.1",
+        "guzzlehttp/guzzle": "~6.0",
+        "phpseclib/phpseclib": "^2.0",
+        "psr/log": "^1.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sam Anthony",
+            "email": "sam@expertcoder.io"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "symfony/var-dumper": "^4.1",
+        "monolog/monolog": "^1.23"
+    },
+    "autoload": {
+        "psr-4": {
+            "Target365\\ApiSdk\\": "src/",
+            "Target365\\ApiSdk\\Tests\\": "tests/"
+        }
+    }
+}
