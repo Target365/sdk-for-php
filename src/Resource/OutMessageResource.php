@@ -39,7 +39,6 @@ class OutMessageResource extends AbstractCrudResource
      */
     public function postBatch(array $outMessages)
     {
-
         $uri = 'out-messages/batch';
 
         $postData = [];
@@ -53,7 +52,4 @@ class OutMessageResource extends AbstractCrudResource
 
         $response = $this->apiClient->request('post', $uri, $postData);
     }
-
-
-
 }
