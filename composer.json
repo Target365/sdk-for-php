@@ -1,6 +1,6 @@
 {
     "name": "target365/sdk",
-    "description": "SDK for Target365 API",
+    "description": "Target365 SDK",
     "type": "library",
     "require": {
         "php": ">=7.1",
