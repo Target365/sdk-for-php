@@ -1,4 +1,4 @@
-## Target365.io API - PHP SDK
+## Target365 SDK for PHP
 
 #### Getting started
 
