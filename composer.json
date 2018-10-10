@@ -1,5 +1,5 @@
 {
-    "name": "target-365/api-sdk",
+    "name": "target365/sdk",
     "description": "SDK for Target365 API",
     "type": "library",
     "require": {
@@ -10,6 +10,10 @@
     },
     "license": "MIT",
     "authors": [
+        {
+            "name": "Target365",
+            "email": "support@target365.no"
+        },
         {
             "name": "Sam Anthony",
             "email": "sam@expertcoder.io"
