@@ -3,16 +3,16 @@
 require_once ('../vendor/autoload.php');
 
 // #### Initiate API Client ####
-// Many elements of the SDK map one-to-one with API calls
 
-$privateKey = \Target365\ApiSdk\PrivateKey::fromString('MIICXAIBAAKBgQCnaj.....56jQbOvhCzFuuTI=');
+$uri = 'https://shared.target365.io';
+$keyName = '{Your-Key-Name}';
+$privateKey = '{Your-Private-Key}';
 
 $apiClient = new \Target365\ApiSdk\ApiClient(
-    'https://shared.target365.io/',
-    'myAuthKeyName',
+    $uri,
+    $keyName,
     $privateKey
 );
-
 
 // #### Keywords ####
 
@@ -25,13 +25,12 @@ $apiClient->keywordResource()->list();
 $keyword = new \Target365\ApiSdk\Model\Keyword();
 $keyword
     ->setKeywordText('abc');
-//  ->setSomethingElse('abc')  call other setters
 
-$apiClient->keywordResource()->post($keyword);
+$keywordId = $apiClient->keywordResource()->post($keyword);
 
 // ## Get One
 
-$existingKeyword = $apiClient->keywordResource()->get();
+$existingKeyword = $apiClient->keywordResource()->get($keywordId);
 
 // ## Put
 
@@ -39,7 +38,7 @@ $apiClient->keywordResource()->put($existingKeyword);
 
 // ## Delete
 
-$apiClient->keywordResource()->delete($existingKeyword->getIdentifier());
+$apiClient->keywordResource()->delete($keywordId);
 
 // #### Lookup ####
 
@@ -56,8 +55,6 @@ $apiClient->outMessageResource()->prepareMsisdns(['+4798079008']);
 $outMessage1 = new \Target365\ApiSdk\Model\OutMessage();
 $outMessage1
     ->setContent('Hi, this is the message :)');
-//  ->setSomethingElse('abc')  call other setters
-
 
 $apiClient->outMessageResource()->post($outMessage1);
 
@@ -66,7 +63,6 @@ $apiClient->outMessageResource()->post($outMessage1);
 $outMessage1 = new \Target365\ApiSdk\Model\OutMessage();
 $outMessage1
     ->setContent('Hi, this is the message :)');
-//  ->setSomethingElse('abc')  call other setters
 
 $outMessages = [
     $outMessage1,
@@ -81,8 +77,9 @@ $apiClient->outMessageResource()->postBatch($outMessages);
 $strexMerchant = new \Target365\ApiSdk\Model\StrexMerchant();
 
 $strexMerchant
-    ->setMerchantId($identifer);
-//  ->setSomethingElse('abc')  call other setters
+    ->setMerchantId('YourMerchantId')
+    ->setShortNumberId('NO-0000')
+    ->setPassword('YourPassword');
 
 $apiClient->strexMerchantResource()->put($strexMerchant);
 
@@ -92,7 +89,7 @@ $strexMerchants = $apiClient->strexMerchantResource()->list();
 
 // ## Get One
 
-$strexMerchant = $apiClient->strexMerchantResource()->get($identifier);
+$strexMerchant = $apiClient->strexMerchantResource()->get($strexMerchant->getIdentifier());
 
 // ## Delete
 
