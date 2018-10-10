@@ -17,6 +17,7 @@ Please see [example/example.php](example/example.php)
 ### Authors and maintainers
 
 Target365 <support@target365.no>
+
 Sam Anthony <sam@expertcoder.io>
 
 ### Issues / Bugs / Questions
