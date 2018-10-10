@@ -34,7 +34,6 @@ class OutMessage extends AbstractModel
 
     protected $tags;
 
-
     protected function attributes(): array
     {
         return [
@@ -214,7 +213,4 @@ class OutMessage extends AbstractModel
 
         return $this;
     }
-
-
-
 }
