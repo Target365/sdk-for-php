@@ -36,8 +36,6 @@ class ApiClient
         LoggerInterface $logger = null
     )
     {
-        // TODO update doc block for this method
-
         $this->authKeyName = $authKeyName;
 
         $this->logger = $logger;
@@ -47,7 +45,6 @@ class ApiClient
         $this->signer = new Signer($privateKey);
 
         $this->baseUri = $this->tidyDomainUri($domainUri) . 'api/';
-
     }
 
     private function tidyDomainUri(string $domainUri)
@@ -86,10 +83,6 @@ class ApiClient
         }
     }
 
-
-    /*****************************
-     * Start Resource Getters
-     ****************************/
     public function lookupResource(): lookupResource
     {
         return $this->resources['lookup'];
@@ -109,10 +102,6 @@ class ApiClient
     {
         return $this->resources['strexMerchant'];
     }
-
-    /*****************************
-     * End Resource Getters
-     ****************************/
 
     protected function log($logEntryTitle, $value, $logLevel = LogLevel::DEBUG)
     {
@@ -183,25 +172,17 @@ class ApiClient
             $httpOptions['body'] = $bodyContents;
         }
 
-//        try {
-            $response = $httpClient->request(
-                $requestMethod,
-                $requestUri,
-                $httpOptions
-            );
-//        } catch (\GuzzleHttp\Exception\ClientException $e) {
-//            $exceptionMessage = 'HTTP Request failed. Response Status Code: ' . $e->getResponse()->getStatusCode() . PHP_EOL .
-//                                'Response Body: ' . $e->getResponse()->getBody()->__toString();
-//
-//            throw new ApiClientException($exceptionMessage, 0, $e);
-//        }
-
+        $response = $httpClient->request(
+            $requestMethod,
+            $requestUri,
+            $httpOptions
+        );
+        
         $this->log('Response Body', $response->getBody()->__toString());
         $this->log('Response Headers', \GuzzleHttp\json_encode($response->getHeaders()));
 
         return $response;
     }
-
 
     protected function getHttpClient(): \GuzzleHttp\Client
     {
@@ -210,5 +191,4 @@ class ApiClient
 
         return new \GuzzleHttp\Client($options);
     }
-
 }
