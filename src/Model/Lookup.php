@@ -8,9 +8,6 @@ use Target365\ApiSdk\Exception\ApiClientException;
 
 class Lookup extends AbstractModel
 {
-
-    protected $success;
-
     protected $created;
 
     protected $msisdn;
@@ -45,13 +42,9 @@ class Lookup extends AbstractModel
 
     protected $deceasedDate;
 
-    protected $provider;
-
-
     protected function attributes(): array
     {
         return [
-            'success',
             'created',
             'msisdn',
             'landline',
@@ -69,26 +62,12 @@ class Lookup extends AbstractModel
             'dateOfBirth',
             'age',
             'deceasedDate',
-            'provider',
         ];
     }
 
     public function getIdentifier()
     {
         throw new ApiClientException('This method is not relevant to this subclass');
-    }
-
-
-    public function getSuccess()
-    {
-        return $this->success;
-    }
-
-    public function setSuccess($success): self
-    {
-        $this->success = $success;
-
-        return $this;
     }
 
     public function getCreated()
@@ -294,18 +273,4 @@ class Lookup extends AbstractModel
 
         return $this;
     }
-
-    public function getProvider()
-    {
-        return $this->provider;
-    }
-
-    public function setProvider($provider): self
-    {
-        $this->provider = $provider;
-
-        return $this;
-    }
-
-
 }
