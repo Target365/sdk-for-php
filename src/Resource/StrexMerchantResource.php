@@ -24,6 +24,4 @@ class StrexMerchantResource extends AbstractCrudResource
     {
         throw new ApiClientException('This method is not available for this resource');
     }
-
-
 }
