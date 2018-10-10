@@ -2,7 +2,7 @@
 
 #### Getting started
 
-To get started please contact register as a new user at <http://target365.no> and follow the instructions. Registration is free!
+To get started please register at <http://target365.no> and follow the instructions. Registration is free!
 
 ### Installation
 
@@ -17,8 +17,7 @@ Please see [example/example.php](example/example.php)
 ### Authors and maintainers
 
 Target365 <support@target365.no>
-
-Sam Anthony <sam@expertcoder.io> (Contributor)
+Sam Anthony <sam@expertcoder.io>
 
 ### Issues / Bugs / Questions
 
