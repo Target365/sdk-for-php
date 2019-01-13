@@ -4,10 +4,10 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk;
 
-use phpseclib\Crypt\RSA;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Target365\ApiSdk\Resource\InMessageResource;
 use Target365\ApiSdk\Resource\lookupResource;
 use Target365\ApiSdk\Resource\KeywordResource;
 use Target365\ApiSdk\Resource\OutMessageResource;
@@ -75,6 +75,7 @@ class ApiClient
                 'lookup',
                 'keyword',
                 'outMessage',
+                'inMessage',
                 'strexMerchant',
             ] as $resource
         ) {
@@ -96,6 +97,11 @@ class ApiClient
     public function outMessageResource(): OutMessageResource
     {
         return $this->resources['outMessage'];
+    }
+
+    public function inMessageResource(): InMessageResource
+    {
+        return $this->resources['inMessage'];
     }
 
     public function strexMerchantResource(): StrexMerchantResource

@@ -18,14 +18,6 @@ abstract class AbstractTestCase extends TestCase
     {
         $secrets = new Secrets();
 
-
-//        dd(
-//            $secrets->getDomainUri(),
-//            $secrets->getAuthKeyName(),
-//            $secrets->getPrivateKey()
-//
-//        );
-
         $apiClient = new ApiClient(
             $secrets->getDomainUri(),
             $secrets->getAuthKeyName(),
@@ -91,8 +83,4 @@ abstract class AbstractTestCase extends TestCase
         return $logger;
     }
 
-    protected function getPrivateKey(): string
-    {
-        return file_get_contents('private.key');
-    }
 }

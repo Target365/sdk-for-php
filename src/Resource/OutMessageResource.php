@@ -4,8 +4,7 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Resource;
 
-use Target365\ApiSdk\Exception\ApiClientException;
-use Target365\ApiSdk\Model\Keyword;
+use Target365\ApiSdk\Exception\ResourceMethodNotAvailableException;
 use Target365\ApiSdk\Model\OutMessage;
 
 class OutMessageResource extends AbstractCrudResource
@@ -22,7 +21,7 @@ class OutMessageResource extends AbstractCrudResource
 
     public function list(): array
     {
-        throw new ApiClientException('This method is not available for this resource');
+        throw new ResourceMethodNotAvailableException();
     }
 
     public function prepareMsisdns(array $arr)
