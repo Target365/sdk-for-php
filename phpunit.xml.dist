@@ -4,6 +4,7 @@
     verbose="true"
     colors="true"
     stopOnFailure="true"
+    bootstrap="./vendor/autoload.php"
 >
     <groups>
         <exclude>

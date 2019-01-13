@@ -1,33 +1,48 @@
 {
-    "name": "target365/sdk",
-    "description": "Target365 SDK",
-    "type": "library",
-    "require": {
-        "php": ">=7.1",
-        "guzzlehttp/guzzle": "~6.0",
-        "phpseclib/phpseclib": "^2.0",
-        "psr/log": "^1.0"
+  "name": "target365/sdk",
+  "description": "Target365 SDK",
+  "type": "library",
+  "require": {
+    "php": ">=7.1",
+    "guzzlehttp/guzzle": "~6.0",
+    "phpseclib/phpseclib": "~2.0",
+    "psr/log": "^1.0"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Target365",
+      "email": "support@target365.no"
     },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Target365",
-            "email": "support@target365.no"
-        },
-        {
-            "name": "Sam Anthony",
-            "email": "sam@expertcoder.io"
-        }
-    ],
-    "require-dev": {
-        "phpunit/phpunit": "^7.0",
-        "symfony/var-dumper": "^4.1",
-        "monolog/monolog": "^1.23"
-    },
-    "autoload": {
-        "psr-4": {
-            "Target365\\ApiSdk\\": "src/",
-            "Target365\\ApiSdk\\Tests\\": "tests/"
-        }
+    {
+      "name": "Sam Anthony",
+      "email": "sam@expertcoder.io"
     }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^7.0",
+    "symfony/var-dumper": "^4.1",
+    "monolog/monolog": "^1.23",
+    "incenteev/composer-parameter-handler": "~2.0",
+    "symfony/yaml": "~4.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Target365\\ApiSdk\\": "src/",
+      "Target365\\ApiSdk\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ],
+    "post-update-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ]
+  },
+  "extra": {
+    "incenteev-parameters": {
+      "file": "tests/secrets.yml"
+    }
+  }
 }

@@ -14,16 +14,23 @@ use Target365\ApiSdk\ApiClient;
 abstract class AbstractTestCase extends TestCase
 {
 
-    protected $authKeyName = 'RsaTestKey';
-
     protected function getApiClient(): ApiClient
     {
-        $apiClient = new ApiClient(
-            'https://test.target365.io/',
-            $this->authKeyName,
-            $this->getPrivateKey(),
-            $this->getStdoutLogger()
+        $secrets = new Secrets();
 
+
+//        dd(
+//            $secrets->getDomainUri(),
+//            $secrets->getAuthKeyName(),
+//            $secrets->getPrivateKey()
+//
+//        );
+
+        $apiClient = new ApiClient(
+            $secrets->getDomainUri(),
+            $secrets->getAuthKeyName(),
+            $secrets->getPrivateKey(),
+            $this->getStdoutLogger()
         );
 
         return $apiClient;

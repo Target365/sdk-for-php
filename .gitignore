@@ -1,4 +1,4 @@
 composer.lock
 vendor/
-private.key
-public.key
+tests/secrets.yml
+tests/.vagrant

@@ -6,6 +6,7 @@ namespace Target365\ApiSdk;
 
 use phpseclib\Crypt\Hash;
 use phpseclib\Crypt\RSA;
+use Target365\ApiSdk\Exception\ApiClientException;
 
 class Signer
 {
@@ -65,11 +66,23 @@ class Signer
     {
         $rsa = new RSA();
         $rsa->setHash('sha256');
-        $rsa->loadKey($this->privateKey);
+        $keyOk = $rsa->loadKey($this->privateKey);
+
+        if (!$keyOk) {
+            throw new ApiClientException('Failed to load key');
+        }
+
         $rsa->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
         $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
 
-        return base64_encode($rsa->sign($stringToSign));
+
+        $signed = $rsa->sign($stringToSign);
+
+        if ($signed === false) {
+            throw new ApiClientException('Cant seem to sign string');
+        }
+
+        return base64_encode($signed);
     }
 
     public function getAuthHeader(
