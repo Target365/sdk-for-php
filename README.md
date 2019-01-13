@@ -15,10 +15,7 @@ composer require target365/sdk
 Please see [example/example.php](example/example.php)
 
 ### Authors and maintainers
-
-Target365 <support@target365.no>
-
-Sam Anthony <sam@expertcoder.io>
+Target365 (<support@target365.no>)
 
 ### Issues / Bugs / Questions
 
