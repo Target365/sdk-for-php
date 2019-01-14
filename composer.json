@@ -24,7 +24,8 @@
     "symfony/var-dumper": "^4.1",
     "monolog/monolog": "^1.23",
     "incenteev/composer-parameter-handler": "~2.0",
-    "symfony/yaml": "~4.2"
+    "symfony/yaml": "~4.2",
+    "ramsey/uuid": "^3.8"
   },
   "autoload": {
     "psr-4": {
