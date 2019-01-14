@@ -2,4 +2,12 @@
 
 cd ..
 
-./vendor/bin/phpunit --group testnow
+group="$1"
+
+if [ -z $group ]; then
+    ./vendor/bin/phpunit
+else
+    ./vendor/bin/phpunit --group $group
+fi
+
+
