@@ -13,6 +13,7 @@ use Target365\ApiSdk\Resource\KeywordResource;
 use Target365\ApiSdk\Resource\OneTimePasswordResource;
 use Target365\ApiSdk\Resource\OutMessageResource;
 use Target365\ApiSdk\Resource\StrexMerchantResource;
+use Target365\ApiSdk\Resource\StrexTransactionResource;
 
 class ApiClient
 {
@@ -78,6 +79,7 @@ class ApiClient
                 'outMessage',
                 'inMessage',
                 'strexMerchant',
+                'strexTransaction',
                 'oneTimePassword',
             ] as $resource
         ) {
@@ -109,6 +111,11 @@ class ApiClient
     public function strexMerchantResource(): StrexMerchantResource
     {
         return $this->resources['strexMerchant'];
+    }
+
+    public function strexTransactionResource(): StrexTransactionResource
+    {
+        return $this->resources['strexTransaction'];
     }
 
     public function oneTimePasswordResource(): OneTimePasswordResource
