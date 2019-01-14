@@ -7,6 +7,7 @@ namespace Target365\ApiSdk;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Target365\ApiSdk\Resource\ClientPublicKeyResource;
 use Target365\ApiSdk\Resource\InMessageResource;
 use Target365\ApiSdk\Resource\lookupResource;
 use Target365\ApiSdk\Resource\KeywordResource;
@@ -81,6 +82,7 @@ class ApiClient
                 'strexMerchant',
                 'strexTransaction',
                 'oneTimePassword',
+                'clientPublicKey',
             ] as $resource
         ) {
             $fqns = '\\Target365\\ApiSdk\\Resource\\' . ucfirst($resource) . 'Resource';
@@ -121,6 +123,11 @@ class ApiClient
     public function oneTimePasswordResource(): OneTimePasswordResource
     {
         return $this->resources['oneTimePassword'];
+    }
+
+    public function clientPublicKeyResource(): ClientPublicKeyResource
+    {
+        return $this->resources['clientPublicKey'];
     }
 
     protected function log($logEntryTitle, $value, $logLevel = LogLevel::DEBUG)
