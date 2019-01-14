@@ -10,6 +10,7 @@ use Psr\Log\LogLevel;
 use Target365\ApiSdk\Resource\InMessageResource;
 use Target365\ApiSdk\Resource\lookupResource;
 use Target365\ApiSdk\Resource\KeywordResource;
+use Target365\ApiSdk\Resource\OneTimePasswordResource;
 use Target365\ApiSdk\Resource\OutMessageResource;
 use Target365\ApiSdk\Resource\StrexMerchantResource;
 
@@ -77,6 +78,7 @@ class ApiClient
                 'outMessage',
                 'inMessage',
                 'strexMerchant',
+                'oneTimePassword',
             ] as $resource
         ) {
             $fqns = '\\Target365\\ApiSdk\\Resource\\' . ucfirst($resource) . 'Resource';
@@ -107,6 +109,11 @@ class ApiClient
     public function strexMerchantResource(): StrexMerchantResource
     {
         return $this->resources['strexMerchant'];
+    }
+
+    public function oneTimePasswordResource(): OneTimePasswordResource
+    {
+        return $this->resources['oneTimePassword'];
     }
 
     protected function log($logEntryTitle, $value, $logLevel = LogLevel::DEBUG)

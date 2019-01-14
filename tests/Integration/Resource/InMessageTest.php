@@ -9,9 +9,6 @@ use Target365\ApiSdk\Tests\Fixtures;
 
 class InMessageResourceTest extends AbstractTestCase
 {
-    /**
-     * @group testnow
-     */
     public function testGet()
     {
         $apiClient = $this->getApiClient();
