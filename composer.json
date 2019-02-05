@@ -1,6 +1,5 @@
 {
   "name": "target365/sdk",
-  "version": "1.2.0",
   "description": "Target365 SDK",
   "type": "library",
   "require": {
