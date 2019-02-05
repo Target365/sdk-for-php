@@ -27,6 +27,8 @@ class OutMessage extends AbstractModel
     protected $deliveryMode;
 
     protected $deliveryReportUrl;
+    
+    protected $allowUnicode;
 
     protected $lastModified;
 
@@ -174,6 +176,18 @@ class OutMessage extends AbstractModel
     public function setDeliveryReportUrl($deliveryReportUrl): self
     {
         $this->deliveryReportUrl = $deliveryReportUrl;
+
+        return $this;
+    }
+
+    public function getAllowUnicode()
+    {
+        return $this->allowUnicode;
+    }
+
+    public function setAllowUnicode($allowUnicode): self
+    {
+        $this->allowUnicode = $allowUnicode;
 
         return $this;
     }
