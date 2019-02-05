@@ -1,7 +1,7 @@
 ## Target365 SDK for PHP
 [![License](https://img.shields.io/github/license/Target365/sdk-for-net.svg?style=flat)](https://opensource.org/licenses/MIT)
 
-#### Getting started
+### Getting started
 To get started please register at <http://target365.no> and follow the instructions. Registration is free!
 
 ### Composer
