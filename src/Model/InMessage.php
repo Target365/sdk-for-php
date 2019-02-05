@@ -33,9 +33,6 @@ class InMessage extends AbstractModel
 
     protected $tags;
 
-    protected $eTag;
-
-
     protected function attributes(): array
     {
         return [
@@ -51,7 +48,6 @@ class InMessage extends AbstractModel
             'created',
             'properties',
             'tags',
-            'eTag',
         ];
     }
 
@@ -200,18 +196,5 @@ class InMessage extends AbstractModel
 
         return $this;
     }
-
-    public function getETag()
-    {
-        return $this->eTag;
-    }
-
-    public function setETag($eTag): self
-    {
-        $this->eTag = $eTag;
-
-        return $this;
-    }
-
 
 }
