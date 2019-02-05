@@ -14,10 +14,6 @@
     {
       "name": "Target365",
       "email": "support@target365.no"
-    },
-    {
-      "name": "Sam Anthony",
-      "email": "sam@expertcoder.io"
     }
   ],
   "require-dev": {
