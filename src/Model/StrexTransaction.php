@@ -19,6 +19,8 @@ class StrexTransaction extends AbstractModel
     protected $price;
 
     protected $recipient;
+    
+    protected $content;
 
     protected $serviceCode;
 
@@ -136,6 +138,18 @@ class StrexTransaction extends AbstractModel
     public function setRecipient($recipient): self
     {
         $this->recipient = $recipient;
+
+        return $this;
+    }
+
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    public function setContent($content): self
+    {
+        $this->content = $content;
 
         return $this;
     }
