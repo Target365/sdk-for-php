@@ -1,5 +1,5 @@
 ## Target365 SDK for PHP
-[![License](https://poser.pugx.org/target365/sdk/license)](https://packagist.org/packages/target365/sdk)
+[![License](https://img.shields.io/github/license/Target365/sdk-for-net.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 #### Getting started
 To get started please register at <http://target365.no> and follow the instructions. Registration is free!
