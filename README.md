@@ -2,7 +2,8 @@
 [![License](https://img.shields.io/github/license/Target365/sdk-for-net.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 ### Getting started
-To get started please register at <http://target365.no> and follow the instructions. Registration is free!
+To get started please send us an email at <support@target365.no> containing your EC public key in DER(ANS.1) format.
+If you want, you can generate your RSA public/private key-pair here: <http://travistidwell.com/jsencrypt/demo/>
 
 ### Composer
 ```
