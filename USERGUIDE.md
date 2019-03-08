@@ -24,7 +24,7 @@
 ## Introduction
 The Target365 SDK gives you direct access to our online services like sending and receiving SMS, address lookup and Strex payment transactions.
 The SDK provides an appropriate abstraction level for PHP and is officially support by Target365.
-The SDK also implements very high security (ECDsaP256 HMAC).
+The SDK also implements very high security (HMAC using RSA).
 
 ## Setup
 ### ApiClient
@@ -33,7 +33,7 @@ use Target365\ApiSdk\ApiClient;
 
 $baseUrl = "https://shared.target365.io";
 $keyName = "YOUR_KEY";
-$privateKey = "BASE64_EC_PRIVATE_KEY";
+$privateKey = "BASE64_RSA_PRIVATE_KEY";
 $apiClient = new ApiClient($baseUrl, $keyName, $privateKey);
 ```
 ## Text messages
