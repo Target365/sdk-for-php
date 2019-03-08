@@ -23,7 +23,7 @@
 
 ## Introduction
 The Target365 SDK gives you direct access to our online services like sending and receiving SMS, address lookup and Strex payment transactions.
-The SDK provides an appropriate abstraction level for Python and is officially support by Target365.
+The SDK provides an appropriate abstraction level for PHP and is officially support by Target365.
 The SDK also implements very high security (ECDsaP256 HMAC).
 
 ## Setup
