@@ -19,7 +19,6 @@
     * [Create a keyword](#create-a-keyword)
     * [Delete a keyword](#delete-a-keyword)
     * [SMS forward](#sms-forward)
-    * [SMS forward using the SDK](#sms-forward-using-the-sdk)
 
 ## Introduction
 The Target365 SDK gives you direct access to our online services like sending and receiving SMS, address lookup and Strex payment transactions.
