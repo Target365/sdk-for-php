@@ -13,8 +13,15 @@ composer require target365/sdk
 ```
 [![Latest Stable Version](https://poser.pugx.org/target365/sdk/v/stable)](https://packagist.org/packages/target365/sdk)
 
-### Examples
-Please see [example/example.php](example/example.php)
+### Test Environment
+Our test-environment acts as a sandbox that simulates the real API as closely as possible. This can be used to get familiar with service before going to production. Please be ware that the simulation isn't perfect and must not be taken to have 100% fidelity.
+
+#### Url: https://test.target365.io/
+
+### Production Environment
+Our production environment is a mix of per-tenant isolated environments and a shared common environment. Contact <support@target365.no> if you're interested in an isolated per-tenant environment.
+
+#### Url: https://shared.target365.io/
 
 ### Authors and maintainers
 Target365 (<support@target365.no>)
