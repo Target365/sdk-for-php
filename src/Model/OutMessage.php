@@ -120,7 +120,7 @@ class OutMessage extends AbstractModel
         return $this;
     }
 
-    public function getSendTime(): DateTimeAttribute
+    public function getSendTime(): ?DateTimeAttribute
     {
         return $this->sendTime;
     }

@@ -56,7 +56,7 @@ This example sets up a scheduled SMS. Scheduled messages can be updated or delet
 ```PHP
 $dateTime = new \DateTime();
 $dateTime->add(\DateInterval::createFromDateString('1 hours'));
-$sendTime = new DateTimeAttribute($dateTime->format(\DateTime::ATOM))->__toString();
+$sendTime = (new DateTimeAttribute($dateTime->format(\DateTime::ATOM)))->__toString();
 
 $outMessage = new OutMessage();
 
