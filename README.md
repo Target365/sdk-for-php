@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/github/license/Target365/sdk-for-net.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 ### Getting started
-To get started please send us an email at <support@target365.no> containing your EC public key in DER(ANS.1) format.
+To get started please send us an email at <support@target365.no> containing your RSA public key in DER(ANS.1) format.
 If you want, you can generate your RSA public/private key-pair here: <http://travistidwell.com/jsencrypt/demo/>
 
 Check out our [PHP User Guide](USERGUIDE.md)
