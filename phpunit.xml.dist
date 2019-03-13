@@ -6,6 +6,12 @@
     stopOnFailure="true"
     bootstrap="./vendor/autoload.php"
 >
+    <filter>
+        <whitelist>
+            <directory>src/*</directory>
+        </whitelist>
+    </filter>
+
     <groups>
         <exclude>
             <group>skip</group>
