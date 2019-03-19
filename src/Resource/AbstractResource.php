@@ -11,7 +11,6 @@ use Target365\ApiSdk\Model\AbstractModel;
 
 abstract class AbstractResource
 {
-
     /**
      * @var ApiClient
      */
@@ -46,10 +45,8 @@ abstract class AbstractResource
     protected function instantiateModel(array $data): AbstractModel
     {
         $fqns = $this->getResourceModelFqns();
-
         $model = new $fqns();
         $model->populate($data);
-
         return $model;
     }
 
@@ -58,7 +55,6 @@ abstract class AbstractResource
         // https://test.target365.io/api/keywords/111
         $chunks = explode('/', $locationHeader);
         $identifier = end($chunks);
-
         return $identifier;
     }
 }

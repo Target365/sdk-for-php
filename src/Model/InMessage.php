@@ -4,197 +4,177 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Model;
 
+use Psr\Http\Message\RequestInterface;
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
 
 class InMessage extends AbstractModel
 {
-
-    protected $messageId;
-
     protected $transactionId;
-
-    protected $processed;
-
-    protected $processAttempts;
-
-    protected $sender;
-
-    protected $recipient;
-
-    protected $content;
-
     protected $keywordId;
-
+    protected $sender;
+    protected $recipient;
+    protected $content;
     protected $isStopMessage;
-
     protected $created;
-
+    protected $tags;
     protected $properties;
 
-    protected $tags;
+    /**
+     * Creates a Message object from the raw POST data
+     *
+     * @return InMessage
+     * @throws \RuntimeException If the POST data is absent, or not a valid JSON document
+     * @throws \InvalidArgumentException
+     */
+    public static function fromRawPostData(): InMessage
+    {
+        // Read the raw POST data and JSON-decode it into a message.
+        return self::fromJsonString(file_get_contents('php://input'));
+    }
 
+    /**
+     * Creates a Message object from a PSR-7 Request or ServerRequest object.
+     *
+     * @param RequestInterface $request
+     * @return InMessage
+     * @throws \InvalidArgumentException
+     */
+    public static function fromPsrRequest(RequestInterface $request): InMessage
+    {
+        return self::fromJsonString($request->getBody()->getContents());
+    }
+
+    /**
+     * Creates a Message object from a JSON-decodable string.
+     *
+     * @param string $json
+     * @return InMessage
+     * @throws \InvalidArgumentException
+     */
+    public static function fromJsonString(string $json): InMessage
+    {
+        $data = \GuzzleHttp\json_decode($json, true);
+        $inMessage = new self();
+        $inMessage->populate($data);
+        return $inMessage;
+    }
+    
     protected function attributes(): array
     {
         return [
-            'messageId',
             'transactionId',
-            'processed',
-            'processAttempts',
+            'keywordId',
             'sender',
             'recipient',
             'content',
-            'keywordId',
             'isStopMessage',
             'created',
-            'properties',
             'tags',
+            'properties',
         ];
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
-        return $this->getMessageId();
+        return $this->getTransactionId();
     }
 
-    public function getMessageId()
-    {
-        return $this->messageId;
-    }
-
-    public function setMessageId($messageId): self
-    {
-        $this->messageId = $messageId;
-
-        return $this;
-    }
-
-    public function getTransactionId()
+    public function getTransactionId(): string
     {
         return $this->transactionId;
     }
 
-    public function setTransactionId($transactionId): self
+    public function setTransactionId(string $transactionId): self
     {
         $this->transactionId = $transactionId;
-
         return $this;
     }
 
-    public function getProcessed()
-    {
-        return $this->processed;
-    }
-
-    public function setProcessed($processed): self
-    {
-        $this->processed = $processed;
-
-        return $this;
-    }
-
-    public function getProcessAttempts()
-    {
-        return $this->processAttempts;
-    }
-
-    public function setProcessAttempts($processAttempts): self
-    {
-        $this->processAttempts = $processAttempts;
-
-        return $this;
-    }
-
-    public function getSender()
+    public function getSender(): string
     {
         return $this->sender;
     }
 
-    public function setSender($sender): self
+    public function setSender(string $sender): self
     {
         $this->sender = $sender;
-
         return $this;
     }
 
-    public function getRecipient()
+    public function getRecipient(): string
     {
         return $this->recipient;
     }
 
-    public function setRecipient($recipient): self
+    public function setRecipient(string $recipient): self
     {
         $this->recipient = $recipient;
-
         return $this;
     }
 
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent($content): self
+    public function setContent(string $content): self
     {
         $this->content = $content;
-
         return $this;
     }
 
-    public function getKeywordId()
+    public function getKeywordId(): ?string
     {
         return $this->keywordId;
     }
 
-    public function setKeywordId($keywordId): self
+    public function setKeywordId(?string $keywordId): self
     {
         $this->keywordId = $keywordId;
         return $this;
     }
 
-    public function getIsStopMessage()
+    public function getIsStopMessage(): bool
     {
         return $this->isStopMessage;
     }
 
-    public function setIsStopMessage($isStopMessage): self
+    public function setIsStopMessage(bool $isStopMessage): self
     {
         $this->isStopMessage = $isStopMessage;
         return $this;
     }
 
-    public function getCreated()
+    public function getCreated(): ?DateTimeAttribute
     {
         return $this->created;
     }
 
-    public function setCreated($created): self
+    public function setCreated(string $created): self
     {
-        $this->created = $created;
-
+        $this->created = new DateTimeAttribute($created);
         return $this;
     }
 
-    public function getProperties()
+    public function getProperties(): ?array
     {
         return $this->properties;
     }
 
-    public function setProperties($properties): self
+    public function setProperties(array $properties = null): self
     {
         $this->properties = $properties;
         return $this;
     }
 
-    public function getTags()
+    public function getTags(): ?array
     {
         return $this->tags;
     }
 
-    public function setTags($tags): self
+    public function setTags(?array $tags): self
     {
         $this->tags = $tags;
-
         return $this;
     }
-
 }

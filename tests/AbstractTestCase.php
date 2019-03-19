@@ -13,7 +13,6 @@ use Target365\ApiSdk\ApiClient;
 
 abstract class AbstractTestCase extends TestCase
 {
-
     protected function getApiClient(): ApiClient
     {
         $secrets = new Secrets();
@@ -27,7 +26,6 @@ abstract class AbstractTestCase extends TestCase
 
         return $apiClient;
     }
-
 
     /**
      * https://jtreminio.com/2013/03/unit-testing-tutorial-part-3-testing-protected-private-methods-coverage-reports-and-crap/
@@ -48,7 +46,6 @@ abstract class AbstractTestCase extends TestCase
 
         return $method->invokeArgs($object, $parameters);
     }
-
 
     /**
      * https://jtreminio.com/2013/03/unit-testing-tutorial-part-3-testing-protected-private-methods-coverage-reports-and-crap/
@@ -82,5 +79,4 @@ abstract class AbstractTestCase extends TestCase
 
         return $logger;
     }
-
 }

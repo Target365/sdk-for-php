@@ -18,18 +18,14 @@ class InMessageResource extends AbstractResource // intentionally not extending 
         return InMessage::class;
     }
 
-
     /**
      * GET /api/in-messages/{shortNumberId}/{transactionId}
      */
     public function get($shortNumberId, $transactionId): InMessage
     {
         $uri = $this->getResourceUri() . '/' . $shortNumberId . '/' . $transactionId;
-
         $response = $this->apiClient->request('get', $uri);
-
         $responseData = $this->decodeResponseJson($response);
-
         return $this->instantiateModel($responseData);
     }
 }

@@ -6,19 +6,19 @@ namespace Target365\ApiSdk\Tests\Integration\Resource;
 
 use Target365\ApiSdk\Exception\ApiClientException;
 use Target365\ApiSdk\Model\StrexTransaction;
+use Target365\ApiSdk\Model\StatusCodes;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 use Target365\ApiSdk\Tests\Fixtures;
 
 class StrexTransactionResourceTest extends AbstractTestCase
 {
-
     public function testPost()
     {
         $apiClient = $this->getApiClient();
 
         $strexTransaction = new StrexTransaction();
         $strexTransaction
-            ->setTransactionId(Fixtures::getFixedRandomTransactionId())
+            ->setTransactionId(str_replace('.', '-', uniqid((string) time(), true)))
             ->setInvoiceText('Thank you for your donation')
             ->setMerchantId('mer_test')
             ->setPrice(10)
@@ -27,11 +27,11 @@ class StrexTransactionResourceTest extends AbstractTestCase
             ->setShortNumber('2001');
 
 
-        $returnedStrexTransactionId = $apiClient->strexTransactionResource()->post($strexTransaction);
+        $identifier = $apiClient->strexTransactionResource()->post($strexTransaction);
 
-        $this->assertEquals(Fixtures::getFixedRandomTransactionId(), $returnedStrexTransactionId);
+        $this->assertEquals($strexTransaction->getTransactionId(), $identifier);
 
-        return $returnedStrexTransactionId;
+        return $identifier;
     }
 
     /**
@@ -45,7 +45,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
 
         $this->assertInstanceOf(StrexTransaction::class, $strexTransaction);
 
-        $this->assertEquals($identifier, $strexTransaction->getIdentifier());
+        $this->assertEquals($identifier, $strexTransaction->getTransactionId());
 
         return $strexTransaction;
     }
@@ -58,7 +58,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $apiClient->strexTransactionResource()->delete($strexTransaction->getIdentifier());
+        $apiClient->strexTransactionResource()->delete($strexTransaction->getTransactionId());
 
         $this->assertTrue(true);
 
@@ -66,19 +66,16 @@ class StrexTransactionResourceTest extends AbstractTestCase
     }
 
     /**
-     * TODO should not be skipping this test
-     * @group skip
      * @depends testDelete
      */
     public function testConfirmDelete(StrexTransaction $strexTransaction)
     {
-        $this->expectException(\Exception::class);
-
         $apiClient = $this->getApiClient();
 
-        // This should 404 as it should have been deleted
-        $apiClient->strexTransactionResource()->get($strexTransaction->getIdentifier());
+        $reverseTransaction = $apiClient->strexTransactionResource()->get('-' . $strexTransaction->getTransactionId());
+        
+        $this->assertInstanceOf(StrexTransaction::class, $reverseTransaction);
+        $this->assertEquals($reverseTransaction->getPrice(), -$strexTransaction->getPrice());
+        $this->assertEquals($reverseTransaction->getStatusCode(), StatusCodes::REVERSED);
     }
-
-
 }

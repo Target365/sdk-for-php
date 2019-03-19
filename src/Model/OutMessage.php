@@ -9,210 +9,292 @@ use Target365\ApiSdk\Attribute\DateTimeAttribute;
 class OutMessage extends AbstractModel
 {
     protected $transactionId;
-
     protected $correlationId;
-
+    protected $keywordId;
     protected $sender;
-
     protected $recipient;
-
     protected $content;
-
-    protected $sendTime;
-
-    protected $timeToLive;
-
-    protected $priority;
-
-    protected $deliveryMode;
-
-    protected $deliveryReportUrl;
-    
+    protected $strex;
     protected $allowUnicode;
-
+    protected $sendTime;
+    protected $timeToLive;
+    protected $priority;
+    protected $deliveryMode;
+    protected $deliveryReportUrl;
+    protected $statusCode;
+    protected $smscTransactionId;
+    protected $detailedStatusCode;
+    protected $delivered;
+    protected $tags;
+    protected $properties;
     protected $lastModified;
-
     protected $created;
 
-    protected $tags;
+    /**
+     * Gets the number of sms message parts are required for a given text and encoding
+     *
+     * @param string $text
+     * @param bool $unicode
+     * @return int
+     */
+    public static function getSmsPartsForText(string $text, ?bool $unicode): int
+    {        
+		if ($unicode == true)
+            return (strlen($text) <= 70) ? 1 : ceil(strlen($text) / 67);
+        
+        $extendedChars = [chr(12), '^', '{', '}', '', '[', '~', ']', '|', '€'];
+        $totalCharCount = 0;
 
+        for ($i = 0; $i < strlen($text); $i++) {
+            $totalCharCount++;
+            
+            if (in_array($text[$i], $extendedChars))
+                $totalCharCount++;
+        }
+
+        if ($totalCharCount <= 160)
+            return 1;
+
+        $maxSeptetsPerPart = 153;
+        $parts = 1;
+        $septets = 0;
+
+        for ($i = 0; $i < strlen($text); $i++) {
+            if ($septets == $maxSeptetsPerPart || ($septets == ($maxSeptetsPerPart - 1) && in_array($text[$i], $extendedChars))) {
+                $parts++;
+                $septets = 0;
+            }
+            
+            if (in_array($text[$i], $extendedChars))
+                $septets += 2;
+            else
+                $septets += 1;
+        }
+
+        return $parts;
+    }
+    
     protected function attributes(): array
     {
         return [
             'transactionId',
             'correlationId',
+			'keywordId',
             'sender',
             'recipient',
             'content',
+			'strex',
+			'allowUnicode',
             'sendTime',
             'timeToLive',
             'priority',
             'deliveryMode',
             'deliveryReportUrl',
+			'statusCode',
+			'smscTransactionId',
+			'detailedStatusCode',
+			'delivered',
+            'tags',
+			'properties',
             'lastModified',
             'created',
-            'tags',
         ];
     }
-
-    public function getIdentifier()
+    
+    public function getIdentifier(): ?string
     {
         return $this->getTransactionId();
     }
 
-    public function getTransactionId()
+    public function getSmsParts() : int
+    {
+        return OutMessage::getSmsPartsForText($this->getContent(), $this->getAllowUnicode());
+    }
+    
+    public function getTransactionId(): ?string
     {
         return $this->transactionId;
     }
 
-    public function setTransactionId($transactionId): self
+    public function setTransactionId(?string $transactionId): self
     {
         $this->transactionId = $transactionId;
-
         return $this;
     }
 
-    public function getCorrelationId()
+    public function getCorrelationId(): ?string
     {
         return $this->correlationId;
     }
 
-    public function setCorrelationId($correlationId): self
+    public function setCorrelationId(?string $correlationId): self
     {
         $this->correlationId = $correlationId;
-        
         return $this;
     }
 
-    public function getSender()
+    public function getKeywordId(): ?string
+    {
+        return $this->keywordId;
+    }
+
+    public function setKeywordId(?string $keywordId): self
+    {
+        $this->keywordId = $keywordId;
+        return $this;
+    }
+
+    public function getSender(): string
     {
         return $this->sender;
     }
 
-    public function setSender($sender): self
+    public function setSender(string $sender): self
     {
         $this->sender = $sender;
-        
         return $this;
     }
 
-    public function getRecipient()
+    public function getRecipient(): string
     {
         return $this->recipient;
     }
 
-    public function setRecipient($recipient): self
+    public function setRecipient(string $recipient): self
     {
         $this->recipient = $recipient;
-
         return $this;
     }
 
-    public function getContent()
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent($content): self
+    public function setContent(?string $content): self
     {
         $this->content = $content;
-        
         return $this;
     }
 
+    public function getStrex(): ?StrexData
+    {
+        return $this->strex;
+    }
+
+    public function setStrex(?StrexData $strex): self
+    {
+        $this->strex = $strex;
+        return $this;
+    }
+
+    public function getAllowUnicode(): ?bool
+    {
+        return $this->allowUnicode;
+    }
+
+    public function setAllowUnicode(?bool $allowUnicode): self
+    {
+        $this->allowUnicode = $allowUnicode;
+        return $this;
+    }
+	
     public function getSendTime(): ?DateTimeAttribute
     {
         return $this->sendTime;
     }
 
-    public function setSendTime($sendTime): self
+    public function setSendTime(?string $sendTime): self
     {
         $this->sendTime = new DateTimeAttribute($sendTime);
-        
         return $this;
     }
 
-    public function getTimeToLive()
+    public function getTimeToLive(): ?int
     {
         return $this->timeToLive;
     }
 
-    public function setTimeToLive($timeToLive): self
+    public function setTimeToLive(?int $timeToLive): self
     {
         $this->timeToLive = $timeToLive;
-        
         return $this;
     }
 
-    public function getPriority()
+    public function getPriority(): ?string
     {
         return $this->priority;
     }
 
-    public function setPriority($priority): self
+    public function setPriority(?string $priority): self
     {
         $this->priority = $priority;
-
         return $this;
     }
 
-    public function getDeliveryMode()
+    public function getDeliveryMode(): ?string
     {
         return $this->deliveryMode;
     }
 
-    public function setDeliveryMode($deliveryMode): self
+    public function setDeliveryMode(?string $deliveryMode): self
     {
         $this->deliveryMode = $deliveryMode;
-
         return $this;
     }
 
-    public function getDeliveryReportUrl()
+    public function getDeliveryReportUrl(): ?string
     {
         return $this->deliveryReportUrl;
     }
 
-    public function setDeliveryReportUrl($deliveryReportUrl): self
+    public function setDeliveryReportUrl(?string $deliveryReportUrl): self
     {
         $this->deliveryReportUrl = $deliveryReportUrl;
-
         return $this;
     }
 
-    public function getAllowUnicode()
+    public function getStatusCode(): ?string
     {
-        return $this->allowUnicode;
+        return $this->statusCode;
     }
 
-    public function setAllowUnicode($allowUnicode): self
+    public function setStatusCode(?string $statusCode): self
     {
-        $this->allowUnicode = $allowUnicode;
-
+        $this->statusCode = $statusCode;
         return $this;
     }
 
-    public function getLastModified(): ?DateTimeAttribute
+    public function getSmscTransactionId(): ?string
     {
-        return $this->lastModified;
+        return $this->smscTransactionId;
     }
 
-    public function setLastModified(string $lastModified): self
+    public function setSmscTransactionId(?string $smscTransactionId): self
     {
-        $this->lastModified = new DateTimeAttribute($lastModified);
-
+        $this->smscTransactionId = $smscTransactionId;
         return $this;
     }
 
-    public function getCreated(): ?DateTimeAttribute
+    public function getDetailedStatusCode(): ?string
     {
-        return $this->created;
+        return $this->detailedStatusCode;
     }
 
-    public function setCreated(string $created): self
+    public function setDetailedStatusCode(?string $detailedStatusCode): self
     {
-        $this->created = new DateTimeAttribute($created);
+        $this->detailedStatusCode = $detailedStatusCode;
+        return $this;
+    }
 
+    public function getDelivered(): ?bool
+    {
+        return $this->delivered;
+    }
+
+    public function setDelivered(?bool $delivered): self
+    {
+        $this->delivered = $delivered;
         return $this;
     }
 
@@ -221,10 +303,42 @@ class OutMessage extends AbstractModel
         return $this->tags;
     }
 
-    public function setTags(?array $tags)
+    public function setTags(?array $tags): self
     {
         $this->tags = $tags;
+        return $this;
+    }
 
+    public function getProperties(): ?Properties
+    {
+        return $this->properties;
+    }
+
+    public function setProperties(?Properties $properties): self
+    {
+        $this->properties = $properties;
+        return $this;
+    }
+
+    public function getLastModified(): ?DateTimeAttribute
+    {
+        return $this->lastModified;
+    }
+
+    public function setLastModified(?string $lastModified): self
+    {
+        $this->lastModified = new DateTimeAttribute($lastModified);
+        return $this;
+    }
+
+    public function getCreated(): ?DateTimeAttribute
+    {
+        return $this->created;
+    }
+
+    public function setCreated(?string $created): self
+    {
+        $this->created = new DateTimeAttribute($created);
         return $this;
     }
 }

@@ -4,64 +4,56 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Model;
 
-use Target365\ApiSdk\Attribute\DateTimeAttribute;
-
 class StrexMerchant extends AbstractModel
 {
     protected $merchantId;
-
-    protected $shortNumberId;
-
-    protected $encryptedPassword;
+    protected $shortNumberIds;
+    protected $password;
 
     protected function attributes(): array
     {
         return [
           'merchantId',
-          'shortNumberId',
-          'encryptedPassword',
+          'shortNumberIds',
+          'password',
         ];
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->getMerchantId();
     }
 
-    public function getMerchantId()
+    public function getMerchantId(): ?string
     {
         return $this->merchantId;
     }
 
-    public function setMerchantId($merchantId): self
+    public function setMerchantId(?string $merchantId): self
     {
         $this->merchantId = $merchantId;
-
         return $this;
     }
 
-    public function getShortNumberId()
+    public function getShortNumberIds(): ?array
     {
-        return $this->shortNumberId;
+        return $this->shortNumberIds;
     }
 
-    public function setShortNumberId($shortNumberId): self
+    public function setShortNumberIds(?array $shortNumberIds): self
     {
-        $this->shortNumberId = $shortNumberId;
-
+        $this->shortNumberIds = $shortNumberIds;
         return $this;
     }
 
-    public function getEncryptedPassword(): string
+    public function getPassword(): ?string
     {
-        return $this->encryptedPassword;
+        return $this->password;
     }
 
-    public function setEncryptedPassword(string $encryptedPassword): self
+    public function setPassword(?string $password): self
     {
-        $this->encryptedPassword = $encryptedPassword;
-
+        $this->password = $password;
         return $this;
     }
-
 }

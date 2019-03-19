@@ -12,7 +12,6 @@ use Target365\ApiSdk\Tests\Secrets;
 class DeliveryReportTest extends AbstractTestCase
 {
     protected const DELIVERY_REPORT_OK_PAYLOAD = '{   
-                                                      "accountId": 17,
                                                       "correlationId": null,
                                                       "transactionId": "client-specified-id-5c88e736bb4b8",
                                                       "price": null,
@@ -23,8 +22,7 @@ class DeliveryReportTest extends AbstractTestCase
                                                       "detailedStatusCode": "Delivered",
                                                       "delivered": true,
                                                       "billed": null,
-                                                      "smscTransactionId": "16976c7448d",
-                                                      "subMessageInfos": null
+                                                      "smscTransactionId": "16976c7448d"
                                                     }';
 
     public function testFromPsrRequest(): void
@@ -36,7 +34,7 @@ class DeliveryReportTest extends AbstractTestCase
             $dlr = DeliveryReport::fromPsrRequest($request);
 
             $dlrData = \GuzzleHttp\json_decode($request->getBody(), true);
-            $this->assertEquals($dlr->getIdentifier(), $dlrData['smscTransactionId']);
+            $this->assertEquals($dlr->getTransactionId(), $dlrData['transactionId']);
 
             $deliveryReportAttributes = $this->invokePrivateMethod($dlr, 'attributes');
             foreach ($deliveryReportAttributes as $key)  {
