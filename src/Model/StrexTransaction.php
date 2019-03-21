@@ -24,7 +24,8 @@ class StrexTransaction extends StrexData
 
     protected function attributes(): array
     {
-        return array_merge(parent::attributes(),
+        return array_merge(
+            parent::attributes(),
         [
             'transactionId',
             'sessionId',
@@ -39,7 +40,8 @@ class StrexTransaction extends StrexData
             'smscTransactionId',
             'created',
             'lastModified',
-        ]);
+        ]
+        );
     }
 
     public function getIdentifier(): string

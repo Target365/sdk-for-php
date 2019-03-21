@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Attribute;
 
-
 use Target365\ApiSdk\Exception\ApiClientException;
 
 class DateTimeAttribute extends \DateTime
@@ -41,7 +40,7 @@ class DateTimeAttribute extends \DateTime
     {
         //String might include fractional seconds, discard fractional seconds.
         $pattern = '~(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2})\\.\\d{1,9}([-+]\\d{2}:\\d{2})~';
-        $matchCount = preg_match($pattern, $iso8601dateTime,$matches);
+        $matchCount = preg_match($pattern, $iso8601dateTime, $matches);
 
         if ($matchCount == 1) {
             $iso8601dateTime = $matches[1] . $matches[2];

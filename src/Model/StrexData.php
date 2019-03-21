@@ -9,12 +9,12 @@ class StrexData extends AbstractModel
     protected $merchantId;
     protected $serviceCode;
     protected $businessModel;
-	protected $smsConfirmation;
+    protected $smsConfirmation;
     protected $invoiceText;
     protected $price;
     protected $billed;
-	protected $resultCode;
-	protected $resultDescription;
+    protected $resultCode;
+    protected $resultDescription;
 
     protected function attributes(): array
     {
@@ -57,7 +57,7 @@ class StrexData extends AbstractModel
         $this->serviceCode = $serviceCode;
         return $this;
     }
-	
+    
     public function getBusinessModel(): ?string
     {
         return $this->businessModel;
@@ -113,7 +113,7 @@ class StrexData extends AbstractModel
         return $this;
     }
 
-	public function getResultCode(): ?string
+    public function getResultCode(): ?string
     {
         return $this->resultCode;
     }
@@ -124,7 +124,7 @@ class StrexData extends AbstractModel
         return $this;
     }
 
-	public function getResultDescription(): ?string
+    public function getResultDescription(): ?string
     {
         return $this->resultDescription;
     }

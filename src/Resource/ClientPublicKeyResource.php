@@ -29,6 +29,4 @@ class ClientPublicKeyResource extends AbstractCrudResource
     {
         throw new ResourceMethodNotAvailableException();
     }
-
-
 }

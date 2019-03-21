@@ -6,6 +6,4 @@ namespace Target365\ApiSdk\Exception;
 
 class ApiClientException extends \Exception
 {
-
-
 }

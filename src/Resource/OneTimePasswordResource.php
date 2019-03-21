@@ -34,6 +34,4 @@ class OneTimePasswordResource extends AbstractCrudResource
     {
         throw new ResourceMethodNotAvailableException();
     }
-
-
 }

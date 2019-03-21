@@ -46,7 +46,6 @@ class OutMessageResource extends AbstractCrudResource
             $this->forceResourceModel($outMessage);
 
             $postData[] = $outMessage->normalize();
-
         }
 
         $response = $this->apiClient->request('post', $uri, $postData);

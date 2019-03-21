@@ -38,8 +38,7 @@ class ApiClient
         string $authKeyName,
         string $privateKey,
         LoggerInterface $logger = null
-    )
-    {
+    ) {
         $this->authKeyName = $authKeyName;
 
         $this->logger = $logger;
@@ -54,8 +53,7 @@ class ApiClient
     private function tidyDomainUri(string $domainUri)
     {
         // Add trailing slash if it is not present on the domain URI
-        if (substr($domainUri, -1, 1) !== '/')
-        {
+        if (substr($domainUri, -1, 1) !== '/') {
             return $domainUri . '/';
         }
 
@@ -155,8 +153,7 @@ class ApiClient
         string $requestMethod,
         string $requestUriPath,
         array $bodyData = null
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $requestUri = $this->baseUri . $requestUriPath;
 
         $signer = $this->getSigner();

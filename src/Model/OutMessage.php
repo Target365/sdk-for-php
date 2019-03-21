@@ -38,9 +38,10 @@ class OutMessage extends AbstractModel
      * @return int
      */
     public static function getSmsPartsForText(string $text, ?bool $unicode): int
-    {        
-		if ($unicode == true)
+    {
+        if ($unicode == true) {
             return (strlen($text) <= 70) ? 1 : ceil(strlen($text) / 67);
+        }
         
         $extendedChars = [chr(12), '^', '{', '}', '', '[', '~', ']', '|', '€'];
         $totalCharCount = 0;
@@ -48,12 +49,14 @@ class OutMessage extends AbstractModel
         for ($i = 0; $i < strlen($text); $i++) {
             $totalCharCount++;
             
-            if (in_array($text[$i], $extendedChars))
+            if (in_array($text[$i], $extendedChars)) {
                 $totalCharCount++;
+            }
         }
 
-        if ($totalCharCount <= 160)
+        if ($totalCharCount <= 160) {
             return 1;
+        }
 
         $maxSeptetsPerPart = 153;
         $parts = 1;
@@ -65,10 +68,11 @@ class OutMessage extends AbstractModel
                 $septets = 0;
             }
             
-            if (in_array($text[$i], $extendedChars))
+            if (in_array($text[$i], $extendedChars)) {
                 $septets += 2;
-            else
+            } else {
                 $septets += 1;
+            }
         }
 
         return $parts;
@@ -79,23 +83,23 @@ class OutMessage extends AbstractModel
         return [
             'transactionId',
             'correlationId',
-			'keywordId',
+            'keywordId',
             'sender',
             'recipient',
             'content',
-			'strex',
-			'allowUnicode',
+            'strex',
+            'allowUnicode',
             'sendTime',
             'timeToLive',
             'priority',
             'deliveryMode',
             'deliveryReportUrl',
-			'statusCode',
-			'smscTransactionId',
-			'detailedStatusCode',
-			'delivered',
+            'statusCode',
+            'smscTransactionId',
+            'detailedStatusCode',
+            'delivered',
             'tags',
-			'properties',
+            'properties',
             'lastModified',
             'created',
         ];
@@ -198,7 +202,7 @@ class OutMessage extends AbstractModel
         $this->allowUnicode = $allowUnicode;
         return $this;
     }
-	
+    
     public function getSendTime(): ?DateTimeAttribute
     {
         return $this->sendTime;

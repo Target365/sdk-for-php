@@ -39,6 +39,4 @@ class ServerPublicKeyResource extends AbstractCrudResource
     {
         throw new ResourceMethodNotAvailableException();
     }
-
-
 }

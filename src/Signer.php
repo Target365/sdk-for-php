@@ -17,9 +17,8 @@ class Signer
      */
     public function __construct(
         string $privateKey
-    )
-    {
-        if ( defined('CRYPT_RSA_PKCS15_COMPAT')) {
+    ) {
+        if (defined('CRYPT_RSA_PKCS15_COMPAT')) {
             if (CRYPT_RSA_PKCS15_COMPAT !== true) {
                 throw new ApiClientException('Somehow the `CRYPT_RSA_PKCS15_COMPAT` constant has been set incorrectly');
             }
@@ -36,8 +35,7 @@ class Signer
         ?string $bodyContents,
         $epochTime,
         string $nonce
-    ): string
-    {
+    ): string {
         $epochTime = (string) $epochTime;
         $requestMethod = strtolower($requestMethod);
         $requestUri = strtolower($requestUri);
@@ -90,11 +88,9 @@ class Signer
         $epochTime,
         string $nonce,
         string $signedRequestString
-    ): string
-    {
+    ): string {
         $epochTime = (string) $epochTime;
 
         return "HMAC {$authKeyName}:{$epochTime}:{$nonce}:{$signedRequestString}";
     }
-
 }

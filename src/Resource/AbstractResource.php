@@ -32,7 +32,7 @@ abstract class AbstractResource
      */
     protected function forceResourceModel(AbstractModel $model): void
     {
-        if ( !is_a($model, $this->getResourceModelFqns()) ) {
+        if (!is_a($model, $this->getResourceModelFqns())) {
             throw new ApiClientException('You must pass instance of ' . $this->getResourceModelFqns());
         }
     }
