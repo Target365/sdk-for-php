@@ -6,7 +6,7 @@ namespace Target365\ApiSdk\Model;
 
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
 
-class OutMessage extends AbstractModel
+class OutMessage extends AbstractModel implements DynamicPropertiesInterface
 {
     protected $transactionId;
     protected $correlationId;
@@ -37,19 +37,20 @@ class OutMessage extends AbstractModel
      * @param bool $unicode
      * @return int
      */
-    public static function getSmsPartsForText(string $text, ?bool $unicode): int
+    public static function getSmsPartsForText(string $text, ?bool $unicode = null): int
     {
-        if ($unicode == true) {
-            return (strlen($text) <= 70) ? 1 : ceil(strlen($text) / 67);
+        if ($unicode === true) {
+            return (strlen($text) <= 70) ? 1 : (int)ceil(strlen($text) / 67);
         }
         
         $extendedChars = [chr(12), '^', '{', '}', '', '[', '~', ']', '|', '€'];
         $totalCharCount = 0;
 
-        for ($i = 0; $i < strlen($text); $i++) {
+        $stringLength = strlen($text);
+        for ($i = 0; $i < $stringLength; $i++) {
             $totalCharCount++;
             
-            if (in_array($text[$i], $extendedChars)) {
+            if (in_array($text[$i], $extendedChars, true)) {
                 $totalCharCount++;
             }
         }
@@ -62,13 +63,13 @@ class OutMessage extends AbstractModel
         $parts = 1;
         $septets = 0;
 
-        for ($i = 0; $i < strlen($text); $i++) {
-            if ($septets == $maxSeptetsPerPart || ($septets == ($maxSeptetsPerPart - 1) && in_array($text[$i], $extendedChars))) {
+        for ($i = 0; $i < $stringLength; $i++) {
+            if ($septets === $maxSeptetsPerPart || ($septets === ($maxSeptetsPerPart - 1) && in_array($text[$i], $extendedChars, true))) {
                 $parts++;
                 $septets = 0;
             }
             
-            if (in_array($text[$i], $extendedChars)) {
+            if (in_array($text[$i], $extendedChars, true)) {
                 $septets += 2;
             } else {
                 $septets += 1;
@@ -112,7 +113,7 @@ class OutMessage extends AbstractModel
 
     public function getSmsParts() : int
     {
-        return OutMessage::getSmsPartsForText($this->getContent(), $this->getAllowUnicode());
+        return OutMessage::getSmsPartsForText($this->getContent() ?? '', $this->getAllowUnicode());
     }
     
     public function getTransactionId(): ?string
@@ -208,7 +209,12 @@ class OutMessage extends AbstractModel
         return $this->sendTime;
     }
 
-    public function setSendTime(?string $sendTime): self
+    /**
+     * @param string $sendTime
+     * @return OutMessage
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setSendTime(string $sendTime): self
     {
         $this->sendTime = new DateTimeAttribute($sendTime);
         return $this;
@@ -329,7 +335,12 @@ class OutMessage extends AbstractModel
         return $this->lastModified;
     }
 
-    public function setLastModified(?string $lastModified): self
+    /**
+     * @param string $lastModified
+     * @return OutMessage
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setLastModified(string $lastModified): self
     {
         $this->lastModified = new DateTimeAttribute($lastModified);
         return $this;
@@ -340,7 +351,12 @@ class OutMessage extends AbstractModel
         return $this->created;
     }
 
-    public function setCreated(?string $created): self
+    /**
+     * @param string $created
+     * @return OutMessage
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setCreated(string $created): self
     {
         $this->created = new DateTimeAttribute($created);
         return $this;

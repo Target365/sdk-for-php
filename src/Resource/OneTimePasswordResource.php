@@ -30,7 +30,7 @@ class OneTimePasswordResource extends AbstractCrudResource
         throw new ResourceMethodNotAvailableException();
     }
 
-    public function delete($identifier): void
+    public function delete(string $identifier): void
     {
         throw new ResourceMethodNotAvailableException();
     }

@@ -29,6 +29,7 @@ abstract class AbstractResource
      * Confirms that the model passed is of a specific subclass which corresponds to this resource.
      *
      * @param AbstractModel $model
+     * @throws ApiClientException
      */
     protected function forceResourceModel(AbstractModel $model): void
     {
@@ -37,6 +38,11 @@ abstract class AbstractResource
         }
     }
 
+    /**
+     * @param ResponseInterface $response
+     * @return array
+     * @throws \InvalidArgumentException
+     */
     protected function decodeResponseJson(ResponseInterface $response): array
     {
         return \GuzzleHttp\json_decode($response->getBody()->__toString(), true);
@@ -50,7 +56,7 @@ abstract class AbstractResource
         return $model;
     }
 
-    protected function parseIdentifierFromLocationHeader(string $locationHeader)
+    protected function parseIdentifierFromLocationHeader(string $locationHeader): string
     {
         // https://test.target365.io/api/keywords/111
         $chunks = explode('/', $locationHeader);

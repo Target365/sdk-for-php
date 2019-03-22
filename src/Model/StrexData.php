@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Model;
 
+use Target365\ApiSdk\Exception\ApiClientException;
+
 class StrexData extends AbstractModel
 {
     protected $merchantId;
@@ -31,6 +33,10 @@ class StrexData extends AbstractModel
         ];
     }
 
+    /**
+     * @return string|null
+     * @throws ApiClientException
+     */
     public function getIdentifier(): ?string
     {
         throw new ApiClientException('This method is not relevant to this subclass');

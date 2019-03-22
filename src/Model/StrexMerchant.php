@@ -19,7 +19,7 @@ class StrexMerchant extends AbstractModel
         ];
     }
 
-    public function getIdentifier(): string
+    public function getIdentifier(): ?string
     {
         return $this->getMerchantId();
     }

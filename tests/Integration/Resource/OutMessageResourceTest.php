@@ -13,6 +13,7 @@ class OutMessageResourceTest extends AbstractTestCase
 {
     /**
      * @return string e.g. '2018-04-12T13:27:50+00:00'
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
      */
     private function getSendTime(): string
     {
@@ -179,5 +180,51 @@ class OutMessageResourceTest extends AbstractTestCase
         $result = $apiClient->outMessageResource()->get($outMessage->getTransactionId());
         
         $this.assertEquals($result, null);
+    }
+
+    /**
+     * @return OutMessage
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function testSendScheduledSMS(): OutMessage
+    {
+        $dateTime = new \DateTime();
+        $dateTime->add(\DateInterval::createFromDateString('1 hours'));
+        $sendTime = (new DateTimeAttribute($dateTime->format(\DateTime::ATOM)))->__toString();
+
+        $transactionId = uniqid((string) time(), true);
+        $outMessage = new OutMessage();
+        $outMessage
+            ->setTransactionId($transactionId)
+            ->setSendTime($sendTime)
+            ->setSender('Target365')
+            ->setRecipient('+4798079008')
+            ->setContent('Hello World from SMS!');
+
+        $apiClient = $this->getApiClient();
+        $responseId = $apiClient->outMessageResource()->post($outMessage);
+
+        $this->assertEquals($transactionId, $responseId);
+
+        return $outMessage;
+    }
+
+    /**
+     * @depends testSendScheduledSMS
+     * @param OutMessage $outMessage
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     * @throws \Exception
+     */
+    public function testUpdateScheduledOutMessage(OutMessage $outMessage): void
+    {
+        $outMessage->getSendTime()->add(\DateInterval::createFromDateString('10 minutes'));
+        $apiClient = $this->getApiClient();
+        $apiClient->outMessageResource()->put($outMessage);
+        $this->assertTrue(true);
     }
 }

@@ -20,8 +20,15 @@ class InMessageResource extends AbstractResource // intentionally not extending 
 
     /**
      * GET /api/in-messages/{shortNumberId}/{transactionId}
+     *
+     * @param string $shortNumberId
+     * @param string $transactionId
+     * @return InMessage
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
      */
-    public function get($shortNumberId, $transactionId): InMessage
+    public function get(string $shortNumberId, string $transactionId): InMessage
     {
         $uri = $this->getResourceUri() . '/' . $shortNumberId . '/' . $transactionId;
         $response = $this->apiClient->request('get', $uri);

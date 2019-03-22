@@ -14,6 +14,7 @@ class Signer
 
     /**
      * @param string $privateKey base64-encoded private key in pcks#8 format
+     * @throws ApiClientException
      */
     public function __construct(
         string $privateKey
@@ -29,6 +30,15 @@ class Signer
         $this->privateKey = $privateKey;
     }
 
+    /**
+     * @param string      $requestMethod
+     * @param string      $requestUri
+     * @param string|null $bodyContents
+     * @param             $epochTime
+     * @param string      $nonce
+     * @return string
+     * @throws ApiClientException
+     */
     public function signRequest(
         string $requestMethod,
         string $requestUri,
@@ -60,6 +70,11 @@ class Signer
         return base64_encode($bodyContentsHash);
     }
 
+    /**
+     * @param string $stringToSign
+     * @return string
+     * @throws ApiClientException
+     */
     public function signString(string $stringToSign): string
     {
         $rsa = new RSA();

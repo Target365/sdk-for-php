@@ -34,6 +34,10 @@ class OneTimePassword extends AbstractModel
         ];
     }
 
+    /**
+     * @return string|null
+     * @throws ApiClientException
+     */
     public function getIdentifier(): ?string
     {
         throw new ApiClientException('Not relevant to this resource');
@@ -121,6 +125,11 @@ class OneTimePassword extends AbstractModel
         return $this->created;
     }
 
+    /**
+     * @param string $created
+     * @return OneTimePassword
+     * @throws ApiClientException
+     */
     public function setCreated(string $created): self
     {
         $this->created = new DateTimeAttribute($created);
