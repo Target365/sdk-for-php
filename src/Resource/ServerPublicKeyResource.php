@@ -30,15 +30,21 @@ class ServerPublicKeyResource extends AbstractCrudResource
         throw new ResourceMethodNotAvailableException();
     }
 
+    /**
+     * @return array
+     * @throws ResourceMethodNotAvailableException
+     */
     public function list(): array
     {
         throw new ResourceMethodNotAvailableException();
     }
 
-    public function delete($identifier): void
+    /**
+     * @param string $identifier
+     * @throws ResourceMethodNotAvailableException
+     */
+    public function delete(string $identifier): void
     {
         throw new ResourceMethodNotAvailableException();
     }
-
-
 }

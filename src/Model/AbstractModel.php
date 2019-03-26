@@ -15,65 +15,56 @@ abstract class AbstractModel
     public function populate(array $data): void
     {
         foreach ($data as $key => $value) {
-
-            if (!in_array($key, $this->attributes()) || $value == null) {
+            if ($value === null || !in_array($key, $this->attributes(), true)) {
                 continue;
             }
             
-            if ($key == "properties")
-            {                
-                $properties = new Properties;                
-                foreach ($value as $innerKey => $innerValue)
-                { 
-                    $properties->$innerKey = $innerValue;
+            if ($key === 'properties') {
+
+                if ($this instanceof DynamicPropertiesInterface && is_array($value)) {
+                    $properties = new Properties;
+
+                    foreach ($value as $innerKey => $innerValue) {
+                        $properties->$innerKey = $innerValue;
+                    }
+
+                    $this->setProperties($properties);
                 }
-                
-                $this->setProperties($properties);
-            }
-            else
-            {
+            } else {
                 $methodName = 'set' . ucfirst($key);
                 $this->$methodName($value);
             }
         }
     }
 
+    /**
+     * @return array
+     * @throws ApiClientException
+     */
     public function normalize(): array
     {
         $normalizedData = [];
 
-        foreach ($this->attributes() as $attribute)
-        {            
+        foreach ($this->attributes() as $attribute) {
             $getter = 'get' . ucfirst($attribute);
             $value = $this->$getter();
 
-            if ($value === null)
+            if ($value === null) {
                 continue;
-            
-            if ($value instanceof Properties && $value !== null)
-            {
-                $array = array();
-                
-                foreach($value as $key => $value)
-                {
-                    $array[$key] = $value;
-                }
-                
-                $normalizedData[$attribute] = $array;
+            }
+
+            if ($value instanceof Properties) {
+                $normalizedData[$attribute] = $value->toArray();
                 continue;
             }
             
-            if (is_object($value))
-            {
-                if (!method_exists($value, '__toString') )
-                {
+            if (is_object($value)) {
+                if (!method_exists($value, '__toString')) {
                     throw new ApiClientException('Object does not implement __toString()');
                 }
 
                 $normalizedData[$attribute] = $value->__toString();
-            }
-            else
-            {                
+            } else {
                 $normalizedData[$attribute] = $value;
             }
         }

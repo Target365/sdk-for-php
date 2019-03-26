@@ -53,6 +53,11 @@ class PublicKey extends AbstractModel
         return $this->expiry;
     }
 
+    /**
+     * @param string $expiry
+     * @return PublicKey
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
     public function setExpiry(string $expiry): self
     {
         $this->expiry = new DateTimeAttribute($expiry);
@@ -109,6 +114,11 @@ class PublicKey extends AbstractModel
         return $this->created;
     }
 
+    /**
+     * @param string $created
+     * @return PublicKey
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
     public function setCreated(string $created): self
     {
         $this->created = new DateTimeAttribute($created);
@@ -120,6 +130,11 @@ class PublicKey extends AbstractModel
         return $this->lastModified;
     }
 
+    /**
+     * @param string $lastModified
+     * @return PublicKey
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
     public function setLastModified(string $lastModified): self
     {
         $this->lastModified = new DateTimeAttribute($lastModified);

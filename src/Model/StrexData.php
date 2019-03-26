@@ -4,17 +4,19 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Model;
 
+use Target365\ApiSdk\Exception\ApiClientException;
+
 class StrexData extends AbstractModel
 {
     protected $merchantId;
     protected $serviceCode;
     protected $businessModel;
-	protected $smsConfirmation;
+    protected $smsConfirmation;
     protected $invoiceText;
     protected $price;
     protected $billed;
-	protected $resultCode;
-	protected $resultDescription;
+    protected $resultCode;
+    protected $resultDescription;
 
     protected function attributes(): array
     {
@@ -31,6 +33,10 @@ class StrexData extends AbstractModel
         ];
     }
 
+    /**
+     * @return string|null
+     * @throws ApiClientException
+     */
     public function getIdentifier(): ?string
     {
         throw new ApiClientException('This method is not relevant to this subclass');
@@ -57,7 +63,7 @@ class StrexData extends AbstractModel
         $this->serviceCode = $serviceCode;
         return $this;
     }
-	
+    
     public function getBusinessModel(): ?string
     {
         return $this->businessModel;
@@ -113,7 +119,7 @@ class StrexData extends AbstractModel
         return $this;
     }
 
-	public function getResultCode(): ?string
+    public function getResultCode(): ?string
     {
         return $this->resultCode;
     }
@@ -124,7 +130,7 @@ class StrexData extends AbstractModel
         return $this;
     }
 
-	public function getResultDescription(): ?string
+    public function getResultDescription(): ?string
     {
         return $this->resultDescription;
     }

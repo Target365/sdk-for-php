@@ -150,6 +150,11 @@ class InMessage extends AbstractModel
         return $this->created;
     }
 
+    /**
+     * @param string $created
+     * @return InMessage
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
     public function setCreated(string $created): self
     {
         $this->created = new DateTimeAttribute($created);

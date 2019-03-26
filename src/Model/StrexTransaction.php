@@ -24,7 +24,8 @@ class StrexTransaction extends StrexData
 
     protected function attributes(): array
     {
-        return array_merge(parent::attributes(),
+        return array_merge(
+            parent::attributes(),
         [
             'transactionId',
             'sessionId',
@@ -39,7 +40,8 @@ class StrexTransaction extends StrexData
             'smscTransactionId',
             'created',
             'lastModified',
-        ]);
+        ]
+        );
     }
 
     public function getIdentifier(): string
@@ -173,6 +175,11 @@ class StrexTransaction extends StrexData
         return $this->lastModified;
     }
 
+    /**
+     * @param string $lastModified
+     * @return StrexTransaction
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
     public function setLastModified(string $lastModified): self
     {
         $this->lastModified = new DateTimeAttribute($lastModified);
@@ -184,6 +191,11 @@ class StrexTransaction extends StrexData
         return $this->created;
     }
 
+    /**
+     * @param string $created
+     * @return StrexTransaction
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
     public function setCreated(string $created): self
     {
         $this->created = new DateTimeAttribute($created);

@@ -110,7 +110,12 @@ class Keyword extends AbstractModel
         return $this->created;
     }
 
-    public function setCreated(?string $created): self
+    /**
+     * @param string $created
+     * @return Keyword
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setCreated(string $created): self
     {
         $this->created = new DateTimeAttribute($created);
         return $this;
@@ -121,7 +126,12 @@ class Keyword extends AbstractModel
         return $this->lastModified;
     }
 
-    public function setLastModified(?string $lastModified): self
+    /**
+     * @param string $lastModified
+     * @return Keyword
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setLastModified(string $lastModified): self
     {
         $this->lastModified = new DateTimeAttribute($lastModified);
         return $this;

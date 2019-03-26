@@ -31,5 +31,10 @@ class Secrets
     {
         return $this->parameters['private_key'];
     }
+
+    public function getPublicKey(): string
+    {
+        return $this->parameters['public_key'];
+    }
 }
 
