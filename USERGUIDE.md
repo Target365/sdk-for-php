@@ -94,7 +94,6 @@ Content-Type: application/json
 Host: your-site.net
 
 {
-    "accountId": 17,
     "correlationId": null,
     "transactionId": "client-specified-id-5c88e736bb4b8",
     "price": null,
@@ -106,14 +105,15 @@ Host: your-site.net
     "delivered": true,
     "billed": null,
     "smscTransactionId": "16976c7448d",
-    "subMessageInfos": null
+    "smscMessageParts": 1
 }
 ```
 
 Several methods exists for instantiating a DeliveryReport object from the received JSON:
  
-```
-try {
+```PHP
+try
+{
     // If the post request is received in the form of a PSR-7 Request:
     $dlr = DeliveryReport::fromPsrRequest($request);
     
@@ -122,7 +122,10 @@ try {
      
     // Or by simply passing in the received json string:
     $dlr = DeliveryReport::fromJsonString($request);
-} catch (\InvalidArgumentException $e) { }
+} 
+catch (\InvalidArgumentException $e)
+{
+}
 ```
 
 ## Payment transactions
@@ -160,7 +163,7 @@ $oneTimePassword
     
 $apiClient->oneTimePasswordResource()->post($oneTimePassword);
 
-*/ Get input from end user (eg. via web site) */
+/* Get input from end user (eg. via web site) */
 
 $transaction = new StrexTransaction();
 
@@ -180,7 +183,7 @@ $apiClient->strexTransactionResource()->post($transaction);
 ### Reverse a Strex payment transaction
 This example reverses a previously billed Strex payment transaction. The original transaction will not change, but a reversal transaction will be created that counters the previous transaction by a negative Price. The reversal is an asynchronous operation that usually takes a few seconds to finish.
 ```PHP
-$reversalTransactionId = $apiClient->strexTransactionResource()->delete($transaction);
+$reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transaction);
 ```
 ## Lookup
 
