@@ -9,7 +9,6 @@ use Target365\ApiSdk\Exception\ApiClientException;
 
 class DeliveryReport extends AbstractModel
 {
-    protected $accountId;
     protected $transactionId;
     protected $correlationId;
     protected $sender;
@@ -21,7 +20,7 @@ class DeliveryReport extends AbstractModel
     protected $delivered;
     protected $billed;
     protected $smscTransactionId;
-    protected $subMessageInfos;
+    protected $smscMessageParts;
 
     /**
      * Creates a Message object from the raw POST data
@@ -77,16 +76,16 @@ class DeliveryReport extends AbstractModel
             'delivered',
             'billed',
             'smscTransactionId',
+            'smscMessageParts',
         ];
     }
 
     /**
      * @return string|null
-     * @throws ApiClientException
      */
     public function getIdentifier(): ?string
     {
-        throw new ApiClientException('This method is not relevant to this subclass');
+        return null;
     }
 
     public function getTransactionId(): ?string
@@ -207,6 +206,17 @@ class DeliveryReport extends AbstractModel
     public function setSmscTransactionId(?string $smscTransactionId): self
     {
         $this->smscTransactionId = $smscTransactionId;
+        return $this;
+    }
+
+    public function getSmscMessageParts(): int
+    {
+        return $this->smscMessageParts;
+    }
+
+    public function setSmscMessageParts(int $smscMessageParts): self
+    {
+        $this->smscMessageParts = $smscMessageParts;
         return $this;
     }
 }

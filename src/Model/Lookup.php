@@ -51,11 +51,10 @@ class Lookup extends AbstractModel
 
     /**
      * @return string|null
-     * @throws ApiClientException
      */
     public function getIdentifier(): ?string
     {
-        throw new ApiClientException('This method is not relevant to this subclass');
+        return null;
     }
 
     public function getCreated()
