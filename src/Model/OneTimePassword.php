@@ -36,11 +36,10 @@ class OneTimePassword extends AbstractModel
 
     /**
      * @return string|null
-     * @throws ApiClientException
      */
     public function getIdentifier(): ?string
     {
-        throw new ApiClientException('Not relevant to this resource');
+        return null;
     }
 
     public function getTransactionId(): string

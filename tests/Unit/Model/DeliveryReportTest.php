@@ -21,6 +21,7 @@ class DeliveryReportTest extends AbstractTestCase
                                                       "statusCode": "Ok",
                                                       "detailedStatusCode": "Delivered",
                                                       "delivered": true,
+                                                      "smscMessageParts": 1,
                                                       "billed": null,
                                                       "smscTransactionId": "16976c7448d"
                                                     }';
