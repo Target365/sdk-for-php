@@ -54,28 +54,27 @@ class StrexTransactionResourceTest extends AbstractTestCase
     /**
      * @depends testGet
      */
-    public function testDelete(StrexTransaction $strexTransaction)
+    public function testReverse(StrexTransaction $strexTransaction)
     {
         $apiClient = $this->getApiClient();
 
-        $apiClient->strexTransactionResource()->delete($strexTransaction->getTransactionId());
+        $reversalId = $apiClient->strexTransactionResource()->reverse($strexTransaction->getTransactionId());
 
-        $this->assertTrue(true);
+        $this->assertEquals($reversalId, "-" . $strexTransaction->getTransactionId());
 
-        return $strexTransaction;
+        return $reversalId;
     }
 
     /**
-     * @depends testDelete
+     * @depends testReverse
      */
-    public function testConfirmDelete(StrexTransaction $strexTransaction)
+    public function testConfirmReversed(string $reversalId)
     {
         $apiClient = $this->getApiClient();
 
-        $reverseTransaction = $apiClient->strexTransactionResource()->get('-' . $strexTransaction->getTransactionId());
+        $reverseTransaction = $apiClient->strexTransactionResource()->get($reversalId);
         
         $this->assertInstanceOf(StrexTransaction::class, $reverseTransaction);
-        $this->assertEquals($reverseTransaction->getPrice(), -$strexTransaction->getPrice());
         $this->assertEquals($reverseTransaction->getStatusCode(), StatusCodes::REVERSED);
     }
 }

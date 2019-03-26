@@ -29,4 +29,27 @@ class StrexTransactionResource extends AbstractCrudResource
     {
         throw new ResourceMethodNotAvailableException();
     }
+    
+    /**
+     * @deprecated 1.3.0 Please use reverse instead.
+     */
+    public function delete(string $identifier): void
+    {
+        $this->reverse($identifier);
+    }
+    
+    /**
+     * @param string $identifier
+     * @throws ApiClientException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
+     */
+    public function reverse(string $identifier): string
+    {
+        $uri = $this->getResourceUri() . '/' . $identifier;
+        $response = $this->apiClient->request('delete', $uri);
+        $locationHeaders = $response->getHeader('Location');
+        $locationHeader = reset($locationHeaders);
+        return $this->parseIdentifierFromLocationHeader($locationHeader);
+    }
 }
