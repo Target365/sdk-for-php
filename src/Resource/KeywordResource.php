@@ -23,8 +23,7 @@ class KeywordResource extends AbstractCrudResource
         string $keywordText = null,
         string $mode = null,
         string $tag = null
-    ): array
-    {
+    ): array {
         $queryStringData = [
             'shortNumberId' => $shortNumberId,
             'keywordText' => $keywordText,
@@ -34,5 +33,4 @@ class KeywordResource extends AbstractCrudResource
 
         return parent::listBase($queryStringData);
     }
-
 }

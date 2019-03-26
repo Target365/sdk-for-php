@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Target365\ApiSdk\Model;
 
 use Psr\Http\Message\RequestInterface;
+use Target365\ApiSdk\Exception\ApiClientException;
 
 class DeliveryReport extends AbstractModel
 {
@@ -59,14 +60,12 @@ class DeliveryReport extends AbstractModel
         $data = \GuzzleHttp\json_decode($json, true);
         $dlr = new self();
         $dlr->populate($data);
-
         return $dlr;
     }
 
     protected function attributes(): array
     {
         return [
-            'accountId',
             'correlationId',
             'transactionId',
             'price',
@@ -78,142 +77,136 @@ class DeliveryReport extends AbstractModel
             'delivered',
             'billed',
             'smscTransactionId',
-            'subMessageInfos',
         ];
     }
 
-    public function getAccountId()
+    /**
+     * @return string|null
+     * @throws ApiClientException
+     */
+    public function getIdentifier(): ?string
     {
-        return $this->accountId;
+        throw new ApiClientException('This method is not relevant to this subclass');
     }
 
-    public function setAccountId($accountId): void
-    {
-        $this->accountId = $accountId;
-    }
-
-    public function getTransactionId()
+    public function getTransactionId(): ?string
     {
         return $this->transactionId;
     }
 
-    public function setTransactionId($transactionId): void
+    public function setTransactionId(?string $transactionId): self
     {
         $this->transactionId = $transactionId;
+        return $this;
     }
 
-    public function getCorrelationId()
+    public function getCorrelationId(): ?string
     {
         return $this->correlationId;
     }
 
-    public function setCorrelationId($correlationId): void
+    public function setCorrelationId(?string $correlationId): self
     {
         $this->correlationId = $correlationId;
+        return $this;
     }
 
-    public function getSender()
+    public function getSender(): string
     {
         return $this->sender;
     }
 
-    public function setSender($sender): void
+    public function setSender(string $sender): self
     {
         $this->sender = $sender;
+        return $this;
     }
 
-    public function getRecipient()
+    public function getRecipient(): string
     {
         return $this->recipient;
     }
 
-    public function setRecipient($recipient): void
+    public function setRecipient(string $recipient): self
     {
         $this->recipient = $recipient;
+        return $this;
     }
 
-    public function getOperatorId()
+    public function getOperatorId(): ?string
     {
         return $this->operatorId;
     }
 
-    public function setOperatorId($operatorId): void
+    public function setOperatorId(?string $operatorId): self
     {
         $this->operatorId = $operatorId;
+        return $this;
     }
 
-    public function getPrice()
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function setPrice($price): void
+    public function setPrice(?float $price): self
     {
         $this->price = $price;
+        return $this;
     }
 
-    public function getStatusCode()
+    public function getStatusCode(): string
     {
         return $this->statusCode;
     }
 
-    public function setStatusCode($statusCode): void
+    public function setStatusCode(string $statusCode): self
     {
         $this->statusCode = $statusCode;
+        return $this;
     }
 
-    public function getDetailedStatusCode()
+    public function getDetailedStatusCode(): string
     {
         return $this->detailedStatusCode;
     }
 
-    public function setDetailedStatusCode($detailedStatusCode): void
+    public function setDetailedStatusCode(string $detailedStatusCode): self
     {
         $this->detailedStatusCode = $detailedStatusCode;
+        return $this;
     }
 
-    public function getDelivered()
+    public function getDelivered(): ?bool
     {
         return $this->delivered;
     }
 
-    public function setDelivered($delivered): void
+    public function setDelivered(?bool $delivered): self
     {
         $this->delivered = $delivered;
+        return $this;
     }
 
-    public function getBilled()
+    public function getBilled(): ?bool
     {
         return $this->billed;
     }
 
-    public function setBilled($billed): void
+    public function setBilled(?bool $billed): self
     {
         $this->billed = $billed;
+        return $this;
     }
 
-    public function getSmscTransactionId()
+    public function getSmscTransactionId(): ?string
     {
         return $this->smscTransactionId;
     }
 
-    public function setSmscTransactionId($smscTransactionId): void
+    public function setSmscTransactionId(?string $smscTransactionId): self
     {
         $this->smscTransactionId = $smscTransactionId;
-    }
-
-    public function getSubMessageInfos()
-    {
-        return $this->subMessageInfos;
-    }
-
-    public function setSubMessageInfos($subMessageInfos): void
-    {
-        $this->subMessageInfos = $subMessageInfos;
-    }
-
-    public function getIdentifier()
-    {
-        return $this->getSmscTransactionId();
+        return $this;
     }
 }

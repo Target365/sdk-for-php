@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Resource;
 
+use Target365\ApiSdk\Exception\ApiClientException;
 use Target365\ApiSdk\Model\AbstractModel;
 
 abstract class AbstractCrudResource extends AbstractResource
@@ -39,8 +40,14 @@ abstract class AbstractCrudResource extends AbstractResource
 
     /**
      * GET /{resource}/{identifier}
+     *
+     * @param string $identifier
+     * @return AbstractModel
+     * @throws ApiClientException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
      */
-    public function get($identifier): AbstractModel
+    public function get(string $identifier): AbstractModel
     {
         $uri = $this->getResourceUri() . '/' . $identifier;
 
@@ -53,6 +60,12 @@ abstract class AbstractCrudResource extends AbstractResource
 
     /**
      * POST /{resource}
+     *
+     * @param AbstractModel $model
+     * @return mixed
+     * @throws ApiClientException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
      */
     public function post(AbstractModel $model)
     {
@@ -73,25 +86,39 @@ abstract class AbstractCrudResource extends AbstractResource
 
     /**
      * PUT /{resource}/{identifier}
+     *
+     * @param AbstractModel $model
+     * @throws ApiClientException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
      */
     public function put(AbstractModel $model): void
     {
         $this->forceResourceModel($model);
 
+        if ($model->getIdentifier() === null) {
+            throw new ApiClientException(get_class($this) . ' missing identifier');
+        }
+
         $uri = $this->getResourceUri() . '/' . $model->getIdentifier();
 
         $normalizedData = $model->normalize();
 
-        $response = $this->apiClient->request('put', $uri, $normalizedData);
+        $this->apiClient->request('put', $uri, $normalizedData);
     }
 
     /**
      * DELETE /{resource}/{identifier}
+     *
+     * @param string $identifier
+     * @throws ApiClientException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
      */
-    public function delete($identifier): void
+    public function delete(string $identifier): void
     {
         $uri = $this->getResourceUri() . '/' . $identifier;
 
-        $response = $this->apiClient->request('delete', $uri);
+        $this->apiClient->request('delete', $uri);
     }
 }

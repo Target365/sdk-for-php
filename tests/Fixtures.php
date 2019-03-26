@@ -8,6 +8,10 @@ use Ramsey\Uuid\Uuid;
 
 class Fixtures
 {
+    /**
+     * @return string
+     * @throws \InvalidArgumentException
+     */
     static public function generateUuid4(): string
     {
         $uuid4 = Uuid::uuid4();
@@ -16,7 +20,7 @@ class Fixtures
     }
 
 
-    static public function getShortNumberId()
+    static public function getShortNumberId(): string
     {
         return 'NO-0000';
     }

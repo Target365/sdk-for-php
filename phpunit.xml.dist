@@ -3,7 +3,7 @@
 <phpunit
     verbose="true"
     colors="true"
-    stopOnFailure="true"
+    stopOnFailure="false"
     bootstrap="./vendor/autoload.php"
 >
     <filter>

@@ -4,275 +4,201 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Model;
 
+use Target365\ApiSdk\Attribute\DateTimeAttribute;
 
-class StrexTransaction extends AbstractModel
+class StrexTransaction extends StrexData
 {
-
     protected $transactionId;
-
-    protected $invoiceText;
-
-    protected $lastModified;
-
-    protected $merchantId;
-
-    protected $price;
-
-    protected $recipient;
-    
-    protected $content;
-
-    protected $serviceCode;
-
+    protected $sessionId;
+    protected $correlationId;
     protected $shortNumber;
-
-    protected $created;
-
+    protected $recipient;
+    protected $content;
+    protected $oneTimePassword;
     protected $deliveryMode;
-
     protected $statusCode;
-
-    protected $accountId;
-
-    protected $strexOtpTransactionId;
-
+    protected $detailedStatusCode;
     protected $smscTransactionId;
-
-    protected $eTag;
-
-    protected $billed;
-
+    protected $created;
+    protected $lastModified;
 
     protected function attributes(): array
     {
-        return [
+        return array_merge(
+            parent::attributes(),
+        [
             'transactionId',
-            'invoiceText',
-            'lastModified',
-            'merchantId',
-            'price',
-            'recipient',
-            'serviceCode',
+            'sessionId',
+            'correlationId',
             'shortNumber',
-            'created',
+            'recipient',
+            'content',
+            'oneTimePassword',
             'deliveryMode',
             'statusCode',
-            'accountId',
-            'strexOtpTransactionId',
+            'detailedStatusCode',
             'smscTransactionId',
-            'eTag',
-            'billed',
-        ];
+            'created',
+            'lastModified',
+        ]
+        );
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->getTransactionId();
     }
 
-    public function getTransactionId()
+    public function getTransactionId(): string
     {
         return $this->transactionId;
     }
 
-    public function setTransactionId($transactionId): self
+    public function setTransactionId(string $transactionId): self
     {
         $this->transactionId = $transactionId;
-
         return $this;
     }
 
-    public function getInvoiceText()
+    public function getSessionId(): ?string
     {
-        return $this->invoiceText;
+        return $this->sessionId;
     }
 
-    public function setInvoiceText($invoiceText): self
+    public function setSessionId(?string $sessionId): self
     {
-        $this->invoiceText = $invoiceText;
-
+        $this->sessionId = $sessionId;
         return $this;
     }
 
-    public function getLastModified()
+    public function getCorrelationId(): ?string
     {
-        return $this->lastModified;
+        return $this->correlationId;
     }
 
-    public function setLastModified($lastModified): self
+    public function setCorrelationId(?string $correlationId): self
     {
-        $this->lastModified = $lastModified;
-
+        $this->correlationId = $correlationId;
         return $this;
     }
 
-    public function getMerchantId()
-    {
-        return $this->merchantId;
-    }
-
-    public function setMerchantId($merchantId): self
-    {
-        $this->merchantId = $merchantId;
-
-        return $this;
-    }
-
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    public function setPrice($price): self
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    public function getRecipient()
-    {
-        return $this->recipient;
-    }
-
-    public function setRecipient($recipient): self
-    {
-        $this->recipient = $recipient;
-
-        return $this;
-    }
-
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    public function setContent($content): self
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function getServiceCode()
-    {
-        return $this->serviceCode;
-    }
-
-    public function setServiceCode($serviceCode): self
-    {
-        $this->serviceCode = $serviceCode;
-
-        return $this;
-    }
-
-    public function getShortNumber()
+    public function getShortNumber(): string
     {
         return $this->shortNumber;
     }
 
-    public function setShortNumber($shortNumber): self
+    public function setShortNumber(string $shortNumber): self
     {
         $this->shortNumber = $shortNumber;
-
         return $this;
     }
 
-    public function getCreated()
+    public function getRecipient(): string
     {
-        return $this->created;
+        return $this->recipient;
     }
 
-    public function setCreated($created)
+    public function setRecipient(string $recipient): self
     {
-        $this->created = $created;
+        $this->recipient = $recipient;
+        return $this;
+    }
+    
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
 
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
         return $this;
     }
 
-    public function getDeliveryMode()
+    public function getOneTimePassword(): ?string
+    {
+        return $this->oneTimePassword;
+    }
+
+    public function setOneTimePassword(?string $oneTimePassword): self
+    {
+        $this->oneTimePassword = $oneTimePassword;
+        return $this;
+    }
+
+    public function getDeliveryMode(): ?string
     {
         return $this->deliveryMode;
     }
 
-    public function setDeliveryMode($deliveryMode): self
+    public function setDeliveryMode(?string $deliveryMode): self
     {
         $this->deliveryMode = $deliveryMode;
-
         return $this;
     }
-
-    public function getStatusCode()
+    
+    public function getStatusCode(): ?string
     {
         return $this->statusCode;
     }
 
-    public function setStatusCode($statusCode): self
+    public function setStatusCode(?string $statusCode): self
     {
         $this->statusCode = $statusCode;
-
         return $this;
     }
 
-    public function getAccountId()
+    public function getDetailedStatusCode(): ?string
     {
-        return $this->accountId;
+        return $this->detailedStatusCode;
     }
 
-    public function setAccountId($accountId): self
+    public function setDetailedStatusCode(?string $detailedStatusCode): self
     {
-        $this->accountId = $accountId;
-
+        $this->detailedStatusCode = $detailedStatusCode;
         return $this;
     }
-
-    public function getStrexOtpTransactionId()
-    {
-        return $this->strexOtpTransactionId;
-    }
-
-    public function setStrexOtpTransactionId($strexOtpTransactionId): self
-    {
-        $this->strexOtpTransactionId = $strexOtpTransactionId;
-
-        return $this;
-    }
-
-    public function getSmscTransactionId()
+    
+    public function getSmscTransactionId(): ?string
     {
         return $this->smscTransactionId;
     }
 
-    public function setSmscTransactionId($smscTransactionId): self
+    public function setSmscTransactionId(?string $smscTransactionId): self
     {
         $this->smscTransactionId = $smscTransactionId;
-
         return $this;
     }
 
-    public function getETag()
+    public function getLastModified(): ?DateTimeAttribute
     {
-        return $this->eTag;
+        return $this->lastModified;
     }
 
-    public function setETag($eTag): self
+    /**
+     * @param string $lastModified
+     * @return StrexTransaction
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setLastModified(string $lastModified): self
     {
-        $this->eTag = $eTag;
-
+        $this->lastModified = new DateTimeAttribute($lastModified);
         return $this;
     }
 
-    public function getBilled()
+    public function getCreated(): ?DateTimeAttribute
     {
-        return $this->billed;
+        return $this->created;
     }
 
-    public function setBilled($billed): self
+    /**
+     * @param string $created
+     * @return StrexTransaction
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setCreated(string $created): self
     {
-        $this->billed = $billed;
-
+        $this->created = new DateTimeAttribute($created);
         return $this;
     }
-
-
 }

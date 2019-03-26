@@ -28,7 +28,6 @@ class LookupResource extends AbstractResource // intentionally not extending Abs
      */
     public function get(string $phoneNumber): ?AbstractModel
     {
-
         $queryStringData = [
             'msisdn' => $phoneNumber,
         ];
@@ -50,5 +49,4 @@ class LookupResource extends AbstractResource // intentionally not extending Abs
 
         return $this->instantiateModel($responseData);
     }
-
 }

@@ -14,12 +14,12 @@ class Signer
 
     /**
      * @param string $privateKey base64-encoded private key in pcks#8 format
+     * @throws ApiClientException
      */
     public function __construct(
         string $privateKey
-    )
-    {
-        if ( defined('CRYPT_RSA_PKCS15_COMPAT')) {
+    ) {
+        if (defined('CRYPT_RSA_PKCS15_COMPAT')) {
             if (CRYPT_RSA_PKCS15_COMPAT !== true) {
                 throw new ApiClientException('Somehow the `CRYPT_RSA_PKCS15_COMPAT` constant has been set incorrectly');
             }
@@ -30,14 +30,22 @@ class Signer
         $this->privateKey = $privateKey;
     }
 
+    /**
+     * @param string      $requestMethod
+     * @param string      $requestUri
+     * @param string|null $bodyContents
+     * @param             $epochTime
+     * @param string      $nonce
+     * @return string
+     * @throws ApiClientException
+     */
     public function signRequest(
         string $requestMethod,
         string $requestUri,
         ?string $bodyContents,
         $epochTime,
         string $nonce
-    ): string
-    {
+    ): string {
         $epochTime = (string) $epochTime;
         $requestMethod = strtolower($requestMethod);
         $requestUri = strtolower($requestUri);
@@ -62,6 +70,11 @@ class Signer
         return base64_encode($bodyContentsHash);
     }
 
+    /**
+     * @param string $stringToSign
+     * @return string
+     * @throws ApiClientException
+     */
     public function signString(string $stringToSign): string
     {
         $rsa = new RSA();
@@ -90,11 +103,9 @@ class Signer
         $epochTime,
         string $nonce,
         string $signedRequestString
-    ): string
-    {
+    ): string {
         $epochTime = (string) $epochTime;
 
         return "HMAC {$authKeyName}:{$epochTime}:{$nonce}:{$signedRequestString}";
     }
-
 }

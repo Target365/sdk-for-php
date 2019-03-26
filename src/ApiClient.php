@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Target365\ApiSdk\Resource\ClientPublicKeyResource;
 use Target365\ApiSdk\Resource\InMessageResource;
-use Target365\ApiSdk\Resource\lookupResource;
+use Target365\ApiSdk\Resource\LookupResource;
 use Target365\ApiSdk\Resource\KeywordResource;
 use Target365\ApiSdk\Resource\OneTimePasswordResource;
 use Target365\ApiSdk\Resource\OutMessageResource;
@@ -27,19 +27,21 @@ class ApiClient
 
     private $signer;
 
+    private $baseUri;
+
     /**
-     * @param string $domainUri e.g. https://shared.target365.io/
-     * @param string $authKeyName
-     * @param string $privateKey base64-encoded private key in pcks#8 format
+     * @param string               $domainUri e.g. https://shared.target365.io/
+     * @param string               $authKeyName
+     * @param string               $privateKey base64-encoded private key in pcks#8 format
      * @param LoggerInterface|null $logger
+     * @throws Exception\ApiClientException
      */
     public function __construct(
         string $domainUri,
         string $authKeyName,
         string $privateKey,
         LoggerInterface $logger = null
-    )
-    {
+    ) {
         $this->authKeyName = $authKeyName;
 
         $this->logger = $logger;
@@ -54,8 +56,7 @@ class ApiClient
     private function tidyDomainUri(string $domainUri)
     {
         // Add trailing slash if it is not present on the domain URI
-        if (substr($domainUri, -1, 1) !== '/')
-        {
+        if (substr($domainUri, -1, 1) !== '/') {
             return $domainUri . '/';
         }
 
@@ -92,7 +93,7 @@ class ApiClient
         }
     }
 
-    public function lookupResource(): lookupResource
+    public function lookupResource(): LookupResource
     {
         return $this->resources['lookup'];
     }
@@ -147,21 +148,23 @@ class ApiClient
     /**
      * @param string $requestMethod
      * @param string $requestUriPath the part of the URI which follows the domain name
-     * @param array $bodyData associate array which will be Json encoded and added to request body
+     * @param array  $bodyData associate array which will be Json encoded and added to request body
      *
      * @return ResponseInterface
+     * @throws Exception\ApiClientException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
      */
     public function request(
         string $requestMethod,
         string $requestUriPath,
         array $bodyData = null
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $requestUri = $this->baseUri . $requestUriPath;
 
         $signer = $this->getSigner();
 
-        $nonce = (string) uniqid((string) time(), true);
+        $nonce = uniqid((string) time(), true);
 
         $this->log('requestUri', $requestUri);
         $this->log('requestMethod', $requestMethod);
@@ -198,6 +201,8 @@ class ApiClient
 
         $httpClient = $this->getHttpClient();
 
+        $httpOptions = [];
+
         $httpOptions['headers'] = [
                 'Authorization' => $authHeader
         ];
@@ -218,6 +223,10 @@ class ApiClient
         return $response;
     }
 
+    /**
+     * @return \GuzzleHttp\Client
+     * @throws \InvalidArgumentException
+     */
     protected function getHttpClient(): \GuzzleHttp\Client
     {
         $options = [

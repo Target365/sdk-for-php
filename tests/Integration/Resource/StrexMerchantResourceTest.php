@@ -10,112 +10,76 @@ use Target365\ApiSdk\Tests\AbstractTestCase;
 
 class StrexMerchantResourceTest extends AbstractTestCase
 {
-
-    public function testPost()
-    {
-        $this->markTestSkipped('make sure this test is re-enabled and working'); // TODO
-
-        $this->expectException(ApiClientException::class);
-
-        $apiClient = $this->getApiClient();
-
-        $strexMerchant = new StrexMerchant();
-
-        // Expecting an exception as this resource does not support POST
-        $apiClient->strexMerchantResource()->post($strexMerchant);
-    }
-
-
     public function testPut()
     {
-        $this->markTestSkipped('make sure this test is re-enabled and working'); // TODO
-
         $apiClient = $this->getApiClient();
-
         $strexMerchant = new StrexMerchant();
-
-        $identifer = uniqid((string) time(), true);
-
-        $strexMerchant->setMerchantId($identifer);
-        $strexMerchant->setShortNumberId('NO-0000');
-        $strexMerchant->setEncryptedPassword('abcdef');
+        $merchantId = str_replace('.', '-', uniqid((string) time(), true));
+        $strexMerchant->setMerchantId($merchantId);
+        $strexMerchant->setShortNumberIds(['NO-0000']);
+        $strexMerchant->setPassword('super_secure');
 
         $apiClient->strexMerchantResource()->put($strexMerchant);
 
         $this->assertTrue(true);
-
-        return $identifer;
-
+        return $merchantId;
     }
 
     /**
      * @depends testPut
      */
-    public function testList($identifer)
+    public function testGet($merchantId)
     {
-        $this->markTestSkipped('make sure this test is re-enabled and working'); // TODO
+        $apiClient = $this->getApiClient();
+        
+        $strexMerchant = $apiClient->strexMerchantResource()->get($merchantId);
 
+        $this->assertInstanceOf(StrexMerchant::class, $strexMerchant);
+        $this->assertEquals($merchantId, $strexMerchant->getMerchantId());
+        return $merchantId;
+    }
+
+    /**
+     * @depends testGet
+     */
+    public function testList($merchantId)
+    {
         $apiClient = $this->getApiClient();
 
         $strexMerchants = $apiClient->strexMerchantResource()->list();
 
         // expecting at least 1 item as we just posted one
         $this->assertGreaterThanOrEqual(1, count($strexMerchants));
-
-        foreach ($strexMerchants as $strexMerchant) {
+        foreach ($strexMerchants as $strexMerchant)
+        {
             $this->assertInstanceOf(StrexMerchant::class, $strexMerchant);
         }
+        
+        return $merchantId;
     }
-
-    /**
-     * @depends testPut
-     */
-    public function testGet($identifier)
-    {
-        $this->markTestSkipped('make sure this test is re-enabled and working'); // TODO
-
-        $apiClient = $this->getApiClient();
-
-        $strexMerchant = $apiClient->strexMerchantResource()->get($identifier);
-
-        $this->assertInstanceOf(StrexMerchant::class, $strexMerchant);
-
-        $this->assertEquals($identifier, $strexMerchant->getIdentifier());
-
-        return $strexMerchant;
-    }
-
-
+    
     /**
      * @depends testGet
      */
-    public function testDelete(StrexMerchant $strexMerchant)
+    public function testDelete(string $merchantId)
     {
-        $this->markTestSkipped('make sure this test is re-enabled and working'); // TODO
-
         $apiClient = $this->getApiClient();
-
-        $apiClient->strexMerchantResource()->delete($strexMerchant->getIdentifier());
+        
+        $apiClient->strexMerchantResource()->delete($merchantId);
 
         $this->assertTrue(true);
-
-        return $strexMerchant;
+        return $merchantId;
     }
 
     /**
      * @depends testDelete
      */
-    public function testConfirmDelete(StrexMerchant $strexMerchant)
+    public function testConfirmDelete(string $merchantId)
     {
-        $this->markTestSkipped('make sure this test is re-enabled and working'); // TODO
-
         $this->expectException(\Exception::class);
-
         $apiClient = $this->getApiClient();
 
         // This should 404 as it should have been deleted
-        $apiClient->strexMerchantResource()->get($strexMerchant->getIdentifier());
+        $apiClient->strexMerchantResource()->get($merchantId);
     }
-
-
 }

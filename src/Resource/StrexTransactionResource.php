@@ -29,6 +29,4 @@ class StrexTransactionResource extends AbstractCrudResource
     {
         throw new ResourceMethodNotAvailableException();
     }
-
-
 }

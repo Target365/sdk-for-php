@@ -5,32 +5,19 @@ declare(strict_types = 1);
 namespace Target365\ApiSdk\Model;
 
 use Target365\ApiSdk\Exception\ApiClientException;
+use Target365\ApiSdk\Attribute\DateTimeAttribute;
 
 class OneTimePassword extends AbstractModel
 {
     protected $transactionId;
-
     protected $merchantId;
-
     protected $recipient;
-
     protected $sender;
-
     protected $recurring;
-
     protected $message;
-
     protected $timeToLive;
-
     protected $created;
-
     protected $delivered;
-
-    public function getIdentifier()
-    {
-        throw new ApiClientException('Not relevant to this resource');
-    }
-
 
     protected function attributes(): array
     {
@@ -47,31 +34,38 @@ class OneTimePassword extends AbstractModel
         ];
     }
 
-    public function getTransactionId()
+    /**
+     * @return string|null
+     * @throws ApiClientException
+     */
+    public function getIdentifier(): ?string
+    {
+        throw new ApiClientException('Not relevant to this resource');
+    }
+
+    public function getTransactionId(): string
     {
         return $this->transactionId;
     }
 
-    public function setTransactionId($transactionId): self
+    public function setTransactionId(string $transactionId): self
     {
         $this->transactionId = $transactionId;
-
         return $this;
     }
 
-    public function getMerchantId()
+    public function getMerchantId(): string
     {
         return $this->merchantId;
     }
 
-    public function setMerchantId($merchantId): self
+    public function setMerchantId(string $merchantId): self
     {
         $this->merchantId = $merchantId;
-
         return $this;
     }
 
-    public function getRecipient()
+    public function getRecipient(): string
     {
         return $this->recipient;
     }
@@ -79,23 +73,21 @@ class OneTimePassword extends AbstractModel
     public function setRecipient(string $recipient): self
     {
         $this->recipient = $recipient;
-
         return $this;
     }
 
-    public function getSender()
+    public function getSender(): string
     {
         return $this->sender;
     }
 
-    public function setSender($sender): self
+    public function setSender(string $sender): self
     {
         $this->sender = $sender;
-
         return $this;
     }
 
-    public function getRecurring()
+    public function getRecurring(): bool
     {
         return $this->recurring;
     }
@@ -103,56 +95,55 @@ class OneTimePassword extends AbstractModel
     public function setRecurring(bool $recurring): self
     {
         $this->recurring = $recurring;
-
         return $this;
     }
 
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }
 
-    public function setMessage($message): self
+    public function setMessage(?string $message): self
     {
         $this->message = $message;
-
         return $this;
     }
 
-    public function getTimeToLive()
+    public function getTimeToLive(): ?int
     {
         return $this->timeToLive;
     }
 
-    public function setTimeToLive($timeToLive): self
+    public function setTimeToLive(?int $timeToLive): self
     {
         $this->timeToLive = $timeToLive;
-
         return $this;
     }
 
-    public function getCreated()
+    public function getCreated(): ?DateTimeAttribute
     {
         return $this->created;
     }
 
-    public function setCreated($created): self
+    /**
+     * @param string $created
+     * @return OneTimePassword
+     * @throws ApiClientException
+     */
+    public function setCreated(string $created): self
     {
-        $this->created = $created;
-
+        $this->created = new DateTimeAttribute($created);
         return $this;
     }
 
-    public function getDelivered()
+    public function getDelivered(): ?bool
     {
         return $this->delivered;
     }
 
-    public function setDelivered($delivered): self
+    public function setDelivered(?bool $delivered): self
     {
         $this->delivered = $delivered;
-
         return $this;
     }
-
 }

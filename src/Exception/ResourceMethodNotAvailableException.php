@@ -10,6 +10,4 @@ class ResourceMethodNotAvailableException extends ApiClientException
     {
         parent::__construct('This method is not available for this resource');
     }
-
-
 }

@@ -4,31 +4,22 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Model;
 
+use Target365\ApiSdk\Attribute\DateTimeAttribute;
+
 class PublicKey extends AbstractModel
 {
-
-    protected $accountId;
-
     protected $name;
-
     protected $expiry;
-
     protected $signAlgo;
-
     protected $hashAlgo;
-
     protected $publicKeyString;
-
     protected $notUsableBefore;
-
     protected $created;
-
     protected $lastModified;
 
     protected function attributes(): array
     {
         return [
-            'accountId',
             'name',
             'expiry',
             'signAlgo',
@@ -40,80 +31,69 @@ class PublicKey extends AbstractModel
         ];
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->getName();
     }
 
-    public function getAccountId()
-    {
-        return $this->accountId;
-    }
-
-    public function setAccountId($accountId): self
-    {
-        $this->accountId = $accountId;
-
-        return $this;
-    }
-
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getExpiry()
+    public function getExpiry(): ?DateTimeAttribute
     {
         return $this->expiry;
     }
 
-    public function setExpiry($expiry): self
+    /**
+     * @param string $expiry
+     * @return PublicKey
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setExpiry(string $expiry): self
     {
-        $this->expiry = $expiry;
-
+        $this->expiry = new DateTimeAttribute($expiry);
         return $this;
     }
 
-    public function getSignAlgo()
+    public function getSignAlgo(): string
     {
         return $this->signAlgo;
     }
 
-    public function setSignAlgo($signAlgo): self
+    public function setSignAlgo(string $signAlgo): self
     {
         $this->signAlgo = $signAlgo;
-
         return $this;
     }
 
-    public function getHashAlgo()
+    public function getHashAlgo(): string
     {
         return $this->hashAlgo;
     }
 
-    public function setHashAlgo($hashAlgo): self
+    public function setHashAlgo(string $hashAlgo): self
     {
         $this->hashAlgo = $hashAlgo;
-
         return $this;
     }
 
-    public function getPublicKeyString()
+    public function getPublicKeyString(): string
     {
         return $this->publicKeyString;
     }
 
-    public function setPublicKeyString($publicKeyString): self
+    public function setPublicKeyString(string $publicKeyString): self
     {
         $this->publicKeyString = $publicKeyString;
-
         return $this;
     }
 
@@ -129,30 +109,35 @@ class PublicKey extends AbstractModel
         return $this;
     }
 
-    public function getCreated()
+    public function getCreated(): ?DateTimeAttribute
     {
         return $this->created;
     }
 
-    public function setCreated($created): self
+    /**
+     * @param string $created
+     * @return PublicKey
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setCreated(string $created): self
     {
-        $this->created = $created;
-
+        $this->created = new DateTimeAttribute($created);
         return $this;
     }
 
-    public function getLastModified()
+    public function getLastModified(): ?DateTimeAttribute
     {
         return $this->lastModified;
     }
 
-    public function setLastModified($lastModified): self
+    /**
+     * @param string $lastModified
+     * @return PublicKey
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setLastModified(string $lastModified): self
     {
-        $this->lastModified = $lastModified;
-
+        $this->lastModified = new DateTimeAttribute($lastModified);
         return $this;
     }
-
-
-
 }

@@ -35,8 +35,11 @@ class OutMessageResource extends AbstractCrudResource
      * POST /out-message/batch
      *
      * @param OutMessage[] $outMessages
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
      */
-    public function postBatch(array $outMessages)
+    public function postBatch(array $outMessages): void
     {
         $uri = 'out-messages/batch';
 
@@ -46,7 +49,6 @@ class OutMessageResource extends AbstractCrudResource
             $this->forceResourceModel($outMessage);
 
             $postData[] = $outMessage->normalize();
-
         }
 
         $response = $this->apiClient->request('post', $uri, $postData);

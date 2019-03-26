@@ -15,7 +15,7 @@ class KeywordTest extends AbstractTestCase
 
         $keyword->populate(
             [
-              'keywordId' => 123,
+              'keywordId' => "1234",
               'shortNumberId' => 'NO-0000',
               'keywordText' => 'Test',
               'mode' => 'Text',
@@ -30,6 +30,6 @@ class KeywordTest extends AbstractTestCase
             ]
         );
 
-        $this->assertEquals(123, $keyword->getKeywordId());
+        $this->assertEquals("1234", $keyword->getKeywordId());
     }
 }

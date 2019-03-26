@@ -9,21 +9,13 @@ use Target365\ApiSdk\Attribute\DateTimeAttribute;
 class Keyword extends AbstractModel
 {
     protected $keywordId;
-
     protected $shortNumberId;
-
     protected $keywordText;
-
     protected $mode;
-
     protected $forwardUrl;
-
     protected $enabled;
-
     protected $created;
-
     protected $lastModified;
-
     protected $tags;
 
     public function attributes(): array
@@ -41,80 +33,75 @@ class Keyword extends AbstractModel
         ];
     }
 
-    public function getIdentifier()
+    public function getIdentifier(): ?string
     {
         return $this->getKeywordId();
     }
 
-    public function getKeywordId()
+    public function getKeywordId() : ?string
     {
         return $this->keywordId;
     }
 
-    public function setKeywordId($keywordId): self
+    public function setKeywordId(string $keywordId): self
     {
         $this->keywordId = $keywordId;
-
         return $this;
     }
 
-    public function getShortNumberId(): ?string
+    public function getShortNumberId(): string
     {
         return $this->shortNumberId;
     }
 
-    public function setShortNumberId(?string $shortNumberId): self
+    public function setShortNumberId(string $shortNumberId): self
     {
         $this->shortNumberId = $shortNumberId;
-
         return $this;
     }
 
-    public function getKeywordText(): ?string
+    public function getKeywordText(): string
     {
         return $this->keywordText;
     }
 
-    public function setKeywordText(?string $keywordText): self
+    public function setKeywordText(string $keywordText): self
     {
         $this->keywordText = $keywordText;
-
         return $this;
     }
 
-    public function getMode(): ?string
+    public function getMode(): string
     {
         return $this->mode;
     }
 
-    public function setMode(?string $mode): self
+    public function setMode(string $mode): self
     {
         $this->mode = $mode;
 
         return $this;
     }
 
-    public function getForwardUrl(): ?string
+    public function getForwardUrl(): string
     {
         return $this->forwardUrl;
     }
 
-    public function setForwardUrl(?string $forwardUrl): self
+    public function setForwardUrl(string $forwardUrl): self
     {
         $this->forwardUrl = $forwardUrl;
-
         return $this;
     }
 
-    public function getEnabled(): ?bool
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
 
-    public function setEnabled(?bool $enabled): self
+    public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
-
         return $this;
     }
 
@@ -123,10 +110,14 @@ class Keyword extends AbstractModel
         return $this->created;
     }
 
-    public function setCreated(?string $created): self
+    /**
+     * @param string $created
+     * @return Keyword
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setCreated(string $created): self
     {
         $this->created = new DateTimeAttribute($created);
-
         return $this;
     }
 
@@ -135,10 +126,14 @@ class Keyword extends AbstractModel
         return $this->lastModified;
     }
 
-    public function setLastModified(?string $lastModified): self
+    /**
+     * @param string $lastModified
+     * @return Keyword
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function setLastModified(string $lastModified): self
     {
         $this->lastModified = new DateTimeAttribute($lastModified);
-
         return $this;
     }
 
@@ -150,9 +145,6 @@ class Keyword extends AbstractModel
     public function setTags(?array $tags): self
     {
         $this->tags = $tags;
-
         return $this;
     }
-
-
 }
