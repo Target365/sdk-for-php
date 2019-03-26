@@ -26,9 +26,7 @@ abstract class AbstractCrudResource extends AbstractResource
         }
 
         $response = $this->apiClient->request('get', $uri);
-
         $responseData = $this->decodeResponseJson($response);
-
         $returnObjects = [];
 
         foreach ($responseData as $item) {
@@ -50,11 +48,8 @@ abstract class AbstractCrudResource extends AbstractResource
     public function get(string $identifier): AbstractModel
     {
         $uri = $this->getResourceUri() . '/' . $identifier;
-
         $response = $this->apiClient->request('get', $uri);
-
         $responseData = $this->decodeResponseJson($response);
-
         return $this->instantiateModel($responseData);
     }
 
@@ -70,17 +65,11 @@ abstract class AbstractCrudResource extends AbstractResource
     public function post(AbstractModel $model)
     {
         $this->forceResourceModel($model);
-
         $uri = $this->getResourceUri();
-
         $normalizedData = $model->normalize();
-
         $response = $this->apiClient->request('post', $uri, $normalizedData);
-
         $locationHeaders = $response->getHeader('Location');
         $locationHeader = reset($locationHeaders);
-
-
         return $this->parseIdentifierFromLocationHeader($locationHeader);
     }
 
@@ -101,9 +90,7 @@ abstract class AbstractCrudResource extends AbstractResource
         }
 
         $uri = $this->getResourceUri() . '/' . $model->getIdentifier();
-
         $normalizedData = $model->normalize();
-
         $this->apiClient->request('put', $uri, $normalizedData);
     }
 
@@ -118,7 +105,6 @@ abstract class AbstractCrudResource extends AbstractResource
     public function delete(string $identifier): void
     {
         $uri = $this->getResourceUri() . '/' . $identifier;
-
         $this->apiClient->request('delete', $uri);
     }
 }
