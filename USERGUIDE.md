@@ -9,7 +9,6 @@
     * [Schedule an SMS for later sending](#schedule-an-sms-for-later-sending)
     * [Edit a scheduled SMS](#edit-a-scheduled-sms)
     * [Delete a scheduled SMS](#delete-a-scheduled-sms)
-    * [Receive a delivery report](#receive-a-delivery-report)
 * [Payment transactions](#payment-transactions)
     * [Create a Strex payment transaction](#create-a-strex-payment-transaction)
     * [Create a Strex payment transaction with one-time password](#create-a-strex-payment-transaction-with-one-time-password)
@@ -86,48 +85,6 @@ $apiClient->outMessageResource()->put($outMessage);
 This example deletes a previously created scheduled SMS.
 ```PHP
 $apiClient->outMessageResource()->delete($transactionId);
-```
-
-### Receive a delivery report 
-#### Request
-```
-POST https://your-site.net/api/receive-dlr HTTP/1.1
-Content-Type: application/json
-Host: your-site.net
-
-{
-    "correlationId": null,
-    "transactionId": "client-specified-id-5c88e736bb4b8",
-    "price": null,
-    "sender": "Target365",
-    "recipient": "+4798079008",
-    "operatorId": "no.telenor",
-    "statusCode": "Ok",
-    "detailedStatusCode": "Delivered",
-    "delivered": true,
-    "billed": null,
-    "smscTransactionId": "16976c7448d",
-    "smscMessageParts": 1
-}
-```
-
-Several methods exists for instantiating a DeliveryReport object from the received JSON:
- 
-```PHP
-try
-{
-    // If the post request is received in the form of a PSR-7 Request:
-    $dlr = DeliveryReport::fromPsrRequest($request);
-    
-    // Using php://input
-    $dlr = DeliveryReport::fromRawPostData($request);
-     
-    // Or by simply passing in the received json string:
-    $dlr = DeliveryReport::fromJsonString($request);
-} 
-catch (\InvalidArgumentException $e)
-{
-}
 ```
 
 ## Payment transactions
@@ -246,6 +203,7 @@ Content-Length: 0
 ```
 
 ### DLR forward
+This example shows how delivery reports (DLR) are forwarded to the outmessage DeliveryReportUrl. All DLR forwards expect a response with status code 200 (OK). If the request times out or response status code differs the forward will be retried 10 times with exponentially longer intervals for about 15 hours.
 #### Request
 ```
 POST https://your-site.net/api/receive-dlr HTTP/1.1
@@ -273,4 +231,23 @@ Host: your-site.net
 HTTP/1.1 200 OK
 Date: Thu, 07 Feb 2019 21:13:51 GMT
 Content-Length: 0
+```
+
+Several methods exists for instantiating a DeliveryReport object from the received JSON:
+ 
+```PHP
+try
+{
+    // If the post request is received in the form of a PSR-7 Request:
+    $dlr = DeliveryReport::fromPsrRequest($request);
+    
+    // Using php://input
+    $dlr = DeliveryReport::fromRawPostData($request);
+     
+    // Or by simply passing in the received json string:
+    $dlr = DeliveryReport::fromJsonString($request);
+} 
+catch (\InvalidArgumentException $e)
+{
+}
 ```
