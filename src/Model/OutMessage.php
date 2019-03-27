@@ -44,7 +44,7 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
             return (strlen($text) <= 70) ? 1 : (int)ceil(strlen($text) / 67);
         }
         
-        $extendedChars = [chr(12), '^', '{', '}', '', '[', '~', ']', '|', '€'];
+        $extendedChars = [chr(12), '^', '{', '}', '\\', '[', '~', ']', '|', '€'];
         $totalCharCount = 0;
 
         $stringLength = strlen($text);
