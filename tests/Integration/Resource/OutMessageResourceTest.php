@@ -56,7 +56,6 @@ class OutMessageResourceTest extends AbstractTestCase
             ->setTimeToLive(120)
             ->setPriority('Normal')
             ->setDeliveryMode('AtMostOnce')
-            ->setDeliveryReportUrl('https://tempuri.org')
             ->setTags(['foo', 'bar']);
 
         $outMessage2 = new OutMessage();
@@ -70,7 +69,6 @@ class OutMessageResourceTest extends AbstractTestCase
             ->setTimeToLive(120)
             ->setPriority('Normal')
             ->setDeliveryMode('AtMostOnce')
-            ->setDeliveryReportUrl('https://tempuri.org')
             ->setTags(['foo', 'bar']);
 
         $outMessages = [
@@ -101,7 +99,6 @@ class OutMessageResourceTest extends AbstractTestCase
             ->setTimeToLive(120)
             ->setPriority('Normal')
             ->setDeliveryMode('AtMostOnce')
-            ->setDeliveryReportUrl('https://tempuri.org')
             ->setTags(['foo', 'bar'])
             ->setProperties($properties);
 
