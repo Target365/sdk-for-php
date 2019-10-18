@@ -3,7 +3,7 @@
 
 ### Getting started
 To get started please send us an email at <support@target365.no> containing your RSA public key in DER(ANS.1) format.
-If you want, you can generate your RSA public/private key-pair here: <http://travistidwell.com/jsencrypt/demo/>
+If you want, you can generate your RSA public/private key-pair here: <https://8gwifi.org/sshfunctions.jsp>
 
 Check out our [PHP User Guide](USERGUIDE.md)
 
