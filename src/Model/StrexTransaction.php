@@ -16,6 +16,8 @@ class StrexTransaction extends StrexData
     protected $content;
     protected $oneTimePassword;
     protected $deliveryMode;
+    protected $tags;
+    protected $properties;    
     protected $statusCode;
     protected $detailedStatusCode;
     protected $smscTransactionId;
@@ -35,6 +37,8 @@ class StrexTransaction extends StrexData
             'content',
             'oneTimePassword',
             'deliveryMode',
+            'tags',
+            'properties',
             'statusCode',
             'detailedStatusCode',
             'smscTransactionId',
@@ -134,6 +138,28 @@ class StrexTransaction extends StrexData
     public function setDeliveryMode(?string $deliveryMode): self
     {
         $this->deliveryMode = $deliveryMode;
+        return $this;
+    }
+    
+    public function getTags(): ?array
+    {
+        return $this->tags;
+    }
+    
+    public function setTags(?array $tags): self
+    {
+        $this->tags = $tags;
+        return $this;
+    }
+    
+    public function getProperties(): ?Properties
+    {
+        return $this->properties;
+    }
+    
+    public function setProperties(?Properties $properties): self
+    {
+        $this->properties = $properties;
         return $this;
     }
     
