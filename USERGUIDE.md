@@ -101,7 +101,8 @@ $transaction
     ->setMerchantId('YOUR_MERCHANT_ID')
     ->setPrice(1)
     ->setServiceCode('14002')
-    ->setInvoiceText('Donation test');
+    ->setInvoiceText('Donation test')
+    ->setSmsConfirmation(true);
 
 $apiClient->strexTransactionResource()->post($transaction);
 ```
