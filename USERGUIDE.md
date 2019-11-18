@@ -13,6 +13,10 @@
     * [Create a Strex payment transaction](#create-a-strex-payment-transaction)
     * [Create a Strex payment transaction with one-time password](#create-a-strex-payment-transaction-with-one-time-password)
     * [Reverse a Strex payment transaction](#reverse-a-strex-payment-transaction)
+* [One-click transactions](#one-click-transactions)
+    * [One-time transaction](#one-time-transaction)
+    * [Setup subscription transaction](#setup-subscription-transaction)
+    * [Recurring transaction](#recurring-transaction)
 * [Lookup](#lookup)
     * [Address lookup for mobile number](#address-lookup-for-mobile-number)
 * [Keywords](#keywords)
@@ -145,6 +149,77 @@ This example reverses a previously billed Strex payment transaction. The origina
 ```PHP
 $reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transaction);
 ```
+
+## One-click transactions
+
+### One-time transaction
+This example sets up a simple one-time transaction for one-click. After creation you can redirect the end-user to the one-click landing page by redirecting to http://betal.strex.no/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for PROD and http://strex-test.target365.io/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for TEST-environment.
+![one-time sequence](https://github.com/Target365/sdk-for-php/raw/master/oneclick-simple-transaction-flow.png "One-time sequence diagram")
+
+```PHP
+$transactionId = uniqid((string) time(), true);
+$transaction = new StrexTransaction();
+$properties = new Properties();
+$properties->RedirectUrl = "https://your-return-url.com?id=" . $transactionId;
+
+$transaction
+    ->setTransactionId($transactionId)
+    ->setShortNumber('2002')
+    ->setMerchantId('YOUR_MERCHANT_ID')
+    ->setPrice(1)
+    ->setServiceCode('14002')
+    ->setInvoiceText('Donation test')
+    ->setProperties($properties);
+
+$apiClient->strexTransactionResource()->post($transaction);
+
+// TODO: Redirect end-user to one-click landing page
+```
+### Setup subscription transaction
+This example sets up a subscription transaction for one-click. After creation you can redirect the end-user to the one-click landing page by redirecting to http://betal.strex.no/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for PROD and http://strex-test.target365.io/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for TEST-environment.
+![subscription sequence](https://github.com/Target365/sdk-for-php/raw/master/oneclick-subscription-flow.png "Subscription sequence diagram")
+```PHP
+$transactionId = uniqid((string) time(), true);
+$transaction = new StrexTransaction();
+$properties = new Properties();
+$properties->RedirectUrl = "https://your-return-url.com?id=" . $transactionId;
+$properties->Recurring = true;
+
+$transaction
+    ->setTransactionId($transactionId)
+    ->setShortNumber('2002')
+    ->setMerchantId('YOUR_MERCHANT_ID')
+    ->setPrice(1)
+    ->setServiceCode('14002')
+    ->setInvoiceText('Donation test')
+    ->setProperties($properties);
+
+$apiClient->strexTransactionResource()->post($transaction);
+
+// TODO: Redirect end-user to one-click landing page
+```
+### Recurring transaction
+This example sets up a recurring transaction for one-click. After creation you can immediately get the transaction to get the status code - the server will wait up to 20 seconds for the async transaction to complete.
+![Recurring sequence](https://github.com/Target365/sdk-for-php/raw/master/oneclick-recurring-flow.png "Recurring sequence diagram")
+```PHP
+$transactionId = uniqid((string) time(), true);
+
+$transaction
+    ->setTransactionId($transactionId)
+    ->setRecipient("RECIPIENT_FROM_SUBSCRIPTION_TRANSACTION")
+    ->setShortNumber('2002')
+    ->setMerchantId('YOUR_MERCHANT_ID')
+    ->setPrice(1)
+    ->setServiceCode('14002')
+    ->setInvoiceText('Donation test')
+    ->setProperties($properties);
+
+$apiClient->strexTransactionResource()->post($transaction);
+$transaction = $apiClient->strexTransactionResource()->get($transactionId);
+
+// TODO: Check transaction.StatusCode
+```
+
 ## Lookup
 
 ### Address lookup for mobile number
