@@ -25,6 +25,7 @@
 * [Forwards](#forwards)
     * [SMS forward](#sms-forward)
     * [DLR forward](#dlr-forward)
+    * [DLR status codes](#dlr-status-codes)
 
 ## Introduction
 The Target365 SDK gives you direct access to our online services like sending and receiving SMS, address lookup and Strex payment transactions.
@@ -327,3 +328,39 @@ catch (\InvalidArgumentException $e)
 {
 }
 ```
+
+### DLR status codes
+Delivery reports contains two status codes, one overall called `StatusCode` and one detailed called `DetailedStatusCode`.
+
+#### StatusCode values
+|Value|Description|
+|:---|:---|
+|Queued|Message is queued|
+|Sent|Message has been sent|
+|Failed|Message has failed|
+|Ok|message has been delivered/billed|
+|Reversed|Message billing has been reversed|
+
+#### DetailedStatusCode values
+|Value|Description|
+|:---|:---|
+|None|Message has no status|
+|Delivered|Message is delivered to destination|
+|Expired|Message validity period has expired|
+|Undelivered|Message is undeliverable|
+|UnknownError|Unknown error|
+|Rejected|Message has been rejected|
+|UnknownSubscriber|Unknown subscriber|
+|SubscriberUnavailable|Subscriber unavailable|
+|SubscriberBarred|Subscriber barred|
+|InsufficientFunds|Insufficient funds|
+|RegistrationRequired|Registration required|
+|UnknownAge|Unknown age|
+|DuplicateTransaction|Duplicate transaction|
+|SubscriberLimitExceeded|Subscriber limit exceeded|
+|MaxPinRetry|Max pin retry reached|
+|InvalidAmount|Invalid amount|
+|OneTimePasswordExpired|One-time password expired|
+|OneTimePasswordFailed|One-time password failed|
+|SubscriberTooYoung|Subscriber too young|
+|TimeoutError|Timeout error|
