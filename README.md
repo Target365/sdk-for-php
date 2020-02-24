@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/github/license/Target365/sdk-for-net.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 ### Getting started
-To get started please send us an email at <support@target365.no> containing your RSA public key in DER(ANS.1) format.
+To get started please send us an email at <sdk@strex.no> containing your RSA public key in DER(ANS.1) format.
 If you want, you can generate your RSA public/private key-pair here: <https://8gwifi.org/sshfunctions.jsp>
 
 Check out our [PHP User Guide](USERGUIDE.md)
@@ -19,12 +19,12 @@ Our test-environment acts as a sandbox that simulates the real API as closely as
 #### Url: https://test.target365.io/
 
 ### Production Environment
-Our production environment is a mix of per-tenant isolated environments and a shared common environment. Contact <support@target365.no> if you're interested in an isolated per-tenant environment.
+Our production environment is a mix of per-tenant isolated environments and a shared common environment. Contact <sdk@strex.no> if you're interested in an isolated per-tenant environment.
 
 #### Url: https://shared.target365.io/
 
 ### Authors and maintainers
-Target365 (<support@target365.no>)
+Target365 (<sdk@strex.no>)
 
 ### Issues / Bugs / Questions
 Please feel free to raise an issue against this repository if you have any questions or problems.
@@ -36,7 +36,7 @@ parts.
 
 ### Contributing
 New contributors to this project are welcome. If you are interested in contributing please
-send an email to support@target365.no.
+send an email to sdk@strex.no.
 
 ### Automated Test
 Automated tests use PHPUnit framework. Here are some suggested steps to run
