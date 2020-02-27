@@ -5,10 +5,50 @@ Strex AS is a Norwegian payment and SMS gateway (Strex Connect) provider. Strex 
 [![License](https://img.shields.io/github/license/Target365/sdk-for-net.svg?style=flat)](https://opensource.org/licenses/MIT)
 
 ### Getting started
-To get started please send us an email at <sdk@strex.no> containing your RSA public key in DER(ANS.1) format.
-If you want, you can generate your RSA public/private key-pair here: <https://8gwifi.org/sshfunctions.jsp>
+To get started please send us an email at <sdk@strex.no> containing your RSA public key in PEM-format.
+You can generate your RSA public/private key-pair using openssl like this:
+```
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:1024 -out private.pem
+```
+Use openssl to convert it to pk8 format which PHP uses.
+```
+openssl pkcs8 -topk8 -inform pem -in private.pem -outform pem -nocrypt -out private.key
+```
+The file `private.key` should look something like this:
+```
+-----BEGIN PRIVATE KEY-----
+MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAML6duyE7hL2XPEH
+qiYtyghoj6pO21zGPwSaBKTCg6i3AeJ4Ob6pCnvYQA+rRfw/+aBfT+Rv3LTSmX2i
+9bAsLQB0Q3y8zku2NmqE/yoqhb9GAhL3toMasBuJ3ifvUOXTajtGEKy++YkAkRBK
+7Wi/bK/IQNZd9nsOtKxz5DXNELbHAgMBAAECgYAj6k8Nsk7IX2kvXOIStkyIz/nm
+vS/bHwlsp5JDZzEpWsyWEt9QJ4Mu3N6wBDSYCpDI4cWtpo1ZIZH0epgXI4wGPv2j
+a6ilWZywUdhFZw1AUc3qLRoapqIPliimLhxPWmV2OfvbA4LiNvWGsF/qTaqVQ/0V
+ebj+JYjJdFQcTjqlwQJBAOpKQ/EyuzDlO7YVPmw0rAfVRfVqTIvzpZ3hGThztcnQ
+igI3ftbGSOPUcter3/cX5ENrIGMP6hLsWqSKWECBwK0CQQDVC6mVkrit/VXby2Zp
+8epgprGhrUHojNO7ojQQN1Mupr4AHUWr2Y3xJH1uXaOjafBc6uLK7Cri3eLru+iy
+Ph/DAkBLG/fgEVV1fWfBHdpfMhucf0DoRmW30CpeDNXbBS1YP6SexU/CZtrjPy55
++b3ZJy2kd2lwmJ9/5YnBiiB0vaQZAkEAuTgPcrOBjfqu94zpd/hTTT3/NtGbeGNe
+/UTywJpo3iknDJBmbxaQOfMAfcA5MSw8RXwMOmGCk4RW8Z2Hm9c44wJBAJvIcnMV
+6b2G6pizPPjoPhV+eNruWTyFt5ralEmxDpqV3p4TP89KVvaBlkzlT28p1P9vp5bD
+J6BLhdOAUfC3CMY=
+-----END PRIVATE KEY-----
+```
 
-Check out our [PHP User Guide](USERGUIDE.md)
+Use this openssl command to extract the public key:
+```
+openssl rsa -in private.key -pubout -out public.key
+```
+You can then send us the `public.key` file. The file should look something like this:
+```
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC+nbshO4S9lzxB6omLcoIaI+q
+Tttcxj8EmgSkwoOotwHieDm+qQp72EAPq0X8P/mgX0/kb9y00pl9ovWwLC0AdEN8
+vM5LtjZqhP8qKoW/RgIS97aDGrAbid4n71Dl02o7RhCsvvmJAJEQSu1ov2yvyEDW
+XfZ7DrSsc+Q1zRC2xwIDAQAB
+-----END PUBLIC KEY-----
+```
+
+For more details on using the SDK we strongly suggest you check out our [PHP User Guide](USERGUIDE.md).
 
 ### Composer
 ```
