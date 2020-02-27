@@ -155,6 +155,9 @@ $reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transa
 
 ### One-time transaction
 This example sets up a simple one-time transaction for one-click. After creation you can redirect the end-user to the one-click landing page by redirecting to http://betal.strex.no/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for PROD and http://test-strex.target365.io/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for TEST-environment.
+
+If the MSISDN can't be determined automatically on the landing page the end user will have to enter the MSISDN and will receice an SMS with a pin-code that must be entered. Entering the pin-code can be attempted only 3 times before the transaction is abandoned and the end user is redirected back to the redirectUrl.
+
 ![one-time sequence](https://github.com/Target365/sdk-for-php/raw/master/oneclick-simple-transaction-flow.png "One-time sequence diagram")
 
 ```PHP
