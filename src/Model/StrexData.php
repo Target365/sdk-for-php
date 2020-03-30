@@ -11,6 +11,8 @@ class StrexData extends AbstractModel
     protected $merchantId;
     protected $serviceCode;
     protected $businessModel;
+    protected $age;
+    protected $isRestricted;
     protected $smsConfirmation;
     protected $invoiceText;
     protected $price;
@@ -24,6 +26,8 @@ class StrexData extends AbstractModel
             'merchantId',
             'serviceCode',
             'businessModel',
+            'age',
+            'isRestricted',
             'smsConfirmation',
             'invoiceText',
             'price',
@@ -71,6 +75,28 @@ class StrexData extends AbstractModel
     public function setBusinessModel(?string $businessModel): self
     {
         $this->businessModel = $businessModel;
+        return $this;
+    }
+
+    public function getAge(): ?int
+    {
+        return $this->age;
+    }
+
+    public function setAge(?int $age): self
+    {
+        $this->age = $age;
+        return $this;
+    }
+
+    public function getIsRestricted(): ?bool
+    {
+        return $this->isRestricted;
+    }
+
+    public function setIsRestricted(?int $isRestricted): self
+    {
+        $this->isRestricted = $isRestricted;
         return $this;
     }
 

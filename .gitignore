@@ -2,3 +2,6 @@ composer.lock
 vendor/
 tests/secrets.yml
 tests/.vagrant
+/.vs
+/psalm.xml
+/runtests.bat

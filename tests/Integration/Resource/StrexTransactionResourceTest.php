@@ -20,12 +20,11 @@ class StrexTransactionResourceTest extends AbstractTestCase
         $strexTransaction
             ->setTransactionId(str_replace('.', '-', uniqid((string) time(), true)))
             ->setInvoiceText('Thank you for your donation')
-            ->setMerchantId('mer_test')
+            ->setMerchantId('mer_target365_as')
             ->setPrice(10)
             ->setRecipient('+4798079008')
             ->setServiceCode('14002')
-            ->setShortNumber('2001');
-
+            ->setShortNumber('0000');
 
         $identifier = $apiClient->strexTransactionResource()->post($strexTransaction);
 

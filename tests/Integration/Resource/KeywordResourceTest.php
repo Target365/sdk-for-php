@@ -27,7 +27,7 @@ class KeywordResourceTest extends AbstractTestCase
 
         $identifier = $apiClient->keywordResource()->post($keyword);
 
-        $this->assertTrue(is_numeric($identifier));
+        $this->assertTrue($identifier != null);
 
         return $identifier;
     }
