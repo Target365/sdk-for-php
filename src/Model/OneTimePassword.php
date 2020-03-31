@@ -14,6 +14,8 @@ class OneTimePassword extends AbstractModel
     protected $recipient;
     protected $sender;
     protected $recurring;
+    protected $messagePrefix;
+    protected $messageSuffix;
     protected $message;
     protected $timeToLive;
     protected $created;
@@ -27,6 +29,8 @@ class OneTimePassword extends AbstractModel
             'recipient',
             'sender',
             'recurring',
+            'messagePrefix',
+            'messageSuffix',
             'message',
             'timeToLive',
             'created',
@@ -94,6 +98,28 @@ class OneTimePassword extends AbstractModel
     public function setRecurring(bool $recurring): self
     {
         $this->recurring = $recurring;
+        return $this;
+    }
+
+    public function getMessagePrefix(): ?string
+    {
+        return $this->messagePrefix;
+    }
+
+    public function setMessagePrefix(?string $messagePrefix): self
+    {
+        $this->messageSuffix = $messageSuffix;
+        return $this;
+    }
+
+    public function getMessageSuffix(): ?string
+    {
+        return $this->messageSuffix;
+    }
+
+    public function setMessageSuffix(?string $messageSuffix): self
+    {
+        $this->messageSuffix = $messageSuffix;
         return $this;
     }
 
