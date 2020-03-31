@@ -96,7 +96,12 @@ $apiClient->outMessageResource()->delete($transactionId);
 
 ### Create a Strex payment transaction
 This example creates a 1 NOK Strex payment transaction that the end user will confirm by replying "OK" to an SMS from Strex.
+You can use message_prefix and message_suffix custom properties to influence the start and end of the SMS sent by Strex.
 ```PHP
+$properties = new Properties();
+$properties->message_prefix = "Dear customer...";
+$properties->message_suffix = "Best regards...";
+
 $transaction = new StrexTransaction();
 
 $transaction
@@ -107,13 +112,15 @@ $transaction
     ->setPrice(1)
     ->setServiceCode('14002')
     ->setInvoiceText('Donation test')
-    ->setSmsConfirmation(true);
+    ->setSmsConfirmation(true)
+    ->setProperties($properties);
 
 $apiClient->strexTransactionResource()->post($transaction);
 ```
 
 ### Create a Strex payment transaction with one-time password
 This example creates a Strex one-time password sent to the end user and get completes the payment by using the one-time password.
+You can use MessagePrefix and MessageSuffix to influence the start and end of the SMS sent by Strex.
 ```PHP
 $transactionId = uniqid((string) time(), true);
 
@@ -124,6 +131,8 @@ $oneTimePassword
     ->setSender('Target365')
     ->setRecipient('+4798079008')
     ->setMerchantId('YOUR_MERCHANT_ID')
+    ->setMessagePrefix('Dear customer...')
+    ->setMessageSuffix('Best regards...')
     ->setRecurring(false);
     
 $apiClient->oneTimePasswordResource()->post($oneTimePassword);
