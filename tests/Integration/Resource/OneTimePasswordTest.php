@@ -19,6 +19,8 @@ class OneTimePasswordTest extends AbstractTestCase
             ->setMerchantId('mer_test')
             ->setRecipient('+4798079008')
             ->setSender('Test')
+            ->setMessagePrefix('prefix')
+            ->setMessageSuffix('suffix')
             ->setRecurring(false);
 
         $apiClient->oneTimePasswordResource()->post($oneTimePassword);
@@ -39,5 +41,10 @@ class OneTimePasswordTest extends AbstractTestCase
         
         $this->assertEquals($identifier, $oneTimePassword->getTransactionId());
         $this->assertEquals('mer_test', $oneTimePassword->getMerchantId());
+        $this->assertEquals('+4798079008', $oneTimePassword->getRecipient());
+        $this->assertEquals('Test', $oneTimePassword->getSender());
+        $this->assertEquals('prefix', $oneTimePassword->getMessagePrefix());
+        $this->assertEquals('suffix', $oneTimePassword->getMessageSuffix());
+        $this->assertEquals(false, $oneTimePassword->getRecurring());
     }
 }

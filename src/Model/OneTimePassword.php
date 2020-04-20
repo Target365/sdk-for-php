@@ -108,7 +108,7 @@ class OneTimePassword extends AbstractModel
 
     public function setMessagePrefix(?string $messagePrefix): self
     {
-        $this->messageSuffix = $messageSuffix;
+        $this->messagePrefix = $messagePrefix;
         return $this;
     }
 
