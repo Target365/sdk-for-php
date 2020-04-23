@@ -53,6 +53,11 @@ abstract class AbstractModel
                 continue;
             }
 
+            if ($value instanceof AbstractModel) {
+                $normalizedData[$attribute] = $value->normalize();
+                continue;
+            }
+
             if ($value instanceof Properties) {
                 $normalizedData[$attribute] = $value->toArray();
                 continue;
