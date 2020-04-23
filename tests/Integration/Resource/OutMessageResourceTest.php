@@ -6,6 +6,7 @@ namespace Target365\ApiSdk\Tests\Integration\Resource;
 
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
 use Target365\ApiSdk\Model\OutMessage;
+use Target365\ApiSdk\Model\StrexData;
 use Target365\ApiSdk\Model\Properties;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
@@ -127,6 +128,37 @@ class OutMessageResourceTest extends AbstractTestCase
         $this->assertTrue(in_array('bar', $outMessage->getTags()));
         
         return $outMessage;
+    }
+
+    public function testPostWithStrexData()
+    {
+        $strex = new StrexData();
+        $strex
+          ->setInvoiceText('Thank you for your donation')
+          ->setMerchantId('mer_target365_as')
+          ->setAge(18)
+          ->setPrice(10)
+          ->setServiceCode('14002');
+
+        $apiClient = $this->getApiClient();
+
+        $outMessage = new OutMessage();
+
+        $outMessage
+            ->setSender('0000')
+            ->setRecipient('+4798079008')
+            ->setContent('Hi, this is the message :)')
+            ->setSendTime($this->getSendTime())
+            ->setTimeToLive(120)
+            ->setPriority('Normal')
+            ->setDeliveryMode('AtMostOnce')
+            ->setStrex($strex);
+
+        $transactionId = $apiClient->outMessageResource()->post($outMessage);
+
+        $this->assertTrue($transactionId != null);
+
+        return $transactionId;
     }
 
     /**
