@@ -16,6 +16,7 @@ class StrexData extends AbstractModel
     protected $smsConfirmation;
     protected $invoiceText;
     protected $price;
+    protected $timeout;
     protected $billed;
     protected $resultCode;
     protected $resultDescription;
@@ -31,6 +32,7 @@ class StrexData extends AbstractModel
             'smsConfirmation',
             'invoiceText',
             'price',
+            'timeout',
             'billed',
             'resultCode',
             'resultDescription',
@@ -130,6 +132,17 @@ class StrexData extends AbstractModel
     public function setPrice(float $price): self
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function getTimeout(): ?int
+    {
+        return $this->timeout;
+    }
+
+    public function setTimeout(?int $timeout): self
+    {
+        $this->timeout = $timeout;
         return $this;
     }
 

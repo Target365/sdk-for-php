@@ -22,6 +22,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
             ->setInvoiceText('Thank you for your donation')
             ->setMerchantId('mer_target365_as')
             ->setPrice(10)
+            ->setTimeout(10)
             ->setRecipient('+4798079008')
             ->setServiceCode('14002')
             ->setShortNumber('0000');
@@ -45,6 +46,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
         $this->assertInstanceOf(StrexTransaction::class, $strexTransaction);
 
         $this->assertEquals($identifier, $strexTransaction->getTransactionId());
+        $this->assertEquals(10, $strexTransaction->getTimeout());
 
         return $strexTransaction;
     }

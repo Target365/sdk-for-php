@@ -138,6 +138,7 @@ class OutMessageResourceTest extends AbstractTestCase
           ->setMerchantId('mer_target365_as')
           ->setAge(18)
           ->setPrice(10)
+          ->setTimeout(10)
           ->setServiceCode('14002');
 
         $apiClient = $this->getApiClient();
