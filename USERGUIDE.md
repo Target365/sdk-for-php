@@ -13,7 +13,8 @@
     * [Create a Strex payment transaction](#create-a-strex-payment-transaction)
     * [Create a Strex payment transaction with one-time password](#create-a-strex-payment-transaction-with-one-time-password)
     * [Reverse a Strex payment transaction](#reverse-a-strex-payment-transaction)
-* [One-click transactions](#one-click-transactions)
+* [One-click](#one-click)
+    * [One-click config](#one-click-config)
     * [One-time transaction](#one-time-transaction)
     * [Setup subscription transaction](#setup-subscription-transaction)
     * [Recurring transaction](#recurring-transaction)
@@ -160,7 +161,30 @@ This example reverses a previously billed Strex payment transaction. The origina
 $reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transaction);
 ```
 
-## One-click transactions
+## One-click
+
+### One-click config
+This example sets up a one-click config which makes it easier to handle campaigns in one-click where most properties like merchantId, price et cetera are known in advance. You can redirect the end-user to the one-click campaign page by redirecting to http://betal.strex.no/{YOUR-CONFIG-ID} for PROD and http://test-strex.target365.io/{YOUR-CONFIG-ID} for TEST-environment. You can also set the TransactionId by adding ?id={YOUR-TRANSACTION-ID} to the URL.
+
+```PHP
+$config = new OneClickConfig();
+
+$config
+    ->setConfigId('APITEST')
+    ->setShortNumber('2002')
+    ->setPrice(99)
+    ->setMerchantId('YOUR_MERCHANT_ID')
+    ->setServiceCode('14002')
+    ->setInvoiceText('Donation test')
+    ->setOnlineText('Buy directly')
+    ->setOfflineText('Buy with PIN-code')
+    ->setRedirectUrl('https://your-return-url.com?id={TransactionId}') // {TransactionId} is replaced by actual transaction id
+    ->setRecurring(false)
+    ->setIsRestricted(false)
+    ->setAge(0);
+
+$apiClient->oneClickConfigResource()->put($config);
+```
 
 ### One-time transaction
 This example sets up a simple one-time transaction for one-click. After creation you can redirect the end-user to the one-click landing page by redirecting to http://betal.strex.no/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for PROD and http://test-strex.target365.io/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for TEST-environment.
@@ -188,6 +212,7 @@ $apiClient->strexTransactionResource()->post($transaction);
 
 // TODO: Redirect end-user to one-click landing page
 ```
+
 ### Setup subscription transaction
 This example sets up a subscription transaction for one-click. After creation you can redirect the end-user to the one-click landing page by redirecting to http://betal.strex.no/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for PROD and http://strex-test.target365.io/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for TEST-environment.
 ![subscription sequence](https://github.com/Target365/sdk-for-php/raw/master/oneclick-subscription-flow.png "Subscription sequence diagram")
