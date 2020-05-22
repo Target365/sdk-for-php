@@ -170,7 +170,7 @@ This example sets up a one-click config which makes it easier to handle campaign
 $config = new OneClickConfig();
 
 $config
-    ->setConfigId('APITEST')
+    ->setConfigId('YOUR_CONFIG_ID')
     ->setShortNumber('2002')
     ->setPrice(99)
     ->setMerchantId('YOUR_MERCHANT_ID')
