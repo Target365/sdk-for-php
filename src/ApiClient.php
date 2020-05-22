@@ -16,6 +16,7 @@ use Target365\ApiSdk\Resource\OutMessageResource;
 use Target365\ApiSdk\Resource\ServerPublicKeyResource;
 use Target365\ApiSdk\Resource\StrexMerchantResource;
 use Target365\ApiSdk\Resource\StrexTransactionResource;
+use Target365\ApiSdk\Resource\OneClickConfigResource;
 
 class ApiClient
 {
@@ -86,6 +87,7 @@ class ApiClient
                 'oneTimePassword',
                 'clientPublicKey',
                 'serverPublicKey',
+                'oneClickConfig',
             ] as $resource
         ) {
             $fqns = '\\Target365\\ApiSdk\\Resource\\' . ucfirst($resource) . 'Resource';
@@ -136,6 +138,11 @@ class ApiClient
     public function serverPublicKeyResource(): ServerPublicKeyResource
     {
         return $this->resources['serverPublicKey'];
+    }
+
+    public function oneClickConfigResource(): OneClickConfigResource
+    {
+        return $this->resources['oneClickConfig'];
     }
 
     protected function log($logEntryTitle, $value, $logLevel = LogLevel::DEBUG)
