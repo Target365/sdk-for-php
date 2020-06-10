@@ -17,6 +17,7 @@ use Target365\ApiSdk\Resource\ServerPublicKeyResource;
 use Target365\ApiSdk\Resource\StrexMerchantResource;
 use Target365\ApiSdk\Resource\StrexTransactionResource;
 use Target365\ApiSdk\Resource\OneClickConfigResource;
+use Target365\ApiSdk\Resource\StrexRegistrationSmsResource;
 
 class ApiClient
 {
@@ -88,6 +89,7 @@ class ApiClient
                 'clientPublicKey',
                 'serverPublicKey',
                 'oneClickConfig',
+                'strexRegistrationSms',
             ] as $resource
         ) {
             $fqns = '\\Target365\\ApiSdk\\Resource\\' . ucfirst($resource) . 'Resource';
@@ -143,6 +145,11 @@ class ApiClient
     public function oneClickConfigResource(): OneClickConfigResource
     {
         return $this->resources['oneClickConfig'];
+    }
+
+    public function strexRegistrationSmsResource(): StrexRegistrationSmsResource
+    {
+        return $this->resources['strexRegistrationSms'];
     }
 
     protected function log($logEntryTitle, $value, $logLevel = LogLevel::DEBUG)

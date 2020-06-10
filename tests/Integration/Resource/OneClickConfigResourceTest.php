@@ -19,7 +19,7 @@ class OneClickConfigResourceTest extends AbstractTestCase
 				->setConfigId('APITEST')
 				->setShortNumber('0000')
 				->setPrice(99)
-				->setMerchantId('mer_target365_as')
+				->setMerchantId('mer_test')
 				->setBusinessModel('STREX-PAYMENT')
 				->setServiceCode('14002')
 				->setInvoiceText('Donation test')

@@ -5,3 +5,5 @@ tests/.vagrant
 /.vs
 /psalm.xml
 /runtests.bat
+/node_modules
+/package-lock.json
