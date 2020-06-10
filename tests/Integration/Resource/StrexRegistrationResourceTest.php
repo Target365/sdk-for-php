@@ -5,9 +5,10 @@ declare(strict_types = 1);
 namespace Target365\ApiSdk\Tests\Integration\Resource;
 
 use Target365\ApiSdk\Model\StrexRegistrationSms;
+use Target365\ApiSdk\Model\UserValidity;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
-class StrexRegistrationSmsResourceTest extends AbstractTestCase
+class StrexRegistrationResourceTest extends AbstractTestCase
 {
     public function testPost()
     {
@@ -21,8 +22,17 @@ class StrexRegistrationSmsResourceTest extends AbstractTestCase
             ->setRecipient('+4798079008')
 				    ->setSmsText('Please register.');
 
-        $identifier = $apiClient->strexRegistrationSmsResource()->post($registrationSms);
+        $identifier = $apiClient->strexRegistrationResource()->post($registrationSms);
 
         $this->assertEquals($registrationSms->getTransactionId(), $identifier);
     }
+
+    public function testUserValidity()
+    {
+        $apiClient = $this->getApiClient();
+
+        $validity = $apiClient->strexRegistrationResource()->getUserValidity('mer_test', '+4798079008');
+
+        $this->assertEquals(UserValidity::FULL, $validity);
+		}
 }

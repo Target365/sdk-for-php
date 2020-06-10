@@ -48,6 +48,17 @@ abstract class AbstractResource
         return \GuzzleHttp\json_decode($response->getBody()->__toString(), true);
     }
 
+    /**
+     * @param ResponseInterface $response
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    protected function decodeResponseJsonString(ResponseInterface $response): ?string
+    {
+        $json = '{"result":' . $response->getBody()->__toString(). '}';
+        return \GuzzleHttp\json_decode($json, true)['result'];
+    }
+
     protected function instantiateModel(array $data): AbstractModel
     {
         $fqns = $this->getResourceModelFqns();

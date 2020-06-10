@@ -8,7 +8,7 @@ use Target365\ApiSdk\Exception\ResourceMethodNotAvailableException;
 use Target365\ApiSdk\Model\AbstractModel;
 use Target365\ApiSdk\Model\StrexRegistrationSms;
 
-class StrexRegistrationSmsResource extends AbstractCrudResource
+class StrexRegistrationResource extends AbstractCrudResource
 {
     protected function getResourceUri(): string
     {
@@ -28,6 +28,13 @@ class StrexRegistrationSmsResource extends AbstractCrudResource
         $response = $this->apiClient->request('post', $uri, $normalizedData);
         return $model->getIdentifier();
     }
+
+    public function getUserValidity(string $merchantId, string $recipient): string
+    {
+        $uri = 'strex/validity?recipient=' . urlencode($recipient) . '&merchantId=' . urlencode($merchantId);
+        $response = $this->apiClient->request('get', $uri);
+        return $this->decodeResponseJsonString($response);
+		}
 
     public function list(): array
     {

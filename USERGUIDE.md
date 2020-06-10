@@ -13,6 +13,7 @@
     * [Create a Strex payment transaction](#create-a-strex-payment-transaction)
     * [Create a Strex payment transaction with one-time password](#create-a-strex-payment-transaction-with-one-time-password)
     * [Reverse a Strex payment transaction](#reverse-a-strex-payment-transaction)
+    * [Check Strex registration status](#check-strex-registration-status)
     * [Send Strex registration SMS](#send-strex-registration-sms)
 * [One-click](#one-click)
     * [One-click config](#one-click-config)
@@ -160,6 +161,11 @@ $apiClient->strexTransactionResource()->post($transaction);
 This example reverses a previously billed Strex payment transaction. The original transaction will not change, but a reversal transaction will be created that counters the previous transaction by a negative Price. The reversal is an asynchronous operation that usually takes a few seconds to finish.
 ```PHP
 $reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transaction);
+```
+### Check Strex registration status
+This example checks to the the Strex registration level for an end user. User validity is either Unregistered, Partial, Full or Barred. Some service codes and high amounts requires full registration.
+```PHP
+$validity = $apiClient->strexRegistrationResource()->getUserValidity('YOUR_MERCHANT_ID', '+4798079008');
 ```
 
 ### Send Strex registration SMS
