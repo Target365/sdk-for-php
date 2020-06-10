@@ -165,15 +165,13 @@ $reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transa
 ### Send Strex registration SMS
 This example sends a Strex registration SMS to an end user. Strex end user registration is required for some service codes and high amounts.
 ```PHP
-$reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transaction);
-$transactionId = str_replace('.', '-', uniqid((string) time(), true));
 $registrationSms = new StrexRegistrationSms();
 
 $registrationSms
-		->setMerchantId('YOUR_MERCHANT_ID')
-		->setTransactionId('YOUR_TRANSACTION_ID')
-    ->setRecipient('+4798079008')
-		->setSmsText('Please register.');
+	->setMerchantId('YOUR_MERCHANT_ID')
+	->setTransactionId('YOUR_TRANSACTION_ID')
+	->setRecipient('+4798079008')
+	->setSmsText('Please register.');
 
 $apiClient->strexRegistrationSmsResource()->post($registrationSms);
 ```
