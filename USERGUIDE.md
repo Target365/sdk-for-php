@@ -160,7 +160,7 @@ $apiClient->strexTransactionResource()->post($transaction);
 ### Reverse a Strex payment transaction
 This example reverses a previously billed Strex payment transaction. The original transaction will not change, but a reversal transaction will be created that counters the previous transaction by a negative Price. The reversal is an asynchronous operation that usually takes a few seconds to finish.
 ```PHP
-$reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transaction);
+$reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transactionId);
 ```
 ### Check Strex registration status
 This example checks to the the Strex registration level for an end user. User validity is either Unregistered, Partial, Full or Barred. Some service codes and high amounts requires full registration.
