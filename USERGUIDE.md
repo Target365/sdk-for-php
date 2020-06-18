@@ -7,6 +7,7 @@
 * [Text messages](#text-messages)
     * [Send an SMS](#send-an-sms)
     * [Schedule an SMS for later sending](#schedule-an-sms-for-later-sending)
+    * [Send a Payment SMS](#send-a-payment-sms)
     * [Edit a scheduled SMS](#edit-a-scheduled-sms)
     * [Delete a scheduled SMS](#delete-a-scheduled-sms)
 * [Payment transactions](#payment-transactions)
@@ -76,6 +77,31 @@ $outMessage
     ->setRecipient('+4798079008')
     ->setContent('Hello World from SMS!')
     ->setSendTime($sendTime);
+
+$apiClient->outMessageResource()->post($outMessage);
+```
+
+### Send a Payment SMS
+This example sends a donation payment SMS that costs 10 NOK.
+```PHP
+$strex = new StrexData();
+
+$strex
+    ->setInvoiceText('Thank you for your donation')
+    ->setMerchantId('YOUR_MERCHANT_ID')
+    ->setAge(18)
+    ->setPrice(10)
+    ->setTimeout(10)
+    ->setServiceCode('14002');
+
+$outMessage = new OutMessage();
+
+$outMessage
+    ->setTransactionId(uniqid((string) time(), true))
+    ->setSender('Target365')
+    ->setRecipient('+4798079008')
+    ->setContent('This message costs 10 NOK.');
+    ->setStrex($strex);
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
