@@ -122,6 +122,7 @@ $apiClient->outMessageResource()->delete($transactionId);
 ```
 
 ## Payment transactions
+If your service requires a minimum age of the End User, each payment transaction should be defined with minimum age. Both StrexTransaction and OutMessage have a property named “Age”. If not set or present in the request, there is no age limit.
 
 ### Create a Strex payment transaction
 This example creates a 1 NOK Strex payment transaction that the end user will confirm by replying "OK" to an SMS from Strex.
