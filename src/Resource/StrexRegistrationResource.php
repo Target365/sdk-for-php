@@ -34,7 +34,7 @@ class StrexRegistrationResource extends AbstractCrudResource
         $uri = 'strex/validity?recipient=' . urlencode($recipient) . '&merchantId=' . urlencode($merchantId);
         $response = $this->apiClient->request('get', $uri);
         return $this->decodeResponseJsonString($response);
-		}
+    }
 
     public function list(): array
     {
@@ -48,6 +48,6 @@ class StrexRegistrationResource extends AbstractCrudResource
 
     public function delete(string $identifier): void
     {
-        throw new ResourceMethodNotAvailableException();    
-		}
+        throw new ResourceMethodNotAvailableException();
+    }
 }
