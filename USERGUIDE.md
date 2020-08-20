@@ -211,6 +211,14 @@ $apiClient->strexRegistrationSmsResource()->post($registrationSms);
 
 ## One-click
 
+Please note:
+
+* The OneClick service will not stop same MSISDN to order several times as long as transactionID is unique. If end users order or subscribe several time to same service it is merchants responsibility to refund end user.
+
+* Recurring billing is initiated by merchants, see section Create Strextransaction for more info.
+
+* The final redirect happens in end user's browser, meaning we do not see final result on same. We recommend merchants to include a unique parameter in each forward to OneClick and do lookup on them not redirected to ensure success or failure.
+
 ### One-click config
 This example sets up a one-click config which makes it easier to handle campaigns in one-click where most properties like merchantId, price et cetera are known in advance. You can redirect the end-user to the one-click campaign page by redirecting to http://betal.strex.no/{YOUR-CONFIG-ID} for PROD and http://test-strex.target365.io/{YOUR-CONFIG-ID} for TEST-environment. You can also set the TransactionId by adding ?id={YOUR-TRANSACTION-ID} to the URL.
 
