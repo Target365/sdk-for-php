@@ -257,4 +257,14 @@ class OutMessageResourceTest extends AbstractTestCase
         $apiClient->outMessageResource()->put($outMessage);
         $this->assertTrue(true);
     }
+
+    public function testGetExport()
+    {
+        $apiClient = $this->getApiClient();
+        $from = new DateTimeAttribute('2020-08-20T00:00:00+00:00');
+        $to = new DateTimeAttribute('2020-08-21T00:00:00+00:00');
+        $csv = $apiClient->outMessageResource()->getExport($from, $to);
+        $find = 'SendTime,Sender,Recipient,MessageParts,StatusCode,DetailedStatusCode,Operator,Tags';
+        $this->assertEquals(0, substr_compare($csv, $find, 0, strlen($find)));
+    }
 }
