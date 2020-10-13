@@ -206,7 +206,7 @@ $registrationSms
 	->setRecipient('+4798079008')
 	->setSmsText('Please register.');
 
-$apiClient->strexRegistrationSmsResource()->post($registrationSms);
+$apiClient->strexRegistrationResource()->post($registrationSms);
 ```
 
 ## One-click
