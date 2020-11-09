@@ -17,7 +17,7 @@ class StrexRegistrationResourceTest extends AbstractTestCase
         $registrationSms = new StrexRegistrationSms();
 
         $registrationSms
-				    ->setMerchantId('mer_test')
+				    ->setMerchantId('mer_test_target365')
 				    ->setTransactionId($transactionId)
             ->setRecipient('+4798079008')
 				    ->setSmsText('Please register.');
@@ -31,7 +31,7 @@ class StrexRegistrationResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $validity = $apiClient->strexRegistrationResource()->getUserValidity('mer_test', '+4798079008');
+        $validity = $apiClient->strexRegistrationResource()->getUserValidity('mer_test_target365', '+4798079008');
 
         $this->assertEquals(UserValidity::FULL, $validity);
 		}

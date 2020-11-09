@@ -216,7 +216,7 @@ class OneClickConfig extends AbstractModel
         return $this;
     }
 
-    public function getSubscriptionPrice(): float
+    public function getSubscriptionPrice(): ?float
     {
         return $this->subscriptionPrice;
     }
@@ -227,7 +227,7 @@ class OneClickConfig extends AbstractModel
         return $this;
     }
 
-    public function getSubscriptionInterval(): string
+    public function getSubscriptionInterval(): ?string
     {
         return $this->subscriptionInterval;
     }
@@ -238,7 +238,7 @@ class OneClickConfig extends AbstractModel
         return $this;
     }
 
-	public function getSubscriptionStartSms(): string
+	public function getSubscriptionStartSms(): ?string
     {
         return $this->subscriptionStartSms;
     }

@@ -126,7 +126,7 @@ class OutMessageResourceTest extends AbstractTestCase
         $this->assertEquals(123, $outMessage->getProperties()->intValue);
         $this->assertTrue(in_array('foo', $outMessage->getTags()));
         $this->assertTrue(in_array('bar', $outMessage->getTags()));
-        
+
         return $outMessage;
     }
 
@@ -135,7 +135,7 @@ class OutMessageResourceTest extends AbstractTestCase
         $strex = new StrexData();
         $strex
           ->setInvoiceText('Thank you for your donation')
-          ->setMerchantId('mer_test')
+          ->setMerchantId('mer_test_target365')
           ->setAge(18)
           ->setPrice(10)
           ->setTimeout(10)
@@ -187,7 +187,7 @@ class OutMessageResourceTest extends AbstractTestCase
      * @depends testPut
      */
     public function testDelete(OutMessage $outMessage)
-    {        
+    {
         $apiClient = $this->getApiClient();
 
         $apiClient->outMessageResource()->delete($outMessage->getTransactionId());
@@ -208,7 +208,7 @@ class OutMessageResourceTest extends AbstractTestCase
 
         // This should 404 as it should have been deleted
         $result = $apiClient->outMessageResource()->get($outMessage->getTransactionId());
-        
+
         $this.assertEquals($result, null);
     }
 
@@ -264,7 +264,7 @@ class OutMessageResourceTest extends AbstractTestCase
         $from = new DateTimeAttribute('2020-08-20T00:00:00+00:00');
         $to = new DateTimeAttribute('2020-08-21T00:00:00+00:00');
         $csv = $apiClient->outMessageResource()->getExport($from, $to);
-        $find = 'SendTime,Sender,Recipient,MessageParts,StatusCode,DetailedStatusCode,Operator,Tags';
+        $find = 'SendTime,Sender,Recipient,RecipientPrefix,MessageParts,StatusCode,DetailedStatusCode,Operator,Tags';
         $this->assertEquals(0, substr_compare($csv, $find, 0, strlen($find)));
     }
 }

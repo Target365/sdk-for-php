@@ -20,7 +20,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
         $strexTransaction
             ->setTransactionId(str_replace('.', '-', uniqid((string) time(), true)))
             ->setInvoiceText('Thank you for your donation')
-            ->setMerchantId('mer_test')
+            ->setMerchantId('mer_test_target365')
             ->setPrice(10)
             ->setTimeout(10)
             ->setRecipient('+4798079008')
@@ -74,7 +74,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
         $apiClient = $this->getApiClient();
 
         $reverseTransaction = $apiClient->strexTransactionResource()->get($reversalId);
-        
+
         $this->assertInstanceOf(StrexTransaction::class, $reverseTransaction);
         $this->assertEquals($reverseTransaction->getStatusCode(), StatusCodes::REVERSED);
     }

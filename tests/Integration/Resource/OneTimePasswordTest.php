@@ -8,7 +8,7 @@ use Target365\ApiSdk\Model\OneTimePassword;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
 class OneTimePasswordTest extends AbstractTestCase
-{    
+{
     public function testPost()
     {
         $apiClient = $this->getApiClient();
@@ -16,7 +16,7 @@ class OneTimePasswordTest extends AbstractTestCase
         $oneTimePassword = new OneTimePassword();
         $oneTimePassword
             ->setTransactionId(str_replace('.', '-', uniqid((string) time(), true)))
-            ->setMerchantId('mer_test')
+            ->setMerchantId('mer_test_target365')
             ->setRecipient('+4798079008')
             ->setSender('Test')
             ->setMessagePrefix('prefix')
@@ -26,7 +26,7 @@ class OneTimePasswordTest extends AbstractTestCase
         $apiClient->oneTimePasswordResource()->post($oneTimePassword);
 
         $this->assertTrue(true);
-        
+
         return $oneTimePassword->getTransactionId();
     }
 
@@ -36,11 +36,11 @@ class OneTimePasswordTest extends AbstractTestCase
     public function testGet($identifier)
     {
         $apiClient = $this->getApiClient();
-        
+
         $oneTimePassword = $apiClient->oneTimePasswordResource()->get($identifier);
-        
+
         $this->assertEquals($identifier, $oneTimePassword->getTransactionId());
-        $this->assertEquals('mer_test', $oneTimePassword->getMerchantId());
+        $this->assertEquals('mer_test_target365', $oneTimePassword->getMerchantId());
         $this->assertEquals('+4798079008', $oneTimePassword->getRecipient());
         $this->assertEquals('Test', $oneTimePassword->getSender());
         $this->assertEquals('prefix', $oneTimePassword->getMessagePrefix());
