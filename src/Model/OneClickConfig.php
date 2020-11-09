@@ -22,6 +22,9 @@ class OneClickConfig extends AbstractModel
     protected $isRestricted;
     protected $invoiceText;
     protected $price;
+    protected $subscriptionPrice;
+    protected $subscriptionInterval;
+    protected $subscriptionStartSms;
     protected $timeout;
     protected $created;
     protected $lastModified;
@@ -42,6 +45,9 @@ class OneClickConfig extends AbstractModel
             'isRestricted',
             'invoiceText',
             'price',
+            'subscriptionPrice',
+            'subscriptionInterval',
+            'subscriptionStartSms',
             'timeout',
             'created',
             'lastModified',
@@ -99,7 +105,7 @@ class OneClickConfig extends AbstractModel
         $this->serviceCode = $serviceCode;
         return $this;
     }
-    
+
     public function getBusinessModel(): ?string
     {
         return $this->businessModel;
@@ -207,6 +213,39 @@ class OneClickConfig extends AbstractModel
     public function setPrice(float $price): self
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function getSubscriptionPrice(): float
+    {
+        return $this->subscriptionPrice;
+    }
+
+    public function setSubscriptionPrice(float $subscriptionPrice): self
+    {
+        $this->subscriptionPrice = $subscriptionPrice;
+        return $this;
+    }
+
+    public function getSubscriptionInterval(): string
+    {
+        return $this->subscriptionInterval;
+    }
+
+    public function setSubscriptionInterval(string $subscriptionInterval): self
+    {
+        $this->subscriptionInterval = $subscriptionInterval;
+        return $this;
+    }
+
+	public function getSubscriptionStartSms(): string
+    {
+        return $this->subscriptionStartSms;
+    }
+
+    public function setSubscriptionStartSms(string $subscriptionStartSms): self
+    {
+        $this->setSubscriptionStartSms = $subscriptionStartSms;
         return $this;
     }
 

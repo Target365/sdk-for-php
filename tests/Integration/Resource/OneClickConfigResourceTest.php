@@ -26,9 +26,12 @@ class OneClickConfigResourceTest extends AbstractTestCase
 				->setOnlineText('(Online)')
 				->setOfflineText('(Offline)')
 				->setRedirectUrl('https://tempuri.org/php')
-				->setRecurring(false)
+                ->setSubscriptionPrice(99)
+                ->setSubscriptionInterval('monthly')
+                ->setSubscriptionStartSms('Thanks for donating 99kr each month.')
+				->setRecurring(true)
 				->setIsRestricted(false)
-				->setAge(0);
+				->setAge(18);
 
         $apiClient->oneClickConfigResource()->put($config);
 

@@ -235,12 +235,26 @@ $config
     ->setOnlineText('Buy directly')
     ->setOfflineText('Buy with PIN-code')
     ->setRedirectUrl('https://your-return-url.com?id={TransactionId}') // {TransactionId} is replaced by actual transaction id
-    ->setRecurring(false)
+    ->setSubscriptionPrice(99)
+    ->setSubscriptionInterval('monthly')
+    ->setSubscriptionStartSms('Thanks for donating 99kr each month.')
+    ->setRecurring(true)
     ->setIsRestricted(false)
-    ->setAge(0);
+    ->setAge(18);
 
 $apiClient->oneClickConfigResource()->put($config);
 ```
+
+If Recurring is set to 'false', the following parameters are optional:
+
+* SubscriptionInterval - Possible values are "weekly", "monthly", "yearly"
+
+* SubscriptionPrice - How much the subscriber will be charged each interval
+
+This parameter is optional:
+
+* SubscriptionStartSms - SMS that will be sent to the user when subscription starts.
+
 
 ### One-time transaction
 This example sets up a simple one-time transaction for one-click. After creation you can redirect the end-user to the one-click landing page by redirecting to http://betal.strex.no/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for PROD and http://test-strex.target365.io/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for TEST-environment.
