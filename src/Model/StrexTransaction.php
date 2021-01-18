@@ -97,7 +97,7 @@ class StrexTransaction extends StrexData
         return $this;
     }
 
-    public function getRecipient(): string
+    public function getRecipient(): ?string
     {
         return $this->recipient;
     }
