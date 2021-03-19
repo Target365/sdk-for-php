@@ -245,7 +245,7 @@ class OneClickConfig extends AbstractModel
 
     public function setSubscriptionStartSms(string $subscriptionStartSms): self
     {
-        $this->setSubscriptionStartSms = $subscriptionStartSms;
+        $this->subscriptionStartSms = $subscriptionStartSms;
         return $this;
     }
 
