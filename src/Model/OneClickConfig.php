@@ -238,7 +238,7 @@ class OneClickConfig extends AbstractModel
         return $this;
     }
 
-	public function getSubscriptionStartSms(): ?string
+    public function getSubscriptionStartSms(): ?string
     {
         return $this->subscriptionStartSms;
     }
