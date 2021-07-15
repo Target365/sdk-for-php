@@ -29,6 +29,7 @@
     * [SMS forward](#sms-forward)
     * [DLR forward](#dlr-forward)
     * [DLR status codes](#dlr-status-codes)
+* [Encoding](#encoding)
 
 ## Introduction
 The Target365 SDK gives you direct access to our online services like sending and receiving SMS, address lookup and Strex payment transactions.
