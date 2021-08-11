@@ -429,9 +429,11 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |SubscriberTooYoung|Subscriber too young|
 |TimeoutError|Timeout error|
 
-## Encoding
+## Encoding and SMS length
 When sending SMS messages, we'll automatically send messages in the most compact encoding possible. If you include any non GSM-7 characters in your message body, we will automatically fall back to UCS-2 encoding (which will limit message bodies to 70 characters each).
 
 Additionally, for long messages--greater than 160 GSM-7 characters or 70 UCS-2 characters--we will split the message into multiple segments. Six (6) bytes is also needed to instruct receiving device how to re-assemble messages, which for multi-segment messages, leaves 153 GSM-7 characters or 67 UCS-2 characters per segment.
 
 Note that this may cause more message segments to be sent than you expect - a body with 152 GSM-7-compatible characters and a single unicode character will be split into three (3) messages because the unicode character changes the encoding into less-compact UCS-2. This will incur charges for three outgoing messages against your account.
+
+Norwegian operators support different numbers of segments; Ice 12 segments, Telia 20 segments and Telenor 255 segments.
