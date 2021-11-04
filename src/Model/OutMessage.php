@@ -9,6 +9,7 @@ use Target365\ApiSdk\Attribute\DateTimeAttribute;
 class OutMessage extends AbstractModel implements DynamicPropertiesInterface
 {
     protected $transactionId;
+    protected $sessionId;
     protected $correlationId;
     protected $keywordId;
     protected $sender;
@@ -25,6 +26,7 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
     protected $smscTransactionId;
     protected $detailedStatusCode;
     protected $delivered;
+    protected $operatorId;
     protected $smscMessageParts;
     protected $tags;
     protected $properties;
@@ -84,6 +86,7 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
     {
         return [
             'transactionId',
+            'sessionId',
             'correlationId',
             'keywordId',
             'sender',
@@ -137,6 +140,17 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
     public function setCorrelationId(?string $correlationId): self
     {
         $this->correlationId = $correlationId;
+        return $this;
+    }
+
+    public function getSessionId(): ?string
+    {
+        return $this->sessionId;
+    }
+
+    public function setSessionId(?string $sessionId): self
+    {
+        $this->sessionId = $sessionId;
         return $this;
     }
 
@@ -307,6 +321,17 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
     public function setDelivered(?bool $delivered): self
     {
         $this->delivered = $delivered;
+        return $this;
+    }
+
+    public function getOperatorId(): ?string
+    {
+        return $this->operatorId;
+    }
+
+    public function setOperatorId(?string $operatorId): self
+    {
+        $this->operatorId = $operatorId;
         return $this;
     }
 
