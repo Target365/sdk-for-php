@@ -18,7 +18,7 @@ class KeywordResourceTest extends AbstractTestCase
 
         $keyword
             ->setShortNumberId('NO-0000')
-            ->setKeywordText('Test' . (string) rand() . (string) time() ) // NOTE: keywordText must be unique per shortNumberId and text
+            ->setKeywordText('Test' . (string) rand() . (string) time() ) // NOTE: keywordText must be unique per shortNumberId and mode
             ->setMode('Text')
             ->setForwardUrl('https://tempuri.org')
             ->setEnabled(true)
@@ -32,6 +32,25 @@ class KeywordResourceTest extends AbstractTestCase
         return $identifier;
     }
 
+    /**
+     * @depends testPost
+     */
+    public function testGet($identifier)
+    {
+        $apiClient = $this->getApiClient();
+
+        $keyword = $apiClient->keywordResource()->get($identifier);
+
+        $this->assertInstanceOf(Keyword::class, $keyword);
+
+        $this->assertEquals($identifier, $keyword->getIdentifier());
+
+        return $keyword;
+    }
+
+    /**
+     * @depends testGet
+     */
     public function testList()
     {
         $apiClient = $this->getApiClient();
@@ -49,22 +68,6 @@ class KeywordResourceTest extends AbstractTestCase
         $keywords = $apiClient->keywordResource()->list('a','b','c','d');
         $this->assertCount(0, $keywords);
 
-    }
-
-    /**
-     * @depends testPost
-     */
-    public function testGet($identifier)
-    {
-        $apiClient = $this->getApiClient();
-
-        $keyword = $apiClient->keywordResource()->get($identifier);
-
-        $this->assertInstanceOf(Keyword::class, $keyword);
-
-        $this->assertEquals($identifier, $keyword->getIdentifier());
-
-        return $keyword;
     }
 
     /**
