@@ -14,6 +14,7 @@ class OneClickConfig extends AbstractModel
     protected $merchantId;
     protected $serviceCode;
     protected $businessModel;
+    protected $preAuthServiceId;
     protected $recurring;
     protected $redirectUrl;
     protected $onlineText;
@@ -37,6 +38,7 @@ class OneClickConfig extends AbstractModel
             'merchantId',
             'serviceCode',
             'businessModel',
+            'preAuthServiceId',
             'recurring',
             'redirectUrl',
             'onlineText',
@@ -114,6 +116,17 @@ class OneClickConfig extends AbstractModel
     public function setBusinessModel(?string $businessModel): self
     {
         $this->businessModel = $businessModel;
+        return $this;
+    }
+
+    public function getPreAuthServiceId(): ?string
+    {
+        return $this->preAuthServiceId;
+    }
+
+    public function setPreAuthServiceId(?string $preAuthServiceId): self
+    {
+        $this->preAuthServiceId = $preAuthServiceId;
         return $this;
     }
 
