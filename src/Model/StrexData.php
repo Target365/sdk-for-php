@@ -12,6 +12,7 @@ class StrexData extends AbstractModel
     protected $serviceCode;
     protected $businessModel;
     protected $preAuthServiceId;
+    protected $preAuthServiceDescription;
     protected $age;
     protected $isRestricted;
     protected $smsConfirmation;
@@ -29,6 +30,7 @@ class StrexData extends AbstractModel
             'serviceCode',
             'businessModel',
             'preAuthServiceId',
+            'preAuthServiceDescription',
             'age',
             'isRestricted',
             'smsConfirmation',
@@ -90,6 +92,17 @@ class StrexData extends AbstractModel
     public function setPreAuthServiceId(?string $preAuthServiceId): self
     {
         $this->preAuthServiceId = $preAuthServiceId;
+        return $this;
+    }
+
+    public function getPreAuthServiceDescription(): ?string
+    {
+        return $this->preAuthServiceDescription;
+    }
+
+    public function setPreAuthServiceDescription(?string $preAuthServiceDescription): self
+    {
+        $this->preAuthServiceDescription = $preAuthServiceDescription;
         return $this;
     }
 
