@@ -412,7 +412,7 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |Delivered|Message is delivered to destination|
 |Expired|Message validity period has expired|
 |Undelivered|Message is undeliverable|
-|UnknownError|Unknown error|
+|UnknownError|Obsolete. Replaced by OtherError|
 |Rejected|Message has been rejected|
 |UnknownSubscriber|Unknown subscriber|
 |SubscriberUnavailable|Subscriber unavailable|
