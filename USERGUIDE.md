@@ -428,6 +428,7 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |OneTimePasswordFailed|One-time password failed|
 |SubscriberTooYoung|Subscriber too young|
 |TimeoutError|Timeout error|
+|Stopped|Message is part of more than 100 identical messages in an hour and stopped, assuming it is part of an eternal loop|
 |OtherError|Miscellaneous. Errors not covered by statuses above|
 
 ## Encoding and SMS length
