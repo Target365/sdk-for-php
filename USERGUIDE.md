@@ -6,6 +6,7 @@
     * [ApiClient](#apiclient)
 * [Text messages](#text-messages)
     * [Send an SMS](#send-an-sms)
+    * [Set DeliveryReport URL for an SMS](#set-deliveryreport-url-for-an-sms)
     * [Schedule an SMS for later sending](#schedule-an-sms-for-later-sending)
     * [Send a Payment SMS](#send-a-payment-sms)
     * [Edit a scheduled SMS](#edit-a-scheduled-sms)
@@ -61,7 +62,20 @@ $outMessage
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
+### Set DeliveryReport URL for an SMS
+This example sends an SMS and later a [DeliveryReport](#dlr-forward) will be posted at the url specified below.
+```PHP
+$outMessage = new OutMessage();
 
+$outMessage
+    ->setTransactionId(uniqid((string) time(), true))
+    ->setSender('Target365')
+    ->setRecipient('+4798079008')
+    ->setContent('Hello World from SMS!')
+    ->setDeliveryReportUrl('https://your.site.com/sms/dlr');
+
+$apiClient->outMessageResource()->post($outMessage);
+```
 ### Schedule an SMS for later sending
 This example sets up a scheduled SMS. Scheduled messages can be updated or deleted before the time of sending.
 ```PHP
