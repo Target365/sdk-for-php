@@ -426,6 +426,7 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |Delivered|Message is delivered to destination|
 |Expired|Message validity period has expired|
 |Undelivered|Message is undeliverable|
+|MissingDeliveryReport|No DLR recieved from operator during the TimeToLive of the message|
 |UnknownError|Obsolete. Replaced by OtherError|
 |Rejected|Message has been rejected|
 |UnknownSubscriber|Unknown subscriber|
