@@ -21,6 +21,7 @@ class DeliveryReport extends AbstractModel
     protected $billed;
     protected $smscTransactionId;
     protected $smscMessageParts;
+    protected $properties;
 
     /**
      * Creates a Message object from the raw POST data
@@ -217,6 +218,17 @@ class DeliveryReport extends AbstractModel
     public function setSmscMessageParts(int $smscMessageParts): self
     {
         $this->smscMessageParts = $smscMessageParts;
+        return $this;
+    }
+
+    public function getProperties(): ?Properties
+    {
+        return $this->properties;
+    }
+
+    public function setProperties(?Properties $properties): self
+    {
+        $this->properties = $properties;
         return $this;
     }
 }
