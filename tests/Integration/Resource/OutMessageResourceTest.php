@@ -135,7 +135,7 @@ class OutMessageResourceTest extends AbstractTestCase
         $strex = new StrexData();
         $strex
           ->setInvoiceText('Thank you for your donation')
-          ->setMerchantId('mer_test')
+          ->setMerchantId('mer_target365_as')
           ->setAge(18)
           ->setPrice(10)
           ->setTimeout(10)

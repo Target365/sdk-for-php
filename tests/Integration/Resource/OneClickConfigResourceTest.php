@@ -19,7 +19,7 @@ class OneClickConfigResourceTest extends AbstractTestCase
 				->setConfigId('APITEST')
 				->setShortNumber('0000')
 				->setPrice(99)
-				->setMerchantId('mer_test')
+				->setMerchantId('mer_target365_as')
 				->setBusinessModel('STREX-PAYMENT')
 				->setServiceCode('14002')
 				->setInvoiceText('Donation test')
@@ -51,7 +51,7 @@ class OneClickConfigResourceTest extends AbstractTestCase
         $this->assertEquals('APITEST', $config->getIdentifier());
         $this->assertEquals('0000', $config->getShortNumber());
         $this->assertEquals(99, $config->getPrice());
-        $this->assertEquals('mer_test', $config->getMerchantId());
+        $this->assertEquals('mer_target365_as', $config->getMerchantId());
         $this->assertEquals('STREX-PAYMENT', $config->getBusinessModel());
         $this->assertEquals('14002', $config->getServiceCode());
         $this->assertEquals('Donation test', $config->getInvoiceText());
