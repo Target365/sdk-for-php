@@ -19,7 +19,7 @@ abstract class AbstractModel
                 continue;
             }
             
-            if ($key === 'properties') {
+            if ($key === 'properties' || $key === 'customProperties') {
 
                 if ($this instanceof DynamicPropertiesInterface && is_array($value)) {
                     $properties = new Properties;
@@ -47,6 +47,11 @@ abstract class AbstractModel
 
         foreach ($this->attributes() as $attribute) {
             $getter = 'get' . ucfirst($attribute);
+            
+            if ($getter === 'getCustomProperties') {
+                $getter = 'getProperties';
+            }
+
             $value = $this->$getter();
 
             if ($value === null) {

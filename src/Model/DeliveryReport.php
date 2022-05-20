@@ -11,6 +11,7 @@ class DeliveryReport extends AbstractModel
 {
     protected $transactionId;
     protected $correlationId;
+    protected $sessionId;
     protected $sender;
     protected $recipient;
     protected $operatorId;
@@ -67,6 +68,7 @@ class DeliveryReport extends AbstractModel
     {
         return [
             'correlationId',
+            'sessionId',
             'transactionId',
             'price',
             'sender',
@@ -108,6 +110,17 @@ class DeliveryReport extends AbstractModel
     public function setCorrelationId(?string $correlationId): self
     {
         $this->correlationId = $correlationId;
+        return $this;
+    }
+
+    public function getSessionId(): ?string
+    {
+        return $this->sessionId;
+    }
+
+    public function setSessionId(?string $sessionId): self
+    {
+        $this->sessionId = $sessionId;
         return $this;
     }
 

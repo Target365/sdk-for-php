@@ -34,6 +34,7 @@ Ph/DAkBLG/fgEVV1fWfBHdpfMhucf0DoRmW30CpeDNXbBS1YP6SexU/CZtrjPy55
 J6BLhdOAUfC3CMY=
 -----END PRIVATE KEY-----
 ```
+> Please note that when using the private key in PHP you must remove all newline characters so the whole private key is in one line.
 
 Use this openssl command to extract the public key:
 ```
@@ -76,7 +77,7 @@ Please feel free to raise an issue against this repository if you have any quest
 ### Private Key
 The Target365 PHP SDK only allows RSA private keys. The private key should be passed to the
 `\Target365\ApiSdk\ApiClient` constructor. The key can optionally include `-----BEGIN RSA PRIVATE KEY-----`
-parts.
+parts. You must remove all newline characters from the private key when using the PHP SDK.
 
 ### Contributing
 New contributors to this project are welcome. If you are interested in contributing please

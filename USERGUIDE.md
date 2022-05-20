@@ -6,6 +6,7 @@
     * [ApiClient](#apiclient)
 * [Text messages](#text-messages)
     * [Send an SMS](#send-an-sms)
+    * [Set DeliveryReport URL for an SMS](#set-deliveryreport-url-for-an-sms)
     * [Schedule an SMS for later sending](#schedule-an-sms-for-later-sending)
     * [Send a Payment SMS](#send-a-payment-sms)
     * [Edit a scheduled SMS](#edit-a-scheduled-sms)
@@ -14,12 +15,11 @@
     * [Create a Strex payment transaction](#create-a-strex-payment-transaction)
     * [Create a Strex payment transaction with one-time password](#create-a-strex-payment-transaction-with-one-time-password)
     * [Reverse a Strex payment transaction](#reverse-a-strex-payment-transaction)
+    * [Check status on Strex payment transaction](#check-status-on-strex-payment-transaction)
     * [Check Strex registration status](#check-strex-registration-status)
     * [Send Strex registration SMS](#send-strex-registration-sms)
 * [One-click](#one-click)
     * [One-click config](#one-click-config)
-    * [One-time transaction](#one-time-transaction)
-    * [Setup subscription transaction](#setup-subscription-transaction)
     * [Recurring transaction](#recurring-transaction)
 * [Lookup](#lookup)
     * [Address lookup for mobile number](#address-lookup-for-mobile-number)
@@ -30,6 +30,7 @@
     * [SMS forward](#sms-forward)
     * [DLR forward](#dlr-forward)
     * [DLR status codes](#dlr-status-codes)
+* [Encoding and SMS length](#encoding-and-sms-length)
 
 ## Introduction
 The Target365 SDK gives you direct access to our online services like sending and receiving SMS, address lookup and Strex payment transactions.
@@ -61,7 +62,20 @@ $outMessage
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
+### Set DeliveryReport URL for an SMS
+This example sends an SMS and later a [DeliveryReport](#dlr-forward) will be posted at the url specified below.
+```PHP
+$outMessage = new OutMessage();
 
+$outMessage
+    ->setTransactionId(uniqid((string) time(), true))
+    ->setSender('Target365')
+    ->setRecipient('+4798079008')
+    ->setContent('Hello World from SMS!')
+    ->setDeliveryReportUrl('https://your.site.com/sms/dlr');
+
+$apiClient->outMessageResource()->post($outMessage);
+```
 ### Schedule an SMS for later sending
 This example sets up a scheduled SMS. Scheduled messages can be updated or deleted before the time of sending.
 ```PHP
@@ -189,6 +203,14 @@ This example reverses a previously billed Strex payment transaction. The origina
 ```PHP
 $reversalTransactionId = $apiClient->strexTransactionResource()->reverse($transactionId);
 ```
+
+### Check status on Strex payment transaction
+This example gets a previously created Strex transaction to check its status. This method will block up to 20 seconds if the transaction is still being processed.
+```PHP
+$transaction = $apiClient.strexTransactionResource()->get($transactionId);
+$statusCode = transaction->getStatusCode();
+```
+
 ### Check Strex registration status
 This example checks to the the Strex registration level for an end user. User validity is either Unregistered, Partial, Full or Barred. Some service codes and high amounts requires full registration.
 ```PHP
@@ -255,57 +277,6 @@ This parameter is optional:
 
 * SubscriptionStartSms - SMS that will be sent to the user when subscription starts.
 
-
-### One-time transaction
-This example sets up a simple one-time transaction for one-click. After creation you can redirect the end-user to the one-click landing page by redirecting to http://betal.strex.no/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for PROD and http://test-strex.target365.io/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for TEST-environment.
-
-If the MSISDN can't be determined automatically on the landing page the end user will have to enter the MSISDN and will receice an SMS with a pin-code that must be entered. Entering the pin-code can be attempted only 3 times before the transaction is abandoned and the end user is redirected back to the redirectUrl.
-
-![one-time sequence](https://github.com/Target365/sdk-for-php/raw/master/oneclick-simple-transaction-flow.png "One-time sequence diagram")
-
-```PHP
-$transactionId = uniqid((string) time(), true);
-$transaction = new StrexTransaction();
-$properties = new Properties();
-$properties->RedirectUrl = "https://your-return-url.com?id=" . $transactionId;
-
-$transaction
-    ->setTransactionId($transactionId)
-    ->setShortNumber('2002')
-    ->setMerchantId('YOUR_MERCHANT_ID')
-    ->setPrice(1)
-    ->setServiceCode('14002')
-    ->setInvoiceText('Donation test')
-    ->setProperties($properties);
-
-$apiClient->strexTransactionResource()->post($transaction);
-
-// TODO: Redirect end-user to one-click landing page
-```
-
-### Setup subscription transaction
-This example sets up a subscription transaction for one-click. After creation you can redirect the end-user to the one-click landing page by redirecting to http://betal.strex.no/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for PROD and http://strex-test.target365.io/{YOUR-ACCOUNT-ID}/{YOUR-TRANSACTION-ID} for TEST-environment.
-![subscription sequence](https://github.com/Target365/sdk-for-php/raw/master/oneclick-subscription-flow.png "Subscription sequence diagram")
-```PHP
-$transactionId = uniqid((string) time(), true);
-$transaction = new StrexTransaction();
-$properties = new Properties();
-$properties->RedirectUrl = "https://your-return-url.com?id=" . $transactionId;
-$properties->Recurring = true;
-
-$transaction
-    ->setTransactionId($transactionId)
-    ->setShortNumber('2002')
-    ->setMerchantId('YOUR_MERCHANT_ID')
-    ->setPrice(1)
-    ->setServiceCode('14002')
-    ->setInvoiceText('Donation test')
-    ->setProperties($properties);
-
-$apiClient->strexTransactionResource()->post($transaction);
-
-// TODO: Redirect end-user to one-click landing page
-```
 ### Recurring transaction
 This example sets up a recurring transaction for one-click. After creation you can immediately get the transaction to get the status code - the server will wait up to 20 seconds for the async transaction to complete.
 ![Recurring sequence](https://github.com/Target365/sdk-for-php/raw/master/oneclick-recurring-flow.png "Recurring sequence diagram")
@@ -455,7 +426,8 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |Delivered|Message is delivered to destination|
 |Expired|Message validity period has expired|
 |Undelivered|Message is undeliverable|
-|UnknownError|Unknown error|
+|MissingDeliveryReport|No DLR recieved from operator during the TimeToLive of the message|
+|UnknownError|Obsolete. Replaced by OtherError|
 |Rejected|Message has been rejected|
 |UnknownSubscriber|Unknown subscriber|
 |SubscriberUnavailable|Subscriber unavailable|
@@ -471,3 +443,14 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |OneTimePasswordFailed|One-time password failed|
 |SubscriberTooYoung|Subscriber too young|
 |TimeoutError|Timeout error|
+|Stopped|Message is part of more than 100 identical messages in an hour and stopped, assuming it is part of an eternal loop|
+|OtherError|Miscellaneous. Errors not covered by statuses above|
+
+## Encoding and SMS length
+When sending SMS messages, we'll automatically send messages in the most compact encoding possible. If you include any non GSM-7 characters in your message body, we will automatically fall back to UCS-2 encoding (which will limit message bodies to 70 characters each).
+
+Additionally, for long messages--greater than 160 GSM-7 characters or 70 UCS-2 characters--we will split the message into multiple segments. Six (6) bytes is also needed to instruct receiving device how to re-assemble messages, which for multi-segment messages, leaves 153 GSM-7 characters or 67 UCS-2 characters per segment.
+
+Note that this may cause more message segments to be sent than you expect - a body with 152 GSM-7-compatible characters and a single unicode character will be split into three (3) messages because the unicode character changes the encoding into less-compact UCS-2. This will incur charges for three outgoing messages against your account.
+
+Norwegian operators support different numbers of segments; Ice 12 segments, Telia 20 segments and Telenor 255 segments.

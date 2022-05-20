@@ -15,6 +15,8 @@ class InMessage extends AbstractModel
     protected $recipient;
     protected $content;
     protected $isStopMessage;
+    protected $processAttempts;
+    protected $processed;
     protected $created;
     protected $tags;
     protected $properties;
@@ -68,6 +70,8 @@ class InMessage extends AbstractModel
             'recipient',
             'content',
             'isStopMessage',
+            'processAttempts',
+            'processed',
             'created',
             'tags',
             'properties',
@@ -142,6 +146,28 @@ class InMessage extends AbstractModel
     public function setIsStopMessage(bool $isStopMessage): self
     {
         $this->isStopMessage = $isStopMessage;
+        return $this;
+    }
+
+    public function getProcessAttempts(): int
+    {
+        return $this->processAttempts;
+    }
+
+    public function setProcessAttempts(int $processAttempts): self
+    {
+        $this->processAttempts = $processAttempts;
+        return $this;
+    }
+
+    public function getProcessed(): bool
+    {
+        return $this->processed;
+    }
+
+    public function setProcessed(bool $processed): self
+    {
+        $this->processed = $processed;
         return $this;
     }
 

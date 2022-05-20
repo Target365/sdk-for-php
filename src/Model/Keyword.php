@@ -6,7 +6,7 @@ namespace Target365\ApiSdk\Model;
 
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
 
-class Keyword extends AbstractModel
+class Keyword extends AbstractModel implements DynamicPropertiesInterface
 {
     protected $keywordId;
     protected $shortNumberId;
@@ -16,7 +16,9 @@ class Keyword extends AbstractModel
     protected $enabled;
     protected $created;
     protected $lastModified;
+    protected $customProperties;
     protected $tags;
+    protected $aliases;
 
     public function attributes(): array
     {
@@ -29,7 +31,9 @@ class Keyword extends AbstractModel
           'enabled',
           'created',
           'lastModified',
+          'customProperties',
           'tags',
+          'aliases',
         ];
     }
 
@@ -110,11 +114,6 @@ class Keyword extends AbstractModel
         return $this->created;
     }
 
-    /**
-     * @param string $created
-     * @return Keyword
-     * @throws \Target365\ApiSdk\Exception\ApiClientException
-     */
     public function setCreated(string $created): self
     {
         $this->created = new DateTimeAttribute($created);
@@ -126,14 +125,20 @@ class Keyword extends AbstractModel
         return $this->lastModified;
     }
 
-    /**
-     * @param string $lastModified
-     * @return Keyword
-     * @throws \Target365\ApiSdk\Exception\ApiClientException
-     */
     public function setLastModified(string $lastModified): self
     {
         $this->lastModified = new DateTimeAttribute($lastModified);
+        return $this;
+    }
+
+    public function getProperties(): ?Properties
+    {
+        return $this->customProperties;
+    }
+
+    public function setProperties(?Properties $customProperties): self
+    {
+        $this->customProperties = $customProperties;
         return $this;
     }
 
@@ -145,6 +150,17 @@ class Keyword extends AbstractModel
     public function setTags(?array $tags): self
     {
         $this->tags = $tags;
+        return $this;
+    }
+
+    public function getAliases(): ?array
+    {
+        return $this->aliases;
+    }
+
+    public function setAliases(?array $aliases): self
+    {
+        $this->aliases = $aliases;
         return $this;
     }
 }
