@@ -7,7 +7,7 @@ namespace Target365\ApiSdk\Model;
 use Psr\Http\Message\RequestInterface;
 use Target365\ApiSdk\Exception\ApiClientException;
 
-class DeliveryReport extends AbstractModel
+class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
 {
     protected $transactionId;
     protected $correlationId;
@@ -80,6 +80,7 @@ class DeliveryReport extends AbstractModel
             'billed',
             'smscTransactionId',
             'smscMessageParts',
+            'properties',
         ];
     }
 
