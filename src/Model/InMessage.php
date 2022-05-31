@@ -7,7 +7,7 @@ namespace Target365\ApiSdk\Model;
 use Psr\Http\Message\RequestInterface;
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
 
-class InMessage extends AbstractModel
+class InMessage extends AbstractModel implements DynamicPropertiesInterface
 {
     protected $transactionId;
     protected $keywordId;
@@ -187,12 +187,12 @@ class InMessage extends AbstractModel
         return $this;
     }
 
-    public function getProperties(): ?array
+    public function getProperties(): ?Properties
     {
         return $this->properties;
     }
 
-    public function setProperties(array $properties = null): self
+    public function setProperties(?Properties $properties): self
     {
         $this->properties = $properties;
         return $this;
