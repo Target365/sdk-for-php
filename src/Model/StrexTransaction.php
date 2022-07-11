@@ -20,6 +20,7 @@ class StrexTransaction extends StrexData
     protected $properties;    
     protected $statusCode;
     protected $detailedStatusCode;
+    protected $statusDescription;
     protected $smscTransactionId;
     protected $created;
     protected $lastModified;
@@ -41,6 +42,7 @@ class StrexTransaction extends StrexData
             'properties',
             'statusCode',
             'detailedStatusCode',
+            'statusDescription',
             'smscTransactionId',
             'created',
             'lastModified',
@@ -184,7 +186,18 @@ class StrexTransaction extends StrexData
         $this->detailedStatusCode = $detailedStatusCode;
         return $this;
     }
-    
+
+    public function getStatusDescription(): ?string
+    {
+        return $this->statusDescription;
+    }
+
+    public function setStatusDescription(?string $statusDescription): self
+    {
+        $this->statusDescription = $statusDescription;
+        return $this;
+    }
+
     public function getSmscTransactionId(): ?string
     {
         return $this->smscTransactionId;

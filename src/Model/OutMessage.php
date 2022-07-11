@@ -25,6 +25,7 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
     protected $statusCode;
     protected $smscTransactionId;
     protected $detailedStatusCode;
+    protected $statusDescription;
     protected $delivered;
     protected $operatorId;
     protected $smscMessageParts;
@@ -102,6 +103,7 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
             'statusCode',
             'smscTransactionId',
             'detailedStatusCode',
+            'statusDescription',
             'delivered',
             'smscMessageParts',
             'tags',
@@ -310,6 +312,17 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
     public function setDetailedStatusCode(?string $detailedStatusCode): self
     {
         $this->detailedStatusCode = $detailedStatusCode;
+        return $this;
+    }
+
+    public function getStatusDescription(): ?string
+    {
+        return $this->statusDescription;
+    }
+
+    public function setStatusDescription(?string $statusDescription): self
+    {
+        $this->statusDescription = $statusDescription;
         return $this;
     }
 
