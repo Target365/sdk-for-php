@@ -13,7 +13,7 @@ class Keyword extends AbstractModel implements DynamicPropertiesInterface
     protected $keywordText;
     protected $mode;
     protected $forwardUrl;
-    protected $preAuthProperties;
+    protected $preAuthSettings;
     protected $enabled;
     protected $created;
     protected $lastModified;
@@ -29,7 +29,7 @@ class Keyword extends AbstractModel implements DynamicPropertiesInterface
           'keywordText',
           'mode',
           'forwardUrl',
-          'preAuthProperties',
+          'preAuthSettings',
           'enabled',
           'created',
           'lastModified',
@@ -100,14 +100,14 @@ class Keyword extends AbstractModel implements DynamicPropertiesInterface
         return $this;
     }
 
-    public function getPreAuthProperties(): ?PreAuthProperties
+    public function getPreAuthSettings(): ?PreAuthSettings
     {
-        return $this->preAuthProperties;
+        return $this->preAuthSettings;
     }
 
-    public function setPreAuthProperties(?PreAuthProperties $preAuthProperties): self
+    public function setPreAuthSettings(?PreAuthSettings $preAuthSettings): self
     {
-        $this->preAuthProperties = $preAuthProperties;
+        $this->preAuthSettings = $preAuthSettings;
         return $this;
     }
 

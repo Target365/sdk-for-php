@@ -6,7 +6,7 @@ namespace Target365\ApiSdk\Model;
 
 use Target365\ApiSdk\Exception\ApiClientException;
 
-class PreAuthProperties extends AbstractModel
+class PreAuthSettings extends AbstractModel
 {
     protected $infoText;
     protected $infoSender;
