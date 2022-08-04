@@ -4,7 +4,7 @@
   "type": "library",
   "require": {
     "php": ">=7.1",
-    "guzzlehttp/guzzle": "~6.0",
+    "guzzlehttp/guzzle": "~7.0",
     "phpseclib/phpseclib": "~2.0",
     "psr/log": "^1.0"
   },
