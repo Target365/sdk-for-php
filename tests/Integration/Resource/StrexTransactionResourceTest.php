@@ -20,7 +20,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
         $strexTransaction
             ->setTransactionId(str_replace('.', '-', uniqid((string) time(), true)))
             ->setInvoiceText('Thank you for your donation')
-            ->setMerchantId('mer_target365_as')
+            ->setMerchantId('mer_test')
             ->setPrice(10)
             ->setTimeout(10)
             ->setRecipient('+4798079008')
