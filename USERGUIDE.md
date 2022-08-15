@@ -7,8 +7,8 @@
 * [Text messages](#text-messages)
     * [Send an SMS](#send-an-sms)
     * [Set DeliveryReport URL for an SMS](#set-deliveryreport-url-for-an-sms)
-    * [Schedule an SMS for later sending](#schedule-an-sms-for-later-sending)
     * [Add tags to message](#add-tags-to-message)
+    * [Schedule an SMS for later sending](#schedule-an-sms-for-later-sending)
     * [Send a Payment SMS](#send-a-payment-sms)
     * [Edit a scheduled SMS](#edit-a-scheduled-sms)
     * [Delete a scheduled SMS](#delete-a-scheduled-sms)
@@ -79,6 +79,22 @@ $outMessage
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
+### Add tags to message
+This example show how to add tags to a message that can be used for statistics and grouping. Hierachies can be created with /. In the future, tags may only contain a-z0-9. Urls are allowed as an exception, so that '//' doesn't make hierarchy.
+```PHP
+$tags = new Properties();
+$properties->message_prefix = "Dear customer...";
+$properties->message_suffix = "Best regards...";
+
+$outMessage
+    ->setTransactionId(uniqid((string) time(), true))
+    ->setSender('Target365')
+    ->setRecipient('+4798079008')
+    ->setContent('Hello World from SMS!');
+    ->setTags(array("tag1", "group/subgroup/tag2"));
+
+$apiClient->outMessageResource()->post($outMessage);
+```
 ### Schedule an SMS for later sending
 This example sets up a scheduled SMS. Scheduled messages can be updated or deleted before the time of sending.
 ```PHP
@@ -119,23 +135,6 @@ $outMessage
     ->setRecipient('+4798079008')
     ->setContent('This message costs 10 NOK.');
     ->setStrex($strex);
-
-$apiClient->outMessageResource()->post($outMessage);
-```
-
-### Add tags to message
-This example show how to add tags to a message that can be used for statistics and grouping. Hierachies can be created with /. In the future, tags may only contain a-z0-9. Urls are allowed as an exception, so that '//' doesn't make hierarchy.
-```PHP
-$tags = new Properties();
-$properties->message_prefix = "Dear customer...";
-$properties->message_suffix = "Best regards...";
-
-$outMessage
-    ->setTransactionId(uniqid((string) time(), true))
-    ->setSender('Target365')
-    ->setRecipient('+4798079008')
-    ->setContent('Hello World from SMS!');
-    ->setTags(array("tag1", "group/subgroup/tag2"));
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
