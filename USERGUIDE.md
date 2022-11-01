@@ -460,9 +460,9 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 #### StatusCode values
 |Value|Description|
 |:---|:---|
-|Queued|Message is queued|
-|Sent|Message has been sent|
-|Failed|Message has failed|
+|Queued|Message is in a queue and has not been delivered, internally in our platform. Normally there should be very few with this status.|
+|Sent|The message has been delivered to the recipient's operator, but we have not received any final status and do not know the final outcome. Status may change if we receive confirmation from the operator.|
+|Failed|Message has not been delivered, unfortunately we have not received a more detailed delivery description.|
 |Ok|message has been delivered/billed|
 |Reversed|Message billing has been reversed|
 
@@ -471,27 +471,38 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |:---|:---|
 |None|Message has no status|
 |Delivered|Message is delivered to destination|
-|Expired|Message validity period has expired|
-|Undelivered|Message is undeliverable|
-|MissingDeliveryReport|No DLR recieved from operator during the TimeToLive of the message|
+|Expired|The message has not been delivered and the "lifetime" of the message has expired. Standard "lifetime" (time we try to deliver a message) is set to 2 hours, this can be overwritten if you are technically integrated. The billing has not been completed and a potential message has not been delivered. The TimeToLive of the billing has expired. Standard TimeToLive (time we try to charge) varies from method og action, some can be overwritten if you are technically integrated.|
+|Undelivered|Message has not been delivered, unfortunately we have not received a more detailed delivery description.|
+|MissingDeliveryReport|Operator has not given us final status.|
 |UnknownError|Obsolete. Replaced by OtherError|
-|Rejected|Message has been rejected|
-|UnknownSubscriber|Unknown subscriber|
+|Failed|Message has not been delivered, unfortunately we have not received a more detailed delivery description.|
+|CardPSPError|The billing has not been completed. The end user has uploaded a bank card for debit, the debit has failed.|
+|ConnectionOffline|The billing has not been completed, it has not been possible to contact MNO.|
+|MissingDeliveryReport|Operator has not given us final status.|
+|Sent|The message has been delivered to the recipient's operator, but we have not received any final status and do not know the final outcome. Status may change if we receive confirmation from the operator. On billing: Billing have not been confirmed, but we have not received any final status and do not know the final outcome. Status may change if we receive confirmation from the operator.|
+|Rejected|The billing has not been completed and a potential message has not been delivered. The error can vary, but most often due to errors on the sender, errors on the recipient number or expired token. Do not try to rate again.|
+|UnknownSubscriber|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient's age is unknown and that we therefore do not know if the user is old enough in relation to the set age for the service.|
 |SubscriberUnavailable|Subscriber unavailable|
-|SubscriberBarred|Subscriber barred|
-|InsufficientFunds|Insufficient funds|
+|SubscriberBarred|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient has blocked the possibility of debits via mobile payment, the recipient may have to contact his operator and lift this block.|
+|InsufficientFunds|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient does not have coverage on his prepaid card.|
+|InvalidCredentials|The billling has not been completed and a potential message has not been delivered, the transmission was made with the wrong username / password.|
+|InvalidOTP|The billing has not been carried out and any message has not been delivered, an invalid onetime password has been used|
+|MnoError|The billing has not been carried out and any message has not been delivered, this is due to an error at MNO.|
 |RegistrationRequired|Registration required|
-|UnknownAge|Unknown age|
-|DuplicateTransaction|Duplicate transaction|
-|SubscriberLimitExceeded|Subscriber limit exceeded|
-|MaxPinRetry|Max pin retry reached|
+|UnknownAge|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient's age is unknown and that we therefore do not know if the user is old enough in relation to the set age for the service.|
+|DuplicateTransaction|The message is not delivered. Same TransactionID is used before.|
+|SubscriberLimitExceeded|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient has reached the limit for what can be charged per month. In some cases, there may also be an annual limit or a limit set at the user level.|
+|MaxPinRetry|The billing has not been completed and a potential message has not been delivered. Recipient has entered the wrong pin code too many times.|
+|MissingPreAuth|The billing has not been completed and a potential message has not been delivered. Process stopped since there is no valid active Token on MSISDN.|
 |InvalidAmount|Invalid amount|
-|OneTimePasswordExpired|One-time password expired|
-|OneTimePasswordFailed|One-time password failed|
-|SubscriberTooYoung|Subscriber too young|
-|TimeoutError|Timeout error|
+|OneTimePasswordExpired|The billing has not been completed and a potential message has not been delivered. The one-time password sent to the recipient has expired on time.|
+|OneTimePasswordFailed|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient has entered the wrong password.|
+|Pending|The billing has not been completed and a potential message has not been delivered. The reason is normally that we are waiting for an action from the end user, it can for example be registration or a confirmation via SMS or pin code.|
+|SubscriberTooYoung|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient is younger than a set age limit for the service.|
+|TimeoutError|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient has not performed the necessary action (eg registration or confirmation) within the set deadline.|
 |Stopped|Message is part of more than 100 identical messages in an hour and stopped, assuming it is part of an eternal loop|
-|OtherError|Miscellaneous. Errors not covered by statuses above|
+|UserInTransaction|The billing has not been completed and no notification has been delivered. The reason is that you have another assessment process active against the user.|
+|OtherError|Billing has not been completed and no potential messages has been delivered. This is an overall status for very many different statuses, but where all are few in number. This is done so that you may avoid dealing with many 100 different wrong details. If you have a larger number of assessments with this status, please contact us so that we can analyze your traffic in more detail.|
 
 ## Encoding and SMS length
 When sending SMS messages, we'll automatically send messages in the most compact encoding possible. If you include any non GSM-7 characters in your message body, we will automatically fall back to UCS-2 encoding (which will limit message bodies to 70 characters each).
