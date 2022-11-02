@@ -478,7 +478,6 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |Failed|Message has not been delivered, unfortunately we have not received a more detailed delivery description.|
 |CardPSPError|The billing has not been completed. The end user has uploaded a bank card for debit, the debit has failed.|
 |ConnectionOffline|The billing has not been completed, it has not been possible to contact MNO.|
-|MissingDeliveryReport|Operator has not given us final status.|
 |Sent|The message has been delivered to the recipient's operator, but we have not received any final status and do not know the final outcome. Status may change if we receive confirmation from the operator. On billing: Billing have not been confirmed, but we have not received any final status and do not know the final outcome. Status may change if we receive confirmation from the operator.|
 |Rejected|The billing has not been completed and a potential message has not been delivered. The error can vary, but most often due to errors on the sender, errors on the recipient number or expired token. Do not try to rate again.|
 |UnknownSubscriber|The billing has not been completed and a potential message has not been delivered. The reason is that the recipient's age is unknown and that we therefore do not know if the user is old enough in relation to the set age for the service.|
