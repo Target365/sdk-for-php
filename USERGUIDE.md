@@ -33,6 +33,7 @@
     * [DLR forward](#dlr-forward)
     * [DLR status codes](#dlr-status-codes)
 * [Encoding and SMS length](#encoding-and-sms-length)
+    * [Automatic character replacements](#automatic-character-replacements)
 * [PreAuthorization](#preauthorization)
 
 ## Introduction
@@ -506,11 +507,42 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 ## Encoding and SMS length
 When sending SMS messages, we'll automatically send messages in the most compact encoding possible. If you include any non GSM-7 characters in your message body, we will automatically fall back to UCS-2 encoding (which will limit message bodies to 70 characters each).
 
-Additionally, for long messages--greater than 160 GSM-7 characters or 70 UCS-2 characters--we will split the message into multiple segments. Six (6) bytes is also needed to instruct receiving device how to re-assemble messages, which for multi-segment messages, leaves 153 GSM-7 characters or 67 UCS-2 characters per segment.
+Additionally, for long messages (greater than 160 GSM-7 or 70 UCS-2) we will split the message into multiple segments. Six (6) bytes is also needed to instruct receiving device how to re-assemble messages, which for multi-segment messages, leaves 153 GSM-7 characters or 67 UCS-2 characters per segment.
 
 Note that this may cause more message segments to be sent than you expect - a body with 152 GSM-7-compatible characters and a single unicode character will be split into three (3) messages because the unicode character changes the encoding into less-compact UCS-2. This will incur charges for three outgoing messages against your account.
 
 Norwegian operators support different numbers of segments; Ice 12 segments, Telia 20 segments and Telenor 255 segments.
+
+### Automatic character replacements
+Unless you spesifically set the AllowUnicode property to true, we will automatically replace the following Unicode characters into GSM-7 counter-parts:
+
+|From|To|
+|:---|:---|
+|– (long hyphen)|- (regular hyphen)|
+|« (Word/Outlook quote)|" (regular quote)|
+|» (Word/Outlook quote)|" (regular quote)|
+|” (Word/Outlook quote)|" (regular quote)|
+|\u00A0|(regular space)|
+|\u1680|(regular space)|
+|\u180E|(regular space)|
+|\u2000|(regular space)|
+|\u2001|(regular space)|
+|\u2002|(regular space)|
+|\u2003|(regular space)|
+|\u2004|(regular space)|
+|\u2005|(regular space)|
+|\u2006|(regular space)|
+|\u2007|(regular space)|
+|\u2008|(regular space)|
+|\u2009|(regular space)|
+|\u200A|(regular space)|
+|\u200B|(regular space)|
+|\u202F|(regular space)|
+|\u205F|(regular space)|
+|\u3000|(regular space)|
+|\uFEFF|(regular space)|
+
+*Please note that we might remove or add Unicode characters that are automatically replaced. This is an "best effort" to save on SMS costs!*
 
 ## PreAuthorization
 
