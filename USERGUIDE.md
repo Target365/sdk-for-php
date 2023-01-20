@@ -35,6 +35,8 @@
 * [Encoding and SMS length](#encoding-and-sms-length)
     * [Automatic character replacements](#automatic-character-replacements)
 * [PreAuthorization](#preauthorization)
+* [Testing](#testing)
+    * [Fake numbers](#fake-numbers)
 
 ## Introduction
 The Target365 SDK gives you direct access to our online services like sending and receiving SMS, address lookup and Strex payment transactions.
@@ -685,3 +687,15 @@ $outMessage
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
+
+## Testing
+
+### Fake numbers
+
+If you need to trigger sms messages with different status codes for testing, without actually sending an sms to the end-user, we have added support for these fake numbers that will always get the corresponding status codes:
+
+* +4700000001: Ok - Delivered
+* +4700000010: Failed - Undelivered
+* +4700000020: Failed - SubscriberBarred
+
+All other numbers starting with +47000000 will be treated as fake and get status code Ok - Delivered.
