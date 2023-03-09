@@ -6,6 +6,7 @@ namespace Target365\ApiSdk\Resource;
 
 use Target365\ApiSdk\Exception\ResourceMethodNotAvailableException;
 use Target365\ApiSdk\Model\OutMessage;
+use Target365\ApiSdk\Model\Pincode;
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
 
 class OutMessageResource extends AbstractCrudResource
@@ -53,6 +54,21 @@ class OutMessageResource extends AbstractCrudResource
         }
 
         $response = $this->apiClient->request('post', $uri, $postData);
+    }
+
+    /**
+     * POST /pincodes
+     *
+     * @param pincode $model
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \InvalidArgumentException
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function sendPinCode(Pincode $model): void
+    {
+        $uri = 'pincodes';
+        $normalizedData = $model->normalize();
+        $response = $this->apiClient->request('post', $uri, $normalizedData);
     }
 
     public function getExport(DateTimeAttribute $from, DateTimeAttribute $to)

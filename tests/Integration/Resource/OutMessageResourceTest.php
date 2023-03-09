@@ -6,6 +6,7 @@ namespace Target365\ApiSdk\Tests\Integration\Resource;
 
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
 use Target365\ApiSdk\Model\OutMessage;
+use Target365\ApiSdk\Model\Pincode;
 use Target365\ApiSdk\Model\StrexData;
 use Target365\ApiSdk\Model\Properties;
 use Target365\ApiSdk\Tests\AbstractTestCase;
@@ -135,7 +136,7 @@ class OutMessageResourceTest extends AbstractTestCase
         $strex = new StrexData();
         $strex
           ->setInvoiceText('Thank you for your donation')
-          ->setMerchantId('mer_test')
+          ->setMerchantId('mer_target365_as')
           ->setAge(18)
           ->setPrice(10)
           ->setTimeout(10)
@@ -266,5 +267,24 @@ class OutMessageResourceTest extends AbstractTestCase
         $csv = $apiClient->outMessageResource()->getExport($from, $to);
         $find = 'SendTime,Sender,Recipient,RecipientPrefix,MessageParts,StatusCode,DetailedStatusCode,Operator,Tags';
         $this->assertEquals(0, substr_compare($csv, $find, 0, strlen($find)));
+    }
+
+    public function testSendPincode()
+    {
+        $apiClient = $this->getApiClient();
+
+        $pincode = new Pincode();
+        $transactionId = uniqid((string) time(), true);
+        $pincode
+            ->setTransactionId($transactionId)
+            ->setSender('Test')
+            ->setRecipient('+4798079008')
+            ->setPrefixText('Your code: ')
+            ->setSuffixText(". Don't share this code with anyone.")
+            ->setPincodeLength(4);
+
+        $apiClient->outMessageResource()->sendPincode($pincode);
+
+        $this->assertTrue(true);
     }
 }
