@@ -15,7 +15,6 @@ class OutMessageResourceTest extends AbstractTestCase
 {
     /**
      * @return string e.g. '2018-04-12T13:27:50+00:00'
-     * @throws \Target365\ApiSdk\Exception\ApiClientException
      */
     private function getSendTime(): string
     {
@@ -215,10 +214,6 @@ class OutMessageResourceTest extends AbstractTestCase
 
     /**
      * @return OutMessage
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \InvalidArgumentException
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
-     * @throws \Target365\ApiSdk\Exception\ApiClientException
      */
     public function testSendScheduledSMS(): OutMessage
     {
@@ -246,10 +241,6 @@ class OutMessageResourceTest extends AbstractTestCase
     /**
      * @depends testSendScheduledSMS
      * @param OutMessage $outMessage
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \InvalidArgumentException
-     * @throws \Target365\ApiSdk\Exception\ApiClientException
-     * @throws \Exception
      */
     public function testUpdateScheduledOutMessage(OutMessage $outMessage): void
     {
@@ -269,6 +260,9 @@ class OutMessageResourceTest extends AbstractTestCase
         $this->assertEquals(0, substr_compare($csv, $find, 0, strlen($find)));
     }
 
+    /**
+     * @return string
+     */
     public function testSendPincode()
     {
         $apiClient = $this->getApiClient();
@@ -286,5 +280,19 @@ class OutMessageResourceTest extends AbstractTestCase
         $apiClient->outMessageResource()->sendPincode($pincode);
 
         $this->assertTrue(true);
+        return $transactionId;
+    }
+
+    /**
+     * @depends testSendPincode
+     * @param string $transactionId
+     */
+    public function testVerifyPincode(string $transactionId)
+    {
+        $apiClient = $this->getApiClient();
+
+        $result = $apiClient->outMessageResource()->verifyPincode($transactionId, '1234');
+
+        $this->assertFalse($result);
     }
 }

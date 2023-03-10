@@ -71,6 +71,21 @@ class OutMessageResource extends AbstractCrudResource
         $response = $this->apiClient->request('post', $uri, $normalizedData);
     }
 
+    /**
+     * GET /pincodes/verification?transactionId={transactionId}&pincode={pincode}
+     *
+     * @param string $transactionId
+     * @param string $pincode
+     * @throws \InvalidArgumentException
+     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     */
+    public function verifyPinCode(string $transactionId, string $pincode): bool
+    {
+        $uri = 'pincodes/verification?transactionId=' . urlencode($transactionId) . '&pincode=' . urlencode($pincode) ;
+        $response = $this->apiClient->request('get', $uri);
+        return filter_var($response->getBody()->__toString(), FILTER_VALIDATE_BOOLEAN);
+    }
+
     public function getExport(DateTimeAttribute $from, DateTimeAttribute $to)
     {
         $uri = 'export/out-messages?from=' . urlencode($from->__toString()) . '&to=' . urlencode($to->__toString());
