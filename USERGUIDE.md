@@ -34,7 +34,11 @@
     * [DLR status codes](#dlr-status-codes)
 * [Encoding and SMS length](#encoding-and-sms-length)
     * [Automatic character replacements](#automatic-character-replacements)
-* [PreAuthorization](#preauthorization)
+* [Pre-authorization](#pre-authorization)
+   * [Pre-authorization via keyword](#pre-authorization-via-keyword)
+   * [Pre-authorization via API](#pre-authorization-via-api)
+   * [Rebilling with pre-authorization](#rebilling-with-pre-authorization)
+   * [Silent rebilling with pre-authorization](#silent-rebilling-with-pre-authorization)
 * [Testing](#testing)
     * [Fake numbers](#fake-numbers)
 
@@ -544,26 +548,40 @@ Unless you spesifically set the AllowUnicode property to true, we will automatic
 |\u3000|(regular space)|
 |\uFEFF|(regular space)|
 
-*Please note that we might remove or add Unicode characters that are automatically replaced. This is an "best effort" to save on SMS costs!*
+*Please note that we might remove or add Unicode characters that are automatically replaced. This is a "best effort" to save on SMS costs!*
 
-## PreAuthorization
+## Pre-authorization
+Some ServiceCodes require recurring billing to be authorized by the user via a confirmation sms or sms pincode.
+This can be achieved either via direct API calls or setting it up to be handled automatically via a keyword.
 
-Some servicecodes require recurring billing to be authorized by the user via an confirmation sms. This authorization can be activated on the keyword by either activating it in the
-Preauth section of the keyword in Strex Connect or adding some settings to the keyword object when creating it via the API:
+### Pre-authorization via keyword
+Automatic pre-authorization can be activated on a keyword by either activating it in the
+PreAuth section of the keyword in Strex Connect or via the SDK
 
-```
-{
-  "preAuthSettings": {
-    "active": true,
-    "InfoText": "Info message sent before preauth message",
-    "InfoSender": "Sender of info message",
-    "PrefixMessage": "Text inserted before preauth text",
-    "PostfixMessage": "ext inserted after preauth text",
-    "Delay": "Delay in minutes between info message and preauth message",
-    "MerchantId": MerchantId to perform preauth on"",
-    "ServiceDescription": "Service description for Strex 'Min Side'",
-  }
-}
+```PHP
+$preauth = new PreAuthSettings();
+
+$preauth
+	->setActive(true)
+	->setInfoText('[Info message sent before preauth message]')
+	->setInfoSender('2002')
+	->setPrefixMessage('[Text inserted before preauth text]')
+	->setPostfixMessage('[Text inserted after preauth text]')
+	->setDelay([Minutes or delay])
+	->setMerchantId('[Your merchant id]')
+	->setServiceDescription('[Service description]');
+
+$keyword = new Keyword();
+
+$keyword
+    ->setShortNumberId('NO-2002')
+    ->setKeywordText('HELLO')
+    ->setMode('Text')
+    ->setForwardUrl('https://your-site.net/api/receive-sms')
+    ->setEnabled(true)
+	->setPreAuthSettings($preauth);
+
+$keywordId = $apiClient->keywordResource()->post($keyword);
 ```
 
 In-messages forwarded to you will then look like this:
@@ -586,65 +604,11 @@ Content-Type: application/json
 ```
 If PreAuthorization was not successfully performed, "preAuthorization" will be "false".
 
-The new properties are ServiceId and preAuthorization. ServiceId must be added to the outmessage/transaction when doing rebilling, as "preAuthServiceId". 
-The ServiceId is identical for all incoming messages to the same keyword. Incoming messages forwarded with "preAuthorization" set as "false" are not possible
+The new properties are ServiceId and preAuthorization. ServiceId must be added to the outmessage/transaction when doing rebilling in the "preAuthServiceId" field. 
+The ServiceId is always the same for one keyword. Incoming messages forwarded with "preAuthorization" set as "false" are not possible
 to bill via Strex Payment.
 
-### MT rebilling with preAuth:
-```PHP
-$strex = new StrexData();
-$strex
-    ->setMerchantId('your-merchant-id')
-    ->setAge(18)
-    ->setPrice(10)
-    ->setServiceCode('your-service-code')
-    ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('1234')
-    ->setPreAuthServiceDescription('your-subscription-description');
-
-$outMessage = new OutMessage();
-
-$outMessage
-    ->setTransactionId('your-unique-id')
-    ->setSender('2002')
-    ->setRecipient('+4798079008')
-    ->setContent('your-sms-text-to-end-user')
-    ->setStrex($strex);
-
-$apiClient->outMessageResource()->post($outMessage);
-```
-### Silent rebilling with preauth:
-```PHP
-$strex = new StrexData();
-$strex
-    ->setMerchantId('your-merchant-id')
-    ->setPrice(0)
-    ->setServiceCode('your-service-code')
-    ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('1234')
-    ->setPreAuthServiceDescription('your-subscription-description');
-
-$properties = new Properties();
-$properties->SilentPreAuthorization = true;
-
-$outMessage = new OutMessage();
-
-$outMessage
-    ->setTransactionId('your-unique-id')
-    ->setSender('2002')
-    ->setRecipient('+4798079008')
-    ->setStrex($strex)
-    ->setProperties($properties);
-
-$apiClient->outMessageResource()->post($outMessage);
-```
-Note that content is not set. If setting it, it must be set to null.
-
-preAuthServiceId: Id chosen by you, store it so you can use it for rebilling.
-preAuthServiceDescription: Optional, this text will be visible for the user on "My Page" in the Strex web page.
-
-PreAuth of new users can be done in the same way, but without "SilentPreAuthorization" set. The user will then receive an SMS he must reply OK to.
-
+### Pre-authorization via API
 If you want that the user should get a pin code, this must be done in 2 steps. First step is to trigger sending of the pin code and second step is to confirm the pin code the user has input on you web page.
 
 Examples:
@@ -687,6 +651,59 @@ $outMessage
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
+
+### Rebilling with pre-authorization:
+```PHP
+$strex = new StrexData();
+$strex
+    ->setMerchantId('your-merchant-id')
+    ->setAge(18)
+    ->setPrice(10)
+    ->setServiceCode('your-service-code')
+    ->setInvoiceText('your-invoice-text')
+    ->setPreAuthServiceId('1234')
+    ->setPreAuthServiceDescription('your-subscription-description');
+
+$outMessage = new OutMessage();
+
+$outMessage
+    ->setTransactionId('your-unique-id')
+    ->setSender('2002')
+    ->setRecipient('+4798079008')
+    ->setContent('your-sms-text-to-end-user')
+    ->setStrex($strex);
+
+$apiClient->outMessageResource()->post($outMessage);
+```
+### Silent rebilling with pre-authorization:
+```PHP
+$strex = new StrexData();
+$strex
+    ->setMerchantId('your-merchant-id')
+    ->setPrice(0)
+    ->setServiceCode('your-service-code')
+    ->setInvoiceText('your-invoice-text')
+    ->setPreAuthServiceId('1234')
+    ->setPreAuthServiceDescription('your-subscription-description');
+
+$properties = new Properties();
+$properties->SilentPreAuthorization = true;
+
+$outMessage = new OutMessage();
+
+$outMessage
+    ->setTransactionId('your-unique-id')
+    ->setSender('2002')
+    ->setRecipient('+4798079008')
+    ->setStrex($strex)
+    ->setProperties($properties);
+
+$apiClient->outMessageResource()->post($outMessage);
+```
+Note that content is not set. For silent pre-authorization the content property must be null.
+
+preAuthServiceId: Id from keyword or id chosen by you, store it so you can use it for rebilling.
+preAuthServiceDescription: Optional, this text will be visible for the end user on "My Page" in the Strex web page.
 
 ## Testing
 
