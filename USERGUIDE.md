@@ -563,13 +563,13 @@ $preauth = new PreAuthSettings();
 
 $preauth
     ->setActive(true)
-    ->setInfoText('[Info message sent before preauth message]')
+    ->setInfoText('Info message sent before preauth message')
     ->setInfoSender('2002')
-    ->setPrefixMessage('[Text inserted before preauth text]')
-    ->setPostfixMessage('[Text inserted after preauth text]')
-    ->setDelay([Minutes or delay])
-    ->setMerchantId('[Your merchant id]')
-    ->setServiceDescription('[Service description]');
+    ->setPrefixMessage('Text inserted before preauth text')
+    ->setPostfixMessage('Text inserted after preauth text')
+    ->setDelay([Delay in whole minutes])
+    ->setMerchantId('Your merchant id')
+    ->setServiceDescription('Service description');
 
 $keyword = new Keyword();
 
