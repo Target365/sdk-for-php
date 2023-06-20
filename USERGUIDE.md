@@ -562,14 +562,14 @@ PreAuth section of the keyword in Strex Connect or via the SDK
 $preauth = new PreAuthSettings();
 
 $preauth
-	->setActive(true)
-	->setInfoText('[Info message sent before preauth message]')
-	->setInfoSender('2002')
-	->setPrefixMessage('[Text inserted before preauth text]')
-	->setPostfixMessage('[Text inserted after preauth text]')
-	->setDelay([Minutes or delay])
-	->setMerchantId('[Your merchant id]')
-	->setServiceDescription('[Service description]');
+    ->setActive(true)
+    ->setInfoText('[Info message sent before preauth message]')
+    ->setInfoSender('2002')
+    ->setPrefixMessage('[Text inserted before preauth text]')
+    ->setPostfixMessage('[Text inserted after preauth text]')
+    ->setDelay([Minutes or delay])
+    ->setMerchantId('[Your merchant id]')
+    ->setServiceDescription('[Service description]');
 
 $keyword = new Keyword();
 
@@ -579,7 +579,7 @@ $keyword
     ->setMode('Text')
     ->setForwardUrl('https://your-site.net/api/receive-sms')
     ->setEnabled(true)
-	->setPreAuthSettings($preauth);
+    ->setPreAuthSettings($preauth);
 
 $keywordId = $apiClient->keywordResource()->post($keyword);
 ```
