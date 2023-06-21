@@ -608,7 +608,7 @@ The ServiceId is always the same for one keyword. Incoming messages forwarded wi
 to bill via Strex Payment.
 
 ### Pre-authorization via API
-Pre-authorization via API can be used with either SMS confirmation or OTP (one-time-passord). SMS confirmation is used by default if OneTimePassword isn't set on the OutMessage.
+Pre-authorization via API can be used with either SMS confirmation or OTP (one-time-passord). SMS confirmation is used by default if OneTimePassword isn't used.
 PreAuthServiceId is an id chosen by you and must be used for all subsequent rebilling. PreAuthServiceDescription is optional, but should be set as this text will be visible for the end user on the Strex "My Page" web page.
 
 Example using OTP-flow:
