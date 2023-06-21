@@ -555,7 +555,7 @@ This can be achieved either via direct API calls or setting it up to be handled 
 
 ### Pre-authorization via keyword
 Automatic pre-authorization can be activated on a keyword by either activating it in the
-PreAuth section of the keyword in Strex Connect or via the SDK
+PreAuth section of the keyword in Strex Connect or via the SDK.
 
 ```PHP
 $preauth = new PreAuthSettings();
@@ -630,8 +630,12 @@ $apiClient->oneTimePasswordResource()->post($oneTimePassword);
 
 // After getting pin from end-user
 
-$strex = new StrexData();
-$strex
+$transaction = new StrexTransaction();
+
+$transaction
+    ->setTransactionId($transactionId)
+    ->setShortNumber('2002')
+    ->setRecipient('+4798079008')
     ->setMerchantId('your-merchant-id')
     ->setAge(18)
     ->setPrice(10)
@@ -639,41 +643,28 @@ $strex
     ->setInvoiceText('your-invoice-text')
     ->setPreAuthServiceId('your-service-id')
     ->setPreAuthServiceDescription('your-subscription-description')
-    ->setOneTimePassword('pin-from-enduser');
+    ->setOneTimePassword('code-from-end-user');
 
-$outMessage = new OutMessage();
-
-$outMessage
-    ->setTransactionId($transactionId)
-    ->setSender('2002')
-    ->setRecipient('+4798079008')
-    ->setStrex($strex);
-
-$apiClient->outMessageResource()->post($outMessage);
+$apiClient->strexTransactionResource()->post($transaction);
 ```
 
 ### Rebilling with pre-authorization:
 ```PHP
-$strex = new StrexData();
-$strex
+$transaction = new StrexTransaction();
+
+$transaction
+    ->setTransactionId('your-unique-id')
+    ->setSender('2002')
+    ->setRecipient('+4798079008')
+    ->setContent('your-sms-text-to-end-user')
     ->setMerchantId('your-merchant-id')
     ->setAge(18)
     ->setPrice(10)
     ->setServiceCode('your-service-code')
     ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('your-service-id')
-    ->setPreAuthServiceDescription('your-subscription-description');
+    ->setPreAuthServiceId('your-service-id');
 
-$outMessage = new OutMessage();
-
-$outMessage
-    ->setTransactionId('your-unique-id')
-    ->setSender('2002')
-    ->setRecipient('+4798079008')
-    ->setContent('your-sms-text-to-end-user')
-    ->setStrex($strex);
-
-$apiClient->outMessageResource()->post($outMessage);
+$apiClient->strexTransactionResource()->post($transaction);
 ```
 
 ## Testing
