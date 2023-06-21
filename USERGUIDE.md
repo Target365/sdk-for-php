@@ -550,7 +550,7 @@ Unless you spesifically set the AllowUnicode property to true, we will automatic
 *Please note that we might remove or add Unicode characters that are automatically replaced. This is a "best effort" to save on SMS costs!*
 
 ## Pre-authorization
-Some ServiceCodes require recurring billing to be authorized by the user via a confirmation sms or sms pincode.
+Some Strex service codes require recurring billing to be authorized by the user via a confirmation sms or sms pincode.
 This can be achieved either via direct API calls or setting it up to be handled automatically via a keyword.
 
 ### Pre-authorization via keyword
