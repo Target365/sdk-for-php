@@ -38,7 +38,6 @@
    * [Pre-authorization via keyword](#pre-authorization-via-keyword)
    * [Pre-authorization via API](#pre-authorization-via-api)
    * [Rebilling with pre-authorization](#rebilling-with-pre-authorization)
-   * [Silent rebilling with pre-authorization](#silent-rebilling-with-pre-authorization)
 * [Testing](#testing)
     * [Fake numbers](#fake-numbers)
 
@@ -609,9 +608,10 @@ The ServiceId is always the same for one keyword. Incoming messages forwarded wi
 to bill via Strex Payment.
 
 ### Pre-authorization via API
-If you want that the user should get a pin code, this must be done in 2 steps. First step is to trigger sending of the pin code and second step is to confirm the pin code the user has input on you web page.
+Pre-authorization via API can be used with either SMS confirmation or OTP (one-time-passord). SMS confirmation is used by default if OneTimePassword isn't set on the OutMessage.
+PreAuthServiceId is an id chosen by you and must be used for all subsequent rebilling. PreAuthServiceDescription is optional, but should be set as this text will be visible for the end user on the Strex "My Page" web page.
 
-Examples:
+Example using OTP-flow:
 ```PHP
 $transactionId = 'your-unique-id';
 
@@ -637,7 +637,7 @@ $strex
     ->setPrice(10)
     ->setServiceCode('your-service-code')
     ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('1234')
+    ->setPreAuthServiceId('your-service-id')
     ->setPreAuthServiceDescription('your-subscription-description')
     ->setOneTimePassword('pin-from-enduser');
 
@@ -661,7 +661,7 @@ $strex
     ->setPrice(10)
     ->setServiceCode('your-service-code')
     ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('1234')
+    ->setPreAuthServiceId('your-service-id')
     ->setPreAuthServiceDescription('your-subscription-description');
 
 $outMessage = new OutMessage();
@@ -675,35 +675,6 @@ $outMessage
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
-### Silent rebilling with pre-authorization:
-```PHP
-$strex = new StrexData();
-$strex
-    ->setMerchantId('your-merchant-id')
-    ->setPrice(0)
-    ->setServiceCode('your-service-code')
-    ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('1234')
-    ->setPreAuthServiceDescription('your-subscription-description');
-
-$properties = new Properties();
-$properties->SilentPreAuthorization = true;
-
-$outMessage = new OutMessage();
-
-$outMessage
-    ->setTransactionId('your-unique-id')
-    ->setSender('2002')
-    ->setRecipient('+4798079008')
-    ->setStrex($strex)
-    ->setProperties($properties);
-
-$apiClient->outMessageResource()->post($outMessage);
-```
-Note that content is not set. For silent pre-authorization the content property must be null.
-
-preAuthServiceId: Id from keyword or id chosen by you, store it so you can use it for rebilling.
-preAuthServiceDescription: Optional, this text will be visible for the end user on "My Page" in the Strex web page.
 
 ## Testing
 
