@@ -121,7 +121,7 @@ $outMessage
     ->setSender('Target365')
     ->setRecipient('+4798079008')
     ->setContent('Hello World from SMS!');
-    ->setTags(array("tag1", "group/subgroup/tag2"));
+    ->setTags(array("tag1", "grouping:group/subgroup/tag2"));
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
