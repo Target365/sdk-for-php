@@ -5,14 +5,13 @@ declare(strict_types = 1);
 namespace Target365\ApiSdk\Resource;
 
 use GuzzleHttp\Exception\RequestException;
-use Target365\ApiSdk\Model\AbstractModel;
 use Target365\ApiSdk\Model\Lookup;
 
-class LookupResource extends AbstractResource // intentionally not extending AbstractCrudResource
+class LookupResource extends AbstractCrudResource
 {
     protected function getResourceUri(): string
     {
-        return 'lookup';
+        return 'lookup/freetext';
     }
 
     protected function getResourceModelFqns(): string
@@ -26,13 +25,13 @@ class LookupResource extends AbstractResource // intentionally not extending Abs
      *
      * @param string $phoneNumber international phone number in E.164 format
      */
-    public function get(string $phoneNumber): ?AbstractModel
+    public function msisdnLookup(string $phoneNumber): ?Lookup
     {
         $queryStringData = [
             'msisdn' => $phoneNumber,
         ];
 
-        $uri = $this->getResourceUri() . '?' . http_build_query($queryStringData);
+        $uri = 'lookup?' . http_build_query($queryStringData);
 
         try {
             $response = $this->apiClient->request('get', $uri);
@@ -48,5 +47,18 @@ class LookupResource extends AbstractResource // intentionally not extending Abs
         $responseData = $this->decodeResponseJson($response);
 
         return $this->instantiateModel($responseData);
+    }
+
+    /**
+     * GET /lookup/freetext?input={freetext}
+     *
+     * @param string $freetext free text like a name or an address
+     */
+    public function freetextLookup(string $freetext): array {
+        $queryStringData = [
+            'input' => $freetext,
+        ];
+
+        return parent::listBase($queryStringData);
     }
 }
