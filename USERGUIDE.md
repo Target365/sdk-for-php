@@ -527,6 +527,7 @@ Unless you spesifically set the AllowUnicode property to true, we will automatic
 |« (Word/Outlook quote)|" (regular quote)|
 |» (Word/Outlook quote)|" (regular quote)|
 |” (Word/Outlook quote)|" (regular quote)|
+|’ (Word/Outlook apostrophe)|' (regular apostrophe)|
 |\u00A0|(regular space)|
 |\u1680|(regular space)|
 |\u180E|(regular space)|
