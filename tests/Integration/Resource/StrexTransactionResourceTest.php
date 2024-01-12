@@ -26,6 +26,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
             ->setRecipient('+4798079008')
             ->setBusinessModel('STREX-PAYMENT')
             ->setServiceCode('14002')
+            ->setBusinessModel('STREX-PAYMENT')
             ->setShortNumber('0000');
 
         $identifier = $apiClient->strexTransactionResource()->post($strexTransaction);

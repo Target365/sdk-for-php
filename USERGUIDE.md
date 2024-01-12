@@ -34,7 +34,10 @@
     * [DLR status codes](#dlr-status-codes)
 * [Encoding and SMS length](#encoding-and-sms-length)
     * [Automatic character replacements](#automatic-character-replacements)
-* [PreAuthorization](#preauthorization)
+* [Pre-authorization](#pre-authorization)
+   * [Pre-authorization via keyword](#pre-authorization-via-keyword)
+   * [Pre-authorization via API](#pre-authorization-via-api)
+   * [Rebilling with pre-authorization](#rebilling-with-pre-authorization)
 * [Testing](#testing)
     * [Fake numbers](#fake-numbers)
 
@@ -118,7 +121,7 @@ $outMessage
     ->setSender('Target365')
     ->setRecipient('+4798079008')
     ->setContent('Hello World from SMS!');
-    ->setTags(array("tag1", "group/subgroup/tag2"));
+    ->setTags(array("tag1", "grouping:group/subgroup/tag2"));
 
 $apiClient->outMessageResource()->post($outMessage);
 ```
@@ -408,7 +411,7 @@ Content-Length: 0
 ```
 
 ### DLR forward
-This example shows how delivery reports (DLR) are forwarded to the outmessage DeliveryReportUrl. All DLR forwards expect a response with status code 200 (OK). If the request times out or response status code differs the forward will be retried 10 times with exponentially longer intervals for about 15 hours.
+This example shows how delivery reports (DLR) are forwarded to the outmessage DeliveryReportUrl. All DLR forwards expect a response with status code 200 (OK). If the request times out or response status code differs, the forward will be retried 19 times with exponentially longer intervals, for approximately 48 hours.
 #### Request
 ```
 POST https://your-site.net/api/receive-dlr HTTP/1.1
@@ -524,6 +527,7 @@ Unless you spesifically set the AllowUnicode property to true, we will automatic
 |« (Word/Outlook quote)|" (regular quote)|
 |» (Word/Outlook quote)|" (regular quote)|
 |” (Word/Outlook quote)|" (regular quote)|
+|’ (Word/Outlook apostrophe)|' (regular apostrophe)|
 |\u00A0|(regular space)|
 |\u1680|(regular space)|
 |\u180E|(regular space)|
@@ -544,26 +548,40 @@ Unless you spesifically set the AllowUnicode property to true, we will automatic
 |\u3000|(regular space)|
 |\uFEFF|(regular space)|
 
-*Please note that we might remove or add Unicode characters that are automatically replaced. This is an "best effort" to save on SMS costs!*
+*Please note that we might remove or add Unicode characters that are automatically replaced. This is a "best effort" to save on SMS costs!*
 
-## PreAuthorization
+## Pre-authorization
+Some Strex service codes require recurring billing to be authorized by the user via a confirmation sms or sms pincode.
+This can be achieved either via direct API calls or setting it up to be handled automatically via a keyword.
 
-Some servicecodes require recurring billing to be authorized by the user via an confirmation sms. This authorization can be activated on the keyword by either activating it in the
-Preauth section of the keyword in Strex Connect or adding some settings to the keyword object when creating it via the API:
+### Pre-authorization via keyword
+Automatic pre-authorization can be activated on a keyword by either activating it in the
+PreAuth section of the keyword in Strex Connect or via the SDK.
 
-```
-{
-  "preAuthSettings": {
-    "active": true,
-    "InfoText": "Info message sent before preauth message",
-    "InfoSender": "Sender of info message",
-    "PrefixMessage": "Text inserted before preauth text",
-    "PostfixMessage": "ext inserted after preauth text",
-    "Delay": "Delay in minutes between info message and preauth message",
-    "MerchantId": MerchantId to perform preauth on"",
-    "ServiceDescription": "Service description for Strex 'Min Side'",
-  }
-}
+```PHP
+$preauth = new PreAuthSettings();
+
+$preauth
+    ->setActive(true)
+    ->setInfoText('Info message sent before preauth message')
+    ->setInfoSender('2002')
+    ->setPrefixMessage('Text inserted before preauth text')
+    ->setPostfixMessage('Text inserted after preauth text')
+    ->setDelay([Delay in whole minutes])
+    ->setMerchantId('Your merchant id')
+    ->setServiceDescription('Service description');
+
+$keyword = new Keyword();
+
+$keyword
+    ->setShortNumberId('NO-2002')
+    ->setKeywordText('HELLO')
+    ->setMode('Text')
+    ->setForwardUrl('https://your-site.net/api/receive-sms')
+    ->setEnabled(true)
+    ->setPreAuthSettings($preauth);
+
+$keywordId = $apiClient->keywordResource()->post($keyword);
 ```
 
 In-messages forwarded to you will then look like this:
@@ -586,68 +604,15 @@ Content-Type: application/json
 ```
 If PreAuthorization was not successfully performed, "preAuthorization" will be "false".
 
-The new properties are ServiceId and preAuthorization. ServiceId must be added to the outmessage/transaction when doing rebilling, as "preAuthServiceId". 
-The ServiceId is identical for all incoming messages to the same keyword. Incoming messages forwarded with "preAuthorization" set as "false" are not possible
+The new properties are ServiceId and preAuthorization. ServiceId must be added to the outmessage/transaction when doing rebilling in the "preAuthServiceId" field. 
+The ServiceId is always the same for one keyword. Incoming messages forwarded with "preAuthorization" set as "false" are not possible
 to bill via Strex Payment.
 
-### MT rebilling with preAuth:
-```PHP
-$strex = new StrexData();
-$strex
-    ->setMerchantId('your-merchant-id')
-    ->setAge(18)
-    ->setPrice(10)
-    ->setServiceCode('your-service-code')
-    ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('1234')
-    ->setPreAuthServiceDescription('your-subscription-description');
+### Pre-authorization via API
+Pre-authorization via API can be used with either SMS confirmation or OTP (one-time-passord). SMS confirmation is used by default if OneTimePassword isn't used.
+PreAuthServiceId is an id chosen by you and must be used for all subsequent rebilling. PreAuthServiceDescription is optional, but should be set as this text will be visible for the end user on the Strex "My Page" web page.
 
-$outMessage = new OutMessage();
-
-$outMessage
-    ->setTransactionId('your-unique-id')
-    ->setSender('2002')
-    ->setRecipient('+4798079008')
-    ->setContent('your-sms-text-to-end-user')
-    ->setStrex($strex);
-
-$apiClient->outMessageResource()->post($outMessage);
-```
-### Silent rebilling with preauth:
-```PHP
-$strex = new StrexData();
-$strex
-    ->setMerchantId('your-merchant-id')
-    ->setPrice(0)
-    ->setServiceCode('your-service-code')
-    ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('1234')
-    ->setPreAuthServiceDescription('your-subscription-description');
-
-$properties = new Properties();
-$properties->SilentPreAuthorization = true;
-
-$outMessage = new OutMessage();
-
-$outMessage
-    ->setTransactionId('your-unique-id')
-    ->setSender('2002')
-    ->setRecipient('+4798079008')
-    ->setStrex($strex)
-    ->setProperties($properties);
-
-$apiClient->outMessageResource()->post($outMessage);
-```
-Note that content is not set. If setting it, it must be set to null.
-
-preAuthServiceId: Id chosen by you, store it so you can use it for rebilling.
-preAuthServiceDescription: Optional, this text will be visible for the user on "My Page" in the Strex web page.
-
-PreAuth of new users can be done in the same way, but without "SilentPreAuthorization" set. The user will then receive an SMS he must reply OK to.
-
-If you want that the user should get a pin code, this must be done in 2 steps. First step is to trigger sending of the pin code and second step is to confirm the pin code the user has input on you web page.
-
-Examples:
+Example using OTP-flow:
 ```PHP
 $transactionId = 'your-unique-id';
 
@@ -666,26 +631,41 @@ $apiClient->oneTimePasswordResource()->post($oneTimePassword);
 
 // After getting pin from end-user
 
-$strex = new StrexData();
-$strex
+$transaction = new StrexTransaction();
+
+$transaction
+    ->setTransactionId($transactionId)
+    ->setShortNumber('2002')
+    ->setRecipient('+4798079008')
     ->setMerchantId('your-merchant-id')
     ->setAge(18)
     ->setPrice(10)
     ->setServiceCode('your-service-code')
     ->setInvoiceText('your-invoice-text')
-    ->setPreAuthServiceId('1234')
+    ->setPreAuthServiceId('your-service-id')
     ->setPreAuthServiceDescription('your-subscription-description')
-    ->setOneTimePassword('pin-from-enduser');
+    ->setOneTimePassword('code-from-end-user');
 
-$outMessage = new OutMessage();
+$apiClient->strexTransactionResource()->post($transaction);
+```
 
-$outMessage
-    ->setTransactionId($transactionId)
+### Rebilling with pre-authorization:
+```PHP
+$transaction = new StrexTransaction();
+
+$transaction
+    ->setTransactionId('your-unique-id')
     ->setSender('2002')
     ->setRecipient('+4798079008')
-    ->setStrex($strex);
+    ->setContent('your-sms-text-to-end-user')
+    ->setMerchantId('your-merchant-id')
+    ->setAge(18)
+    ->setPrice(10)
+    ->setServiceCode('your-service-code')
+    ->setInvoiceText('your-invoice-text')
+    ->setPreAuthServiceId('your-service-id');
 
-$apiClient->outMessageResource()->post($outMessage);
+$apiClient->strexTransactionResource()->post($transaction);
 ```
 
 ## Testing
