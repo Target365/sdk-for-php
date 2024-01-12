@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Target365\ApiSdk\Model;
 
 use Psr\Http\Message\RequestInterface;
+use Target365\ApiSdk\Attribute\DateTimeAttribute;
 use Target365\ApiSdk\Exception\ApiClientException;
 
 class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
@@ -18,10 +19,13 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
     protected $price;
     protected $statusCode;
     protected $detailedStatusCode;
+    protected $statusDescription;
     protected $delivered;
     protected $billed;
     protected $smscTransactionId;
+    protected $smscStatus;
     protected $smscMessageParts;
+    protected $received;
     protected $properties;
 
     /**
@@ -191,6 +195,17 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
         return $this;
     }
 
+    public function getStatusDescription(): string
+    {
+        return $this->statusDescription;
+    }
+
+    public function setStatusDescription(string $statusDescription): self
+    {
+        $this->statusDescription = $statusDescription;
+        return $this;
+    }
+
     public function getDelivered(): ?bool
     {
         return $this->delivered;
@@ -224,6 +239,16 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
         return $this;
     }
 
+    public function getSmscStatus(): ?string
+    {
+        return $this->smscStatus;
+    }
+
+    public function setSmscTransactionId(?string $smscStatus): self
+    {
+        $this->smscStatus = $smscStatus;
+        return $this;
+    }
     public function getSmscMessageParts(): int
     {
         return $this->smscMessageParts;
@@ -232,6 +257,17 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
     public function setSmscMessageParts(int $smscMessageParts): self
     {
         $this->smscMessageParts = $smscMessageParts;
+        return $this;
+    }
+
+    public function getReceived(): ?DateTimeAttribute
+    {
+        return $this->received;
+    }
+
+    public function setReceived(string $recevied): self
+    {
+        $this->received = new DateTimeAttribute($received);
         return $this;
     }
 

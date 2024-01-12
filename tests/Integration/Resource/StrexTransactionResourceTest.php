@@ -24,6 +24,7 @@ class StrexTransactionResourceTest extends AbstractTestCase
             ->setPrice(10)
             ->setTimeout(10)
             ->setRecipient('+4798079008')
+            ->setBusinessModel('STREX-PAYMENT')
             ->setServiceCode('14002')
             ->setShortNumber('0000');
 
