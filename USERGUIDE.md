@@ -217,7 +217,7 @@ $apiClient->strexTransactionResource()->post($transaction);
 
 ### Create a Strex payment transaction with one-time password
 This example creates a Strex one-time password sent to the end user and get completes the payment by using the one-time password.
-You can use MessagePrefix and MessageSuffix to influence the start and end of the SMS sent by Strex.
+You can use MessagePrefix and MessageSuffix to influence the start and end of the SMS sent by Strex. In the Test Environment - with endpoint https://test.target365.io - the OTP is always 1234.
 ```PHP
 $transactionId = uniqid((string) time(), true);
 
