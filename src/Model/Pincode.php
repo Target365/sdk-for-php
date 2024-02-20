@@ -12,6 +12,7 @@ class Pincode extends AbstractModel
     protected $prefixText;
     protected $suffixText;
     protected $pincodeLength;
+    protected $maxAtempts;
 
     public function attributes(): array
     {
@@ -22,6 +23,7 @@ class Pincode extends AbstractModel
           'prefixText',
           'suffixText',
           'pincodeLength',
+          'maxAttempts',
         ];
     }
 
@@ -93,6 +95,17 @@ class Pincode extends AbstractModel
     public function setPincodeLength(int $pincodeLength): self
     {
         $this->pincodeLength = $pincodeLength;
+        return $this;
+    }
+
+    public function getMaxAttempts() : ?int
+    {
+        return $this->maxAttempts;
+    }
+
+    public function setMaxAttempts(int $maxAttempts): self
+    {
+        $this->maxAttempts = $maxAttempts;
         return $this;
     }
 }
