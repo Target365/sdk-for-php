@@ -33,6 +33,9 @@
     * [SMS forward](#sms-forward)
     * [DLR forward](#dlr-forward)
     * [DLR status codes](#dlr-status-codes)
+* [Pincodes](#pincodes)
+    * [Send pincode](#send-pincode)
+    * [Verify pincode](#verify-pincode)
 * [Encoding and SMS length](#encoding-and-sms-length)
     * [Automatic character replacements](#automatic-character-replacements)
 * [Pre-authorization](#pre-authorization)
@@ -516,6 +519,32 @@ Delivery reports contains two status codes, one overall called `StatusCode` and 
 |Stopped|Message is part of more than 100 identical messages in an hour and stopped, assuming it is part of an eternal loop|
 |UserInTransaction|The billing has not been completed and no notification has been delivered. The reason is that you have another assessment process active against the user.|
 |OtherError|Billing has not been completed and no potential messages has been delivered. This is an overall status for very many different statuses, but where all are few in number. This is done so that you may avoid dealing with many 100 different wrong details. If you have a larger number of assessments with this status, please contact us so that we can analyze your traffic in more detail.|
+
+## Pincodes
+
+### Send pincode
+This example shows how to send pincodes to users and verify their input to validate their phonenumbers.
+
+```Php
+$transactionId = uniqid((string) time(), true);
+$pincode = new Pincode();
+$pincode
+    ->setTransactionId($transactionId)
+    ->setSender('Target365')
+    ->setRecipient('+4798079008')
+    ->setPrefixText('Your pincode is ')
+    ->setSuffixText(" to log on to acme.inc")
+    ->setmaxAttempts(3);
+
+$apiClient->outMessageResource()->sendPinCode($pincode);
+```
+
+### Verify pincode
+This example shows how to verify the pincode sent in the previous step and entered on a web page by the user. Use the TransactionId provided in the previous step.
+
+```Php
+$result = $apiClient->outMessageResource()->verifyPinCode($transactionId, '1234')
+```
 
 ## Encoding and SMS length
 When sending SMS messages, we'll automatically send messages in the most compact encoding possible. If you include any non GSM-7 characters in your message body, we will automatically fall back to UCS-2 encoding (which will limit message bodies to 70 characters each).
