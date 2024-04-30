@@ -12,7 +12,7 @@ class Pincode extends AbstractModel
     protected $prefixText;
     protected $suffixText;
     protected $pincodeLength;
-    protected $maxAtempts;
+    protected $maxAttempts;
 
     public function attributes(): array
     {

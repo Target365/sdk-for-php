@@ -180,17 +180,11 @@ class ApiClient
 
         $nonce = uniqid((string) time(), true);
 
-        $this->log('requestUri', $requestUri);
-        $this->log('requestMethod', $requestMethod);
-        $this->log('nonce', $nonce);
-
         if ($bodyData) {
             $bodyContents = \GuzzleHttp\json_encode($bodyData);
         } else {
             $bodyContents = null;
         }
-
-        $this->log('bodyContents', $bodyContents);
 
         $epochTime = time();
 
@@ -202,16 +196,12 @@ class ApiClient
             $nonce
         );
 
-        $this->log('signedRequestString', $signedRequestString);
-
         $authHeader = $signer->getAuthHeader(
             $this->authKeyName,
             $epochTime,
             $nonce,
             $signedRequestString
         );
-
-        $this->log('authHeader', $authHeader);
 
         $httpClient = $this->getHttpClient();
 
@@ -220,7 +210,7 @@ class ApiClient
         $httpOptions['headers'] = [
                 'Authorization' => $authHeader,
                 'X-Sdk' => 'Php',
-                'X-Sdk-Version' => '1.8.8'
+                'X-Sdk-Version' => '1.8.11'
         ];
 
         if ($bodyContents) {
@@ -233,9 +223,6 @@ class ApiClient
             $httpOptions
         );
         
-        $this->log('Response Body', $response->getBody()->__toString());
-        $this->log('Response Headers', \GuzzleHttp\json_encode($response->getHeaders()));
-
         return $response;
     }
 

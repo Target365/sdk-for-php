@@ -5,6 +5,8 @@ declare(strict_types = 1);
 namespace Target365\ApiSdk\Tests\Integration\Resource;
 
 use Target365\ApiSdk\Model\Keyword;
+use Target365\ApiSdk\Model\PreAuthSettings;
+use Target365\ApiSdk\Model\Properties;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
 class KeywordResourceTest extends AbstractTestCase
@@ -14,15 +16,26 @@ class KeywordResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $keyword = new Keyword();
+        $preAuthSettings = new PreAuthSettings();
+        $preAuthSettings = $preAuthSettings
+          ->setInfoText('Info text')
+          ->setInfoSender('Sender')
+          ->setPrefixMessage('prefix')
+          ->setPostfixMessage('postfix')
+          ->setDelay(0.5)
+          ->setMerchantId('mer_target365_as')
+          ->setServiceDescription('service description')
+          ->setActive(true);
 
-        $keyword
-            ->setShortNumberId('NO-0000')
-            ->setKeywordText('Test' . (string) rand() . (string) time() ) // NOTE: keywordText must be unique per shortNumberId and mode
-            ->setMode('Text')
-            ->setForwardUrl('https://tempuri.org')
-            ->setEnabled(true)
-            ->setTags(['Foo', 'Bar']);
+        $keyword = new Keyword();
+        $keyword = $keyword
+          ->setShortNumberId('NO-0000')
+          ->setKeywordText('Test' . (string) rand() . (string) time() )
+          ->setMode('Text')
+          ->setForwardUrl('http://tempuri.org')
+          ->setEnabled(true)
+          ->setTags(['Foo', 'Bar'])
+          ->setPreAuthSettings($preAuthSettings);
 
 
         $identifier = $apiClient->keywordResource()->post($keyword);

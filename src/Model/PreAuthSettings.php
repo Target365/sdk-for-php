@@ -83,12 +83,12 @@ class PreAuthSettings extends AbstractModel
         return $this;
     }
 
-    public function getDelay(): ?float
+    public function getDelay()
     {
         return $this->delay;
     }
 
-    public function setDelay(?string $delay): self
+    public function setDelay(float $delay): self
     {
         $this->delay = $delay;
         return $this;
@@ -99,7 +99,7 @@ class PreAuthSettings extends AbstractModel
         return $this->merchantId;
     }
 
-    public function setMerchantId(?int $merchantId): self
+    public function setMerchantId(?string $merchantId): self
     {
         $this->merchantId = $merchantId;
         return $this;
@@ -110,18 +110,18 @@ class PreAuthSettings extends AbstractModel
         return $this->serviceDescription;
     }
 
-    public function setServiceDescription(?int $serviceDescription): self
+    public function setServiceDescription(?string $serviceDescription): self
     {
         $this->serviceDescription = $serviceDescription;
         return $this;
     }
 
-    public function getActive(): ?bool
+    public function getActive()
     {
         return $this->active;
     }
 
-    public function setActive(?bool $active): self
+    public function setActive(bool $active): self
     {
         $this->active = $active;
         return $this;

@@ -30,6 +30,10 @@ abstract class AbstractModel
 
                     $this->setProperties($properties);
                 }
+            } else if ($key === 'preAuthSettings') {
+                $preAuthSettings = new PreAuthSettings();
+                $preAuthSettings->populate($value);
+                $this->setPreAuthSettings($preAuthSettings);
             } else {
                 $methodName = 'set' . ucfirst($key);
                 $this->$methodName($value);
