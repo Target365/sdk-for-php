@@ -11,6 +11,7 @@ class StrexTransaction extends StrexData
     protected $transactionId;
     protected $sessionId;
     protected $correlationId;
+    protected $keywordId;
     protected $shortNumber;
     protected $recipient;
     protected $content;
@@ -33,6 +34,7 @@ class StrexTransaction extends StrexData
             'transactionId',
             'sessionId',
             'correlationId',
+            'keywordId',
             'shortNumber',
             'recipient',
             'content',
@@ -85,6 +87,17 @@ class StrexTransaction extends StrexData
     public function setCorrelationId(?string $correlationId): self
     {
         $this->correlationId = $correlationId;
+        return $this;
+    }
+
+    public function getKeywordId(): ?string
+    {
+        return $this->keywordId;
+    }
+
+    public function setKeywordId(?string $keywordId): self
+    {
+        $this->keywordId = $keywordId;
         return $this;
     }
 
