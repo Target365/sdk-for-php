@@ -244,7 +244,7 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
         return $this->smscStatus;
     }
 
-    public function setSmscTransactionId(?string $smscStatus): self
+    public function setSmscStatus(?string $smscStatus): self
     {
         $this->smscStatus = $smscStatus;
         return $this;
