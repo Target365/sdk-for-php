@@ -553,7 +553,7 @@ Additionally, for long messages (greater than 160 GSM-7 or 70 UCS-2) we will spl
 
 Note that this may cause more message segments to be sent than you expect - a body with 152 GSM-7-compatible characters and a single unicode character will be split into three (3) messages because the unicode character changes the encoding into less-compact UCS-2. This will incur charges for three outgoing messages against your account.
 
-Norwegian operators support different numbers of segments; Ice 12 segments, Telia 20 segments and Telenor 255 segments.
+Norwegian operators support different numbers of segments; Ice 12 segments, Telia 16 segments and Telenor 255 segments.
 
 ### Automatic character replacements
 Unless you spesifically set the AllowUnicode property to true, we will automatically replace the following Unicode characters into GSM-7 counter-parts:
