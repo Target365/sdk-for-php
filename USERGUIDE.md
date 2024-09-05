@@ -711,6 +711,8 @@ $apiClient->strexTransactionResource()->post($transaction);
 ```
 
 ### Rebilling with pre-authorization:
+After you've established an end-user agreement you can then bill further for your service with regular POST strex transaction requests. Here's an example:
+
 ```PHP
 $transaction = new StrexTransaction();
 
