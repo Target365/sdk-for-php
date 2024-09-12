@@ -535,10 +535,13 @@ $pincode
     ->setRecipient('+4798079008')
     ->setPrefixText('Your pincode is ')
     ->setSuffixText(" to log on to acme.inc")
+    ->setPincodeLength(4)
     ->setmaxAttempts(3);
 
 $apiClient->outMessageResource()->sendPinCode($pincode);
 ```
+
+PrefixText, SuffixText and PincodeLength are optional. If specified, PincodeLength must be between 4 and 6. MaxAttempts must be between 1 and 5.
 
 ### Verify pincode
 This example shows how to verify the pincode sent in the previous step and entered on a web page by the user. Use the TransactionId provided in the previous step.
