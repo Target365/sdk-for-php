@@ -207,10 +207,6 @@ If your service requires a minimum age of the End User, each payment transaction
 This example creates a 1 NOK Strex payment transaction that the end user will confirm by replying "OK" to an SMS from Strex.
 You can use message_prefix and message_suffix custom properties to influence the start and end of the SMS sent by Strex.
 ```PHP
-$properties = new Properties();
-$properties->message_prefix = "Dear customer...";
-$properties->message_suffix = "Best regards...";
-
 $transaction = new StrexTransaction();
 
 $transaction
@@ -221,8 +217,7 @@ $transaction
     ->setPrice(1)
     ->setServiceCode('14002')
     ->setInvoiceText('Donation test')
-    ->setSmsConfirmation(true)
-    ->setProperties($properties);
+    ->setSmsConfirmation(true);
 
 $apiClient->strexTransactionResource()->post($transaction);
 ```
@@ -651,10 +646,15 @@ to bill via Strex Payment.
 
 ### Pre-authorization via API with SMS
 Pre-authorization via API can be used with SMS confirmation.
-PreAuthServiceId is an id chosen by you and must be used for all subsequent rebilling. PreAuthServiceDescription is optional, but should be set as this text will be visible for the end user on the Strex "My Page" web page. Here's an example:
+PreAuthServiceId is an id chosen by you and must be used for all subsequent rebilling. PreAuthServiceDescription is optional, but should be set as this text will be visible for the end user on the Strex "My Page" web page. You can use message_prefix and message_suffix custom properties to influence the start and end of the confirmation SMS sent by Strex.
+Here's an example:
 
 ```PHP
 $transactionId = 'your-unique-id';
+
+$properties = new Properties();
+$properties->message_prefix = "Dear customer...";
+$properties->message_suffix = "Best regards...";
 
 $transaction = new StrexTransaction();
 
@@ -668,7 +668,8 @@ $transaction
     ->setServiceCode('your-service-code')
     ->setInvoiceText('your-invoice-text')
     ->setPreAuthServiceId('your-service-id')
-    ->setPreAuthServiceDescription('your-subscription-description');
+    ->setPreAuthServiceDescription('your-subscription-description')
+    ->setProperties($properties);
 
 $apiClient->strexTransactionResource()->post($transaction);
 ```
