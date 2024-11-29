@@ -379,7 +379,7 @@ $keyword = new Keyword();
 $keyword
     ->setShortNumberId('NO-2002')
     ->setKeywordText('HELLO')
-    ->setMode('Text')
+    ->setMode('Startswith')
     ->setForwardUrl('https://your-site.net/api/receive-sms')
     ->setEnabled(true);
     
