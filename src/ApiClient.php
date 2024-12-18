@@ -210,7 +210,7 @@ class ApiClient
         $httpOptions['headers'] = [
                 'Authorization' => $authHeader,
                 'X-Sdk' => 'Php',
-                'X-Sdk-Version' => '1.8.12'
+                'X-Sdk-Version' => '1.8.14'
         ];
 
         if ($bodyContents) {

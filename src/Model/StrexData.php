@@ -122,7 +122,7 @@ class StrexData extends AbstractModel
         return $this->isRestricted;
     }
 
-    public function setIsRestricted(?int $isRestricted): self
+    public function setIsRestricted(?bool $isRestricted): self
     {
         $this->isRestricted = $isRestricted;
         return $this;
