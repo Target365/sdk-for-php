@@ -34,7 +34,7 @@ class Properties implements \ArrayAccess, \IteratorAggregate
         unset($this->data[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->data[$offset] ?? null;
     }
@@ -96,7 +96,7 @@ class Properties implements \ArrayAccess, \IteratorAggregate
      * <b>Traversable</b>
      * @since 5.0.0
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->data);
     }
