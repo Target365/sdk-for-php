@@ -7,7 +7,7 @@ namespace Target365\ApiSdk\Resource;
 use GuzzleHttp\Exception\RequestException;
 use Target365\ApiSdk\Model\Lookup;
 
-class LookupResource extends AbstractCrudResource
+class LookupResource extends AbstractResource
 {
     protected function getResourceUri(): string
     {
@@ -59,6 +59,20 @@ class LookupResource extends AbstractCrudResource
             'input' => $freetext,
         ];
 
-        return parent::listBase($queryStringData);
+        $uri = $this->getResourceUri();
+
+        if (array_filter($queryStringData)) {
+            $uri = $uri . '?' . http_build_query(array_filter($queryStringData));
+        }
+
+        $response = $this->apiClient->request('get', $uri);
+        $responseData = $this->decodeResponseJson($response);
+        $returnObjects = [];
+
+        foreach ($responseData as $item) {
+            $returnObjects[] = $this->instantiateModel($item);
+        }
+
+        return $returnObjects;
     }
 }
