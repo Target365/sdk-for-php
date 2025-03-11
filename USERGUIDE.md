@@ -364,7 +364,7 @@ $transaction = $apiClient->strexTransactionResource()->get($transactionId);
 ### Address lookup for mobile number
 This example looks up address information for the mobile number 98079008. Lookup information includes registered name and address.
 ```PHP
-$lookup = $apiClient->lookupResource()->get('+4798079008');
+$lookup = $apiClient->lookupResource()->msisdnLookup('+4798079008');
 $firstName = $lookup.firstName;
 $lastName = $lookup.lastName;
 ```
