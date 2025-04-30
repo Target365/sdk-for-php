@@ -681,7 +681,7 @@ PreAuthServiceId is an id chosen by you and must be used for all subsequent rebi
 ```PHP
 $transactionId = 'your-unique-id';
 
-// Before setting pin from end-user
+// Before setting OTP from end-user
 
 $oneTimePassword = new OneTimePassword();
 
@@ -694,7 +694,7 @@ $oneTimePassword
     
 $apiClient->oneTimePasswordResource()->post($oneTimePassword);
 
-// After getting pin from end-user
+// After getting OTP from end-user
 
 $transaction = new StrexTransaction();
 
