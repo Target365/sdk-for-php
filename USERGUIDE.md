@@ -746,3 +746,4 @@ If you need to trigger sms messages with different status codes for testing, wit
 * +4700000020: Failed - SubscriberBarred
 
 All other numbers starting with +47000000 will be treated as fake and get status code Ok - Delivered.
+A custom property named "TestInProd" must always be set to true on the Properties field, otherwise testing fake numbers will not work. This is a security measure to allow testing with fake numbers in our production as well as test-environment.
