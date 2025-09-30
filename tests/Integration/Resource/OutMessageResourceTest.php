@@ -293,6 +293,6 @@ class OutMessageResourceTest extends AbstractTestCase
 
         $result = $apiClient->outMessageResource()->verifyPincode($transactionId, '1234');
 
-        $this->assertFalse($result);
+        $this->assertTrue($result);
     }
 }
