@@ -217,6 +217,7 @@ $transaction
     ->setPrice(1)
     ->setServiceCode('14002')
     ->setInvoiceText('Donation test')
+    ->setContent('SMS_TEXT_TO_ENDUSER')
     ->setSmsConfirmation(true);
 
 $apiClient->strexTransactionResource()->post($transaction);
@@ -253,6 +254,7 @@ $transaction
     ->setPrice(1)
     ->setServiceCode('14002')
     ->setInvoiceText('Donation test')
+	->setContent('SMS_TEXT_TO_ENDUSER')
     ->setOneTimePassword('ONE_TIME_PASSWORD_FROM_USER');
 
 $apiClient->strexTransactionResource()->post($transaction);
