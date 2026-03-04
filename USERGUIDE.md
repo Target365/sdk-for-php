@@ -601,6 +601,7 @@ $preauth = new PreAuthSettings();
 
 $preauth
     ->setActive(true)
+    ->setAge(18)
     ->setInfoText('Info message sent before preauth message')
     ->setInfoSender('2002')
     ->setPrefixMessage('Text inserted before preauth text')
