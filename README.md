@@ -9,7 +9,7 @@ To get started, please click here: https://strex.no/strex-connect#Prispakker and
 
 After registration you can activate the SDK by logging in to Strex Connect and create a key here:  
 https://www.strexconnect.no/admin/public-key 
-Select ".NET" as your SDK. Copy and store the "Private key-string" safe and encrypted (we recommend EAS-encryption). We only store the public-key.
+Select "PHP" as your SDK. Copy and store the "Private key-string" safe and encrypted (we recommend EAS-encryption). We only store the public-key.
 Set the expiry date, and optionally add an e-mail address so we can warn you when the key is about to expire.
 
 If you want, you can generate your own RSA public/private key-pair using openssl like this and add it to the "From OpenSSL" tab:
