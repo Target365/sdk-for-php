@@ -45,7 +45,7 @@ abstract class AbstractResource
      */
     protected function decodeResponseJson(ResponseInterface $response): array
     {
-        return \GuzzleHttp\json_decode($response->getBody()->__toString(), true);
+        return \Target365\ApiSdk\Json::decode($response->getBody()->__toString(), true);
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class AbstractResource
     protected function decodeResponseJsonString(ResponseInterface $response): ?string
     {
         $json = '{"result":' . $response->getBody()->__toString(). '}';
-        return \GuzzleHttp\json_decode($json, true)['result'];
+        return \Target365\ApiSdk\Json::decode($json, true)['result'];
     }
 
     protected function instantiateModel(array $data): AbstractModel
@@ -71,7 +71,6 @@ abstract class AbstractResource
     {
         // https://test.target365.io/api/keywords/111
         $chunks = explode('/', $locationHeader);
-        $identifier = end($chunks);
-        return $identifier;
+        return end($chunks);
     }
 }

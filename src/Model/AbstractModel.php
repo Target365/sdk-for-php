@@ -30,7 +30,7 @@ abstract class AbstractModel
 
                     $this->setProperties($properties);
                 }
-            } else if ($key === 'preAuthSettings') {
+            } else if ($key === 'preAuthSettings' && method_exists($this, 'setPreAuthSettings')) {
                 $preAuthSettings = new PreAuthSettings();
                 $preAuthSettings->populate($value);
                 $this->setPreAuthSettings($preAuthSettings);
@@ -62,7 +62,7 @@ abstract class AbstractModel
                 continue;
             }
 
-            if ($value instanceof AbstractModel) {
+            if ($value instanceof self) {
                 $normalizedData[$attribute] = $value->normalize();
                 continue;
             }

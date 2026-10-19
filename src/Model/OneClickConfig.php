@@ -22,6 +22,11 @@ class OneClickConfig extends AbstractModel
     protected $offlineText;
     protected $age;
     protected $isRestricted;
+    /**
+     * Not part of the one-click config API (not in attributes(), so it isn't sent). Kept so that
+     * getSmsConfirmation()/setSmsConfirmation() keep working without a dynamic property.
+     */
+    protected $smsConfirmation;
     protected $invoiceText;
     protected $price;
     protected $subscriptionPrice;
@@ -293,8 +298,8 @@ class OneClickConfig extends AbstractModel
 
     /**
      * @param string $lastModified
-     * @return StrexTransaction
-     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     * @return self
+     * @throws ApiClientException
      */
     public function setLastModified(string $lastModified): self
     {
@@ -309,8 +314,8 @@ class OneClickConfig extends AbstractModel
 
     /**
      * @param string $created
-     * @return StrexTransaction
-     * @throws \Target365\ApiSdk\Exception\ApiClientException
+     * @return self
+     * @throws ApiClientException
      */
     public function setCreated(string $created): self
     {

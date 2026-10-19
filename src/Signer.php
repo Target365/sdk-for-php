@@ -4,29 +4,24 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk;
 
-use phpseclib\Crypt\Hash;
-use phpseclib\Crypt\RSA;
 use Target365\ApiSdk\Exception\ApiClientException;
 
 class Signer
 {
-    private $privateKey;
+    /**
+     * The API expects ECDSA P-256 (secp256r1) signatures as raw r‖s (IEEE P1363), each part 32 bytes
+     */
+    private const EC_CURVE_NAME = 'prime256v1';
+    private const EC_SIGNATURE_PART_LENGTH = 32;
+
+    private string $privateKey;
 
     /**
-     * @param string $privateKey base64-encoded private key in pcks#8 format
-     * @throws ApiClientException
+     * @param string $privateKey base64-encoded RSA or ECDSA P-256 private key in PKCS#8 format
      */
     public function __construct(
         string $privateKey
     ) {
-        if (defined('CRYPT_RSA_PKCS15_COMPAT')) {
-            if (CRYPT_RSA_PKCS15_COMPAT !== true) {
-                throw new ApiClientException('Somehow the `CRYPT_RSA_PKCS15_COMPAT` constant has been set incorrectly');
-            }
-        } else {
-            define('CRYPT_RSA_PKCS15_COMPAT', true);
-        }
-
         $this->privateKey = $privateKey;
     }
 
@@ -34,7 +29,7 @@ class Signer
      * @param string      $requestMethod
      * @param string      $requestUri
      * @param string|null $bodyContents
-     * @param             $epochTime
+     * @param int|string  $epochTime
      * @param string      $nonce
      * @return string
      * @throws ApiClientException
@@ -63,36 +58,37 @@ class Signer
 
     public function hashBodyContents(string $bodyContents): string
     {
-        $hasher = new Hash();
-        $hasher->setHash('sha256');
-        $bodyContentsHash = $hasher->hash($bodyContents);
-
-        return base64_encode($bodyContentsHash);
+        return base64_encode(hash('sha256', $bodyContents, true));
     }
 
     /**
+     * Signs with SHA-256: RSA PKCS#1 v1.5 for an RSA key, ECDSA for an EC P-256 key.
+     *
      * @param string $stringToSign
-     * @return string
+     * @return string base64-encoded signature
      * @throws ApiClientException
      */
     public function signString(string $stringToSign): string
     {
-        $rsa = new RSA();
-        $rsa->setHash('sha256');
-        $keyOk = $rsa->loadKey($this->privateKey);
+        $key = $this->loadPrivateKey();
+        $details = openssl_pkey_get_details($key);
 
-        if (!$keyOk) {
+        if ($details === false) {
             throw new ApiClientException('Failed to load key');
         }
 
-        $rsa->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
-        $rsa->setSignatureMode(RSA::SIGNATURE_PKCS1);
+        if ($details['type'] === OPENSSL_KEYTYPE_EC
+            && ($details['ec']['curve_name'] ?? null) !== self::EC_CURVE_NAME
+        ) {
+            throw new ApiClientException('Unsupported EC key: only ECDSA P-256 (secp256r1) is supported');
+        }
 
-
-        $signed = $rsa->sign($stringToSign);
-
-        if ($signed === false) {
+        if (!openssl_sign($stringToSign, $signed, $key, OPENSSL_ALGO_SHA256)) {
             throw new ApiClientException('Cant seem to sign string');
+        }
+
+        if ($details['type'] === OPENSSL_KEYTYPE_EC) {
+            $signed = EcdsaSignatureConverter::derToRaw($signed, self::EC_SIGNATURE_PART_LENGTH);
         }
 
         return base64_encode($signed);
@@ -107,5 +103,49 @@ class Signer
         $epochTime = (string) $epochTime;
 
         return "HMAC {$authKeyName}:{$epochTime}:{$nonce}:{$signedRequestString}";
+    }
+
+    /**
+     * Accepts the key as a single line, with or without the -----BEGIN ... PRIVATE KEY----- parts:
+     * RSA in PKCS#8 ("PRIVATE KEY") or PKCS#1 ("RSA PRIVATE KEY") format,
+     * EC in PKCS#8 ("PRIVATE KEY") or SEC1 ("EC PRIVATE KEY") format.
+     *
+     * @throws ApiClientException
+     */
+    private function loadPrivateKey(): \OpenSSLAsymmetricKey
+    {
+        $base64 = (string) preg_replace('/-----(BEGIN|END)[^-]*-----|\s+/', '', $this->privateKey);
+
+        foreach (['PRIVATE KEY', 'RSA PRIVATE KEY', 'EC PRIVATE KEY'] as $type) {
+            $pem = "-----BEGIN {$type}-----\n" . chunk_split($base64, 64, "\n") . "-----END {$type}-----\n";
+            $key = openssl_pkey_get_private($pem);
+
+            if ($key === false) {
+                continue;
+            }
+
+            $details = openssl_pkey_get_details($key);
+
+            if ($details !== false && in_array($details['type'], [OPENSSL_KEYTYPE_RSA, OPENSSL_KEYTYPE_EC], true)) {
+                self::clearOpensslErrors();
+
+                return $key;
+            }
+        }
+
+        self::clearOpensslErrors();
+
+        throw new ApiClientException('Failed to load key');
+    }
+
+    /**
+     * The key format attempts above leave errors in OpenSSL's error queue, which would otherwise show up
+     * in the application's own openssl_error_string() calls.
+     */
+    private static function clearOpensslErrors(): void
+    {
+        do {
+            $error = openssl_error_string();
+        } while ($error !== false);
     }
 }

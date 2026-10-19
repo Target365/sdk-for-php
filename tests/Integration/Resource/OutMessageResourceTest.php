@@ -24,21 +24,23 @@ class OutMessageResourceTest extends AbstractTestCase
         $dateTime->add($dateInterval);
 
         // Using the DateTimeAttribute just to ensure the format is correct
-        $dateTimeAttribute = new DateTimeAttribute($dateTime->format(\DateTime::ATOM));
-
-        return $dateTimeAttribute->__toString();
+        return (new DateTimeAttribute($dateTime->format(\DateTime::ATOM)))->__toString();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testPrepareMsisdns()
     {
         $apiClient = $this->getApiClient();
 
         $apiClient->outMessageResource()->prepareMsisdns(['+4798079008']);
-
-        $this->assertTrue(true);
     }
 
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testPostBatch()
     {
         $this->getSendTime();
@@ -78,8 +80,6 @@ class OutMessageResourceTest extends AbstractTestCase
         ];
 
         $apiClient->outMessageResource()->postBatch($outMessages);
-
-        $this->assertTrue(true);
     }
 
     public function testPost()
@@ -178,6 +178,7 @@ class OutMessageResourceTest extends AbstractTestCase
 
         $outMessageChanged = $apiClient->outMessageResource()->get($outMessage->getTransactionId());
 
+        $this->assertInstanceOf(OutMessage::class, $outMessageChanged);
         $this->assertEquals($changedUrl, $outMessageChanged->getDeliveryReportUrl());
 
         return $outMessageChanged;
@@ -185,14 +186,13 @@ class OutMessageResourceTest extends AbstractTestCase
 
     /**
      * @depends testPut
+     * @doesNotPerformAssertions
      */
     public function testDelete(OutMessage $outMessage)
     {
         $apiClient = $this->getApiClient();
 
         $apiClient->outMessageResource()->delete($outMessage->getTransactionId());
-
-        $this->assertTrue(true);
 
         return $outMessage;
     }
@@ -207,9 +207,7 @@ class OutMessageResourceTest extends AbstractTestCase
         $apiClient = $this->getApiClient();
 
         // This should 404 as it should have been deleted
-        $result = $apiClient->outMessageResource()->get($outMessage->getTransactionId());
-
-        $this.assertEquals($result, null);
+        $apiClient->outMessageResource()->get($outMessage->getTransactionId());
     }
 
     /**
@@ -241,13 +239,13 @@ class OutMessageResourceTest extends AbstractTestCase
     /**
      * @depends testSendScheduledSMS
      * @param OutMessage $outMessage
+     * @doesNotPerformAssertions
      */
     public function testUpdateScheduledOutMessage(OutMessage $outMessage): void
     {
         $outMessage->getSendTime()->add(\DateInterval::createFromDateString('10 minutes'));
         $apiClient = $this->getApiClient();
         $apiClient->outMessageResource()->put($outMessage);
-        $this->assertTrue(true);
     }
 
     public function testGetExport()
@@ -262,6 +260,7 @@ class OutMessageResourceTest extends AbstractTestCase
 
     /**
      * @return string
+     * @doesNotPerformAssertions
      */
     public function testSendPincode()
     {
@@ -279,7 +278,6 @@ class OutMessageResourceTest extends AbstractTestCase
 
         $apiClient->outMessageResource()->sendPincode($pincode);
 
-        $this->assertTrue(true);
         return $transactionId;
     }
 

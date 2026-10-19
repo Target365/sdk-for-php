@@ -33,6 +33,10 @@ class InMessageResource extends AbstractResource // intentionally not extending 
         $uri = $this->getResourceUri() . '/' . $shortNumberId . '/' . $transactionId;
         $response = $this->apiClient->request('get', $uri);
         $responseData = $this->decodeResponseJson($response);
-        return $this->instantiateModel($responseData);
+
+        /** @var InMessage $inMessage */
+        $inMessage = $this->instantiateModel($responseData);
+
+        return $inMessage;
     }
 }

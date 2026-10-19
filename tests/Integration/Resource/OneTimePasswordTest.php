@@ -9,6 +9,9 @@ use Target365\ApiSdk\Tests\AbstractTestCase;
 
 class OneTimePasswordTest extends AbstractTestCase
 {
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testPost()
     {
         $apiClient = $this->getApiClient();
@@ -25,8 +28,6 @@ class OneTimePasswordTest extends AbstractTestCase
 
         $apiClient->oneTimePasswordResource()->post($oneTimePassword);
 
-        $this->assertTrue(true);
-
         return $oneTimePassword->getTransactionId();
     }
 
@@ -39,6 +40,7 @@ class OneTimePasswordTest extends AbstractTestCase
 
         $oneTimePassword = $apiClient->oneTimePasswordResource()->get($identifier);
 
+        $this->assertInstanceOf(OneTimePassword::class, $oneTimePassword);
         $this->assertEquals($identifier, $oneTimePassword->getTransactionId());
         $this->assertEquals('mer_target365_as', $oneTimePassword->getMerchantId());
         $this->assertEquals('+4798079008', $oneTimePassword->getRecipient());

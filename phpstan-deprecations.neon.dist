@@ -1,0 +1,15 @@
+# Deprecation check against the newest supported PHP version (bump phpVersion when a new PHP version is supported).
+# phpstan.neon.dist checks against the whole PHP range; this one catches calls that are deprecated in the newest PHP
+# version, and calls to methods marked @deprecated in the dependencies.
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    phpVersion: 80500
+    # Properties is a key/value bag with magic __get/__set
+    universalObjectCratesClasses:
+        - Target365\ApiSdk\Model\Properties

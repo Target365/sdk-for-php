@@ -120,7 +120,7 @@ class OutMessage extends AbstractModel implements DynamicPropertiesInterface
 
     public function getSmsParts() : int
     {
-        return OutMessage::getSmsPartsForText($this->getContent() ?? '', $this->getAllowUnicode());
+        return self::getSmsPartsForText($this->getContent() ?? '', $this->getAllowUnicode());
     }
     
     public function getTransactionId(): ?string

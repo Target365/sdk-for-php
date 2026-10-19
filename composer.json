@@ -3,10 +3,10 @@
   "description": "Target365 SDK",
   "type": "library",
   "require": {
-    "php": ">=7.1",
-    "guzzlehttp/guzzle": "~7.0",
-    "phpseclib/phpseclib": "~3.0",
-    "phpseclib/phpseclib2_compat": "~1.0",
+    "php": ">=8.2",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "guzzlehttp/guzzle": "^7.0 || ^8.0",
     "psr/log": "^1.0 || ^3.0"
   },
   "license": "MIT",
@@ -17,31 +17,27 @@
     }
   ],
   "require-dev": {
-    "phpunit/phpunit": "^7.0",
-    "symfony/var-dumper": "^4.1",
-    "monolog/monolog": "^1.23",
-    "incenteev/composer-parameter-handler": "~2.0",
-    "symfony/yaml": "~4.2",
-    "ramsey/uuid": "^3.8"
+    "phpunit/phpunit": "^9.6.33",
+    "phpstan/phpstan": "^2.1",
+    "phpstan/phpstan-deprecation-rules": "^2.0",
+    "monolog/monolog": "^2.0 || ^3.0",
+    "symfony/yaml": "^6.4.45 || ^7.4.18 || ^8.1.6",
+    "ramsey/uuid": "^4.0"
   },
   "autoload": {
     "psr-4": {
-      "Target365\\ApiSdk\\": "src/",
+      "Target365\\ApiSdk\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Target365\\ApiSdk\\Tests\\": "tests/"
     }
   },
   "scripts": {
-    "test": "phpunit",
-    "post-install-cmd": [
-      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-    ],
-    "post-update-cmd": [
-      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-    ]
-  },
-  "extra": {
-    "incenteev-parameters": {
-      "file": "tests/secrets.yml"
-    }
+    "test": "phpunit --testsuite Unit",
+    "test-integration": "phpunit --testsuite Integration",
+    "phpstan": "phpstan analyse --memory-limit=1G",
+    "phpstan-deprecations": "phpstan analyse --memory-limit=1G -c phpstan-deprecations.neon.dist"
   }
 }

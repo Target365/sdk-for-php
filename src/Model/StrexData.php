@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Model;
 
-use Target365\ApiSdk\Exception\ApiClientException;
 
 class StrexData extends AbstractModel
 {
@@ -56,6 +55,9 @@ class StrexData extends AbstractModel
         return $this->merchantId;
     }
 
+    /**
+     * @return static
+     */
     public function setMerchantId(string $merchantId): self
     {
         $this->merchantId = $merchantId;
@@ -67,6 +69,9 @@ class StrexData extends AbstractModel
         return $this->serviceCode;
     }
 
+    /**
+     * @return static
+     */
     public function setServiceCode(string $serviceCode): self
     {
         $this->serviceCode = $serviceCode;
@@ -78,6 +83,9 @@ class StrexData extends AbstractModel
         return $this->businessModel;
     }
 
+    /**
+     * @return static
+     */
     public function setBusinessModel(?string $businessModel): self
     {
         $this->businessModel = $businessModel;
@@ -89,6 +97,9 @@ class StrexData extends AbstractModel
         return $this->preAuthServiceId;
     }
 
+    /**
+     * @return static
+     */
     public function setPreAuthServiceId(?string $preAuthServiceId): self
     {
         $this->preAuthServiceId = $preAuthServiceId;
@@ -100,6 +111,9 @@ class StrexData extends AbstractModel
         return $this->preAuthServiceDescription;
     }
 
+    /**
+     * @return static
+     */
     public function setPreAuthServiceDescription(?string $preAuthServiceDescription): self
     {
         $this->preAuthServiceDescription = $preAuthServiceDescription;
@@ -111,6 +125,9 @@ class StrexData extends AbstractModel
         return $this->age;
     }
 
+    /**
+     * @return static
+     */
     public function setAge(?int $age): self
     {
         $this->age = $age;
@@ -122,6 +139,9 @@ class StrexData extends AbstractModel
         return $this->isRestricted;
     }
 
+    /**
+     * @return static
+     */
     public function setIsRestricted(?bool $isRestricted): self
     {
         $this->isRestricted = $isRestricted;
@@ -133,6 +153,9 @@ class StrexData extends AbstractModel
         return $this->smsConfirmation;
     }
 
+    /**
+     * @return static
+     */
     public function setSmsConfirmation(?bool $smsConfirmation): self
     {
         $this->smsConfirmation = $smsConfirmation;
@@ -144,6 +167,9 @@ class StrexData extends AbstractModel
         return $this->invoiceText;
     }
 
+    /**
+     * @return static
+     */
     public function setInvoiceText(string $invoiceText): self
     {
         $this->invoiceText = $invoiceText;
@@ -155,6 +181,9 @@ class StrexData extends AbstractModel
         return $this->price;
     }
 
+    /**
+     * @return static
+     */
     public function setPrice(float $price): self
     {
         $this->price = $price;
@@ -166,6 +195,9 @@ class StrexData extends AbstractModel
         return $this->timeout;
     }
 
+    /**
+     * @return static
+     */
     public function setTimeout(?int $timeout): self
     {
         $this->timeout = $timeout;
@@ -177,6 +209,9 @@ class StrexData extends AbstractModel
         return $this->billed;
     }
 
+    /**
+     * @return static
+     */
     public function setBilled(?bool $billed): self
     {
         $this->billed = $billed;
@@ -188,6 +223,9 @@ class StrexData extends AbstractModel
         return $this->resultCode;
     }
 
+    /**
+     * @return static
+     */
     public function setResultCode(?string $resultCode): self
     {
         $this->resultCode = $resultCode;
@@ -199,6 +237,9 @@ class StrexData extends AbstractModel
         return $this->resultDescription;
     }
 
+    /**
+     * @return static
+     */
     public function setResultDescription(?string $resultDescription): self
     {
         $this->resultDescription = $resultDescription;

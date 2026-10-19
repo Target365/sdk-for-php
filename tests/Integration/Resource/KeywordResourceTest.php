@@ -6,7 +6,6 @@ namespace Target365\ApiSdk\Tests\Integration\Resource;
 
 use Target365\ApiSdk\Model\Keyword;
 use Target365\ApiSdk\Model\PreAuthSettings;
-use Target365\ApiSdk\Model\Properties;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
 class KeywordResourceTest extends AbstractTestCase
@@ -30,7 +29,7 @@ class KeywordResourceTest extends AbstractTestCase
         $keyword = new Keyword();
         $keyword = $keyword
           ->setShortNumberId('NO-0000')
-          ->setKeywordText('Test' . (string) rand() . (string) time() )
+          ->setKeywordText('Test' . (string) mt_rand() . (string) time() )
           ->setMode('Text')
           ->setForwardUrl('http://tempuri.org')
           ->setEnabled(true)
@@ -99,6 +98,7 @@ class KeywordResourceTest extends AbstractTestCase
 
         $keywordChanged = $apiClient->keywordResource()->get($keyword->getIdentifier());
 
+        $this->assertInstanceOf(Keyword::class, $keywordChanged);
         $this->assertEquals($changedForwardUrl, $keywordChanged->getForwardUrl());
 
         return $keywordChanged;
@@ -106,14 +106,13 @@ class KeywordResourceTest extends AbstractTestCase
 
     /**
      * @depends testPut
+     * @doesNotPerformAssertions
      */
     public function testDelete(Keyword $keyword)
     {
         $apiClient = $this->getApiClient();
 
         $apiClient->keywordResource()->delete($keyword->getIdentifier());
-
-        $this->assertTrue(true);
 
         return $keyword;
     }

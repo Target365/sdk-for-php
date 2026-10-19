@@ -31,11 +31,11 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
     /**
      * Creates a Message object from the raw POST data
      *
-     * @return DeliveryReport
+     * @return self
      * @throws \RuntimeException If the POST data is absent, or not a valid JSON document
      * @throws \InvalidArgumentException
      */
-    public static function fromRawPostData(): DeliveryReport
+    public static function fromRawPostData(): self
     {
         // Read the raw POST data and JSON-decode it into a message.
         return self::fromJsonString(file_get_contents('php://input'));
@@ -45,10 +45,10 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
      * Creates a Message object from a PSR-7 Request or ServerRequest object.
      *
      * @param RequestInterface $request
-     * @return DeliveryReport
+     * @return self
      * @throws \InvalidArgumentException
      */
-    public static function fromPsrRequest(RequestInterface $request): DeliveryReport
+    public static function fromPsrRequest(RequestInterface $request): self
     {
         return self::fromJsonString($request->getBody()->getContents());
     }
@@ -57,12 +57,12 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
      * Creates a Message object from a JSON-decodable string.
      *
      * @param string $json
-     * @return DeliveryReport
+     * @return self
      * @throws \InvalidArgumentException
      */
-    public static function fromJsonString(string $json): DeliveryReport
+    public static function fromJsonString(string $json): self
     {
-        $data = \GuzzleHttp\json_decode($json, true);
+        $data = \Target365\ApiSdk\Json::decode($json, true);
         $dlr = new self();
         $dlr->populate($data);
         return $dlr;
@@ -265,7 +265,10 @@ class DeliveryReport extends AbstractModel implements DynamicPropertiesInterface
         return $this->received;
     }
 
-    public function setReceived(string $recevied): self
+    /**
+     * @throws ApiClientException
+     */
+    public function setReceived(string $received): self
     {
         $this->received = new DateTimeAttribute($received);
         return $this;

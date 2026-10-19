@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Target365\ApiSdk\Tests\Unit\Model;
+namespace Target365\ApiSdk\Tests\Unit\Attribute;
 
 use Target365\ApiSdk\Exception\ApiClientException;
 use Target365\ApiSdk\Attribute\DateTimeAttribute;
