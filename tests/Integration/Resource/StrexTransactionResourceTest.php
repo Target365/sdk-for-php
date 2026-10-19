@@ -4,11 +4,9 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Tests\Integration\Resource;
 
-use Target365\ApiSdk\Exception\ApiClientException;
 use Target365\ApiSdk\Model\StrexTransaction;
 use Target365\ApiSdk\Model\StatusCodes;
 use Target365\ApiSdk\Tests\AbstractTestCase;
-use Target365\ApiSdk\Tests\Fixtures;
 
 class StrexTransactionResourceTest extends AbstractTestCase
 {
@@ -79,6 +77,6 @@ class StrexTransactionResourceTest extends AbstractTestCase
         $reverseTransaction = $apiClient->strexTransactionResource()->get($reversalId);
 
         $this->assertInstanceOf(StrexTransaction::class, $reverseTransaction);
-        $this->assertEquals($reverseTransaction->getStatusCode(), StatusCodes::REVERSED);
+        $this->assertEquals(StatusCodes::REVERSED, $reverseTransaction->getStatusCode());
     }
 }

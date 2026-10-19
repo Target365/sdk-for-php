@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Resource;
 
+use Target365\ApiSdk\Exception\ApiClientException;
 use Target365\ApiSdk\Exception\ResourceMethodNotAvailableException;
 use Target365\ApiSdk\Model\AbstractModel;
 use Target365\ApiSdk\Model\StrexTransaction;

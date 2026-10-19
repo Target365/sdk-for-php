@@ -7,54 +7,42 @@ Strex AS is a Norwegian payment and SMS gateway (Strex Connect) provider. Strex 
 ### Getting started
 To get started, please click here: https://strex.no/strex-connect#Prispakker and register your organisation. 
 
-After registration you can activate the SDK by logging in to Strex Connect and create a key here:  
+After registration you can activate the SDK by logging in to Strex Connect and create a key under "SDK keys" here:  
 https://www.strexconnect.no/admin/public-key 
-Select "PHP" as your SDK. Copy and store the "Private key-string" safe and encrypted (we recommend EAS-encryption). We only store the public-key.
+
+Click "Add new", and in the "SDK" tab select "PHP" as your SDK. Strex Connect generates the key pair and shows a
+"Public key string" and a "Private key string". Copy the **"Private key string"**: that's the key the SDK needs (not the
+"Public key string"). Store it safe and encrypted (we recommend AES-encryption). We only store the public key.
 Set the expiry date, and optionally add an e-mail address so we can warn you when the key is about to expire.
 
-If you want, you can generate your own RSA public/private key-pair using openssl like this and add it to the "From OpenSSL" tab:
+The SDK signs requests with either an ECDSA P-256 key or an RSA key, depending on the private key you give it.
+
+> The private key can be given as one line (as Strex Connect shows it), with or without the
+> `-----BEGIN ...-----`/`-----END ...-----` lines, or as a PEM string with newlines.
+
+Instead of letting Strex Connect generate the key pair, you can generate your own with openssl and add the public key in
+the "From OpenSSL" tab, as described below.
+
+#### ECDSA P-256 key
+If you want, you can generate your own EC public/private key-pair using openssl like this and add it to the "From OpenSSL" tab:
 ```
-openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:1024 -out private.pem
+openssl ecparam -name prime256v1 -genkey -noout -out private.pem
 ```
-Use openssl to convert it to pk8 format which PHP uses.
+Use openssl to convert it to pk8 format:
 ```
 openssl pkcs8 -topk8 -inform pem -in private.pem -outform pem -nocrypt -out private.key
 ```
-The file `private.key` should look something like this:
-```
------BEGIN PRIVATE KEY-----
-MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAML6duyE7hL2XPEH
-qiYtyghoj6pO21zGPwSaBKTCg6i3AeJ4Ob6pCnvYQA+rRfw/+aBfT+Rv3LTSmX2i
-9bAsLQB0Q3y8zku2NmqE/yoqhb9GAhL3toMasBuJ3ifvUOXTajtGEKy++YkAkRBK
-7Wi/bK/IQNZd9nsOtKxz5DXNELbHAgMBAAECgYAj6k8Nsk7IX2kvXOIStkyIz/nm
-vS/bHwlsp5JDZzEpWsyWEt9QJ4Mu3N6wBDSYCpDI4cWtpo1ZIZH0epgXI4wGPv2j
-a6ilWZywUdhFZw1AUc3qLRoapqIPliimLhxPWmV2OfvbA4LiNvWGsF/qTaqVQ/0V
-ebj+JYjJdFQcTjqlwQJBAOpKQ/EyuzDlO7YVPmw0rAfVRfVqTIvzpZ3hGThztcnQ
-igI3ftbGSOPUcter3/cX5ENrIGMP6hLsWqSKWECBwK0CQQDVC6mVkrit/VXby2Zp
-8epgprGhrUHojNO7ojQQN1Mupr4AHUWr2Y3xJH1uXaOjafBc6uLK7Cri3eLru+iy
-Ph/DAkBLG/fgEVV1fWfBHdpfMhucf0DoRmW30CpeDNXbBS1YP6SexU/CZtrjPy55
-+b3ZJy2kd2lwmJ9/5YnBiiB0vaQZAkEAuTgPcrOBjfqu94zpd/hTTT3/NtGbeGNe
-/UTywJpo3iknDJBmbxaQOfMAfcA5MSw8RXwMOmGCk4RW8Z2Hm9c44wJBAJvIcnMV
-6b2G6pizPPjoPhV+eNruWTyFt5ralEmxDpqV3p4TP89KVvaBlkzlT28p1P9vp5bD
-J6BLhdOAUfC3CMY=
------END PRIVATE KEY-----
-```
-> Please note that when using the private key in PHP you must remove all newline characters so the whole private key is in one line.
-
 Use this openssl command to extract the public key:
 ```
-openssl rsa -in private.key -pubout -out public.key
+openssl ec -in private.pem -pubout -out public.key
 ```
-The file should look something like this:
-```
------BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDC+nbshO4S9lzxB6omLcoIaI+q
-Tttcxj8EmgSkwoOotwHieDm+qQp72EAPq0X8P/mgX0/kb9y00pl9ovWwLC0AdEN8
-vM5LtjZqhP8qKoW/RgIS97aDGrAbid4n71Dl02o7RhCsvvmJAJEQSu1ov2yvyEDW
-XfZ7DrSsc+Q1zRC2xwIDAQAB
------END PUBLIC KEY-----
-```
-Paste the middle part in the "Public key-string" input field and select "RSA" as "Signing algorithm" in Strex Connect.
+Paste the middle part of `public.key` in the "Public key string" field and select "ECDsaP256" as "Sign algo" in the
+"From OpenSSL" tab in Strex Connect. Use the middle part of `private.key` as the private key in the SDK.
+
+> The PHP SDK supports ECDsaP256 and RSA keys. "ECDsaP521" (also listed in Strex Connect) is not supported.
+
+#### RSA key
+RSA keys created for earlier versions of the SDK keep working: the SDK signs with RSA when it is given an RSA private key.
 
 For more details on using the SDK we strongly suggest you check out our [PHP User Guide](USERGUIDE.md).
 
@@ -62,6 +50,7 @@ For more details on using the SDK we strongly suggest you check out our [PHP Use
 ```
 composer require target365/sdk
 ```
+Requirements: PHP 8.2 or newer, the `openssl` and `json` extensions, and Guzzle 7 or 8.
 [![Latest Stable Version](https://poser.pugx.org/target365/sdk/v/stable)](https://packagist.org/packages/target365/sdk)
 
 ### Test Environment
@@ -81,9 +70,13 @@ Target365 (<sdk@strex.no>)
 Please feel free to raise an issue against this repository if you have any questions or problems.
 
 ### Private Key
-The Target365 PHP SDK only allows RSA private keys. The private key should be passed to the
-`\Target365\ApiSdk\ApiClient` constructor. The key can optionally include `-----BEGIN RSA PRIVATE KEY-----`
-parts. You must remove all newline characters from the private key when using the PHP SDK.
+The private key should be passed to the `\Target365\ApiSdk\ApiClient` constructor. The SDK supports:
+* ECDSA P-256 (secp256r1) keys in PKCS#8 (`-----BEGIN PRIVATE KEY-----`) or SEC1 (`-----BEGIN EC PRIVATE KEY-----`) format
+* RSA keys in PKCS#8 (`-----BEGIN PRIVATE KEY-----`) or PKCS#1 (`-----BEGIN RSA PRIVATE KEY-----`) format
+
+The key can be one line (as Strex Connect shows it), with or without the `-----BEGIN ...-----` and `-----END ...-----` parts,
+or a PEM string with newlines. The signing algorithm follows the key type, and must match the "Sign algo"
+of the key in Strex Connect. Other EC curves than P-256 are not supported.
 
 ### Contributing
 New contributors to this project are welcome. If you are interested in contributing please
@@ -97,11 +90,12 @@ automated tests.
 * Change to repository directory.
 * (Optional) use vagrant file as `tests/Vagrantfile`
 * Run `composer install`.
-  - Running composer will prompt you to enter some required details which will
-be stored in a file called `tests/secrets.yml`.
-  - When entering `private_key` enter the key as a one line string and exclude
-the `-----BEGIN RSA PRIVATE KEY-----` parts.
-* Run PHPUnit. `./vendor/bin/phpunit`
+* Run the unit tests: `composer test`. They need no credentials.
+* Run static analysis: `composer phpstan`.
+* Integration tests call the Target365 test API:
+  - Copy `tests/secrets.yml.dist` to `tests/secrets.yml` and fill in your test account's details.
+    Enter `private_key` as a one line string without the `-----BEGIN ...-----` parts.
+  - Run `composer test-integration`.
 
 ### License
 This library is released under the MIT license.

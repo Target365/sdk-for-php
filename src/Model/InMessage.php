@@ -24,11 +24,11 @@ class InMessage extends AbstractModel implements DynamicPropertiesInterface
     /**
      * Creates a Message object from the raw POST data
      *
-     * @return InMessage
+     * @return self
      * @throws \RuntimeException If the POST data is absent, or not a valid JSON document
      * @throws \InvalidArgumentException
      */
-    public static function fromRawPostData(): InMessage
+    public static function fromRawPostData(): self
     {
         // Read the raw POST data and JSON-decode it into a message.
         return self::fromJsonString(file_get_contents('php://input'));
@@ -38,10 +38,10 @@ class InMessage extends AbstractModel implements DynamicPropertiesInterface
      * Creates a Message object from a PSR-7 Request or ServerRequest object.
      *
      * @param RequestInterface $request
-     * @return InMessage
+     * @return self
      * @throws \InvalidArgumentException
      */
-    public static function fromPsrRequest(RequestInterface $request): InMessage
+    public static function fromPsrRequest(RequestInterface $request): self
     {
         return self::fromJsonString($request->getBody()->getContents());
     }
@@ -50,12 +50,12 @@ class InMessage extends AbstractModel implements DynamicPropertiesInterface
      * Creates a Message object from a JSON-decodable string.
      *
      * @param string $json
-     * @return InMessage
+     * @return self
      * @throws \InvalidArgumentException
      */
-    public static function fromJsonString(string $json): InMessage
+    public static function fromJsonString(string $json): self
     {
-        $data = \GuzzleHttp\json_decode($json, true);
+        $data = \Target365\ApiSdk\Json::decode($json, true);
         $inMessage = new self();
         $inMessage->populate($data);
         return $inMessage;

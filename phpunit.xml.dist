@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit
-    verbose="true"
     colors="true"
+    convertDeprecationsToExceptions="true"
     stopOnFailure="false"
     bootstrap="./vendor/autoload.php"
 >
-    <filter>
-        <whitelist>
-            <directory>src/</directory>
-        </whitelist>
-    </filter>
-
     <groups>
         <exclude>
             <group>skip</group>
         </exclude>
     </groups>
-    
+
     <testsuites>
-        <!-- we want to run unit test first -->
+        <!-- Unit tests run without credentials -->
         <testsuite name="Unit">
-            <directory>tests/Unit/*</directory>
+            <directory>tests/Unit</directory>
         </testsuite>
+        <!-- Integration tests call the Target365 test API, credentials in tests/secrets.yml -->
         <testsuite name="Integration">
-            <directory>tests/Integration/*</directory>
+            <directory>tests/Integration</directory>
         </testsuite>
     </testsuites>
 </phpunit>

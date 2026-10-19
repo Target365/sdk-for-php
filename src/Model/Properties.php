@@ -42,7 +42,7 @@ class Properties implements \ArrayAccess, \IteratorAggregate
     /**
      * Get a data by key
      *
-     * @param string The key data to retrieve
+     * @param string $key The key data to retrieve
      * @access public
      * @return mixed
      */
@@ -55,8 +55,8 @@ class Properties implements \ArrayAccess, \IteratorAggregate
     /**
      * Assigns a value to the specified data
      *
-     * @param string The data key to assign the value to
-     * @param mixed  The value to set
+     * @param string $key The data key to assign the value to
+     * @param mixed  $value The value to set
      * @access public
      */
     public function __set($key, $value)
@@ -67,7 +67,7 @@ class Properties implements \ArrayAccess, \IteratorAggregate
     /**
      * Whether or not an data exists by key
      *
-     * @param string An data key to check for
+     * @param string $key An data key to check for
      * @access public
      * @return boolean
      * @abstracting ArrayAccess
@@ -80,7 +80,7 @@ class Properties implements \ArrayAccess, \IteratorAggregate
     /**
      * Unsets an data by key
      *
-     * @param string The key to unset
+     * @param string $key The key to unset
      * @access public
      */
     public function __unset($key)

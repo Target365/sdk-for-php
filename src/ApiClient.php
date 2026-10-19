@@ -34,7 +34,7 @@ class ApiClient
     /**
      * @param string               $domainUri e.g. https://shared.target365.io/
      * @param string               $authKeyName
-     * @param string               $privateKey base64-encoded private key in pcks#8 format
+     * @param string               $privateKey ECDSA P-256 or RSA private key, see README.md "Private Key"
      * @param LoggerInterface|null $logger
      * @throws Exception\ApiClientException
      */
@@ -42,7 +42,7 @@ class ApiClient
         string $domainUri,
         string $authKeyName,
         string $privateKey,
-        LoggerInterface $logger = null
+        ?LoggerInterface $logger = null
     ) {
         $this->authKeyName = $authKeyName;
 
@@ -55,14 +55,10 @@ class ApiClient
         $this->baseUri = $this->tidyDomainUri($domainUri) . 'api/';
     }
 
-    private function tidyDomainUri(string $domainUri)
+    private function tidyDomainUri(string $domainUri): string
     {
-        // Add trailing slash if it is not present on the domain URI
-        if (substr($domainUri, -1, 1) !== '/') {
-            return $domainUri . '/';
-        }
-
-        return $domainUri;
+        // Ensure the domain URI ends with a trailing slash
+        return rtrim($domainUri, '/') . '/';
     }
 
     protected function getSigner(): Signer
@@ -172,7 +168,7 @@ class ApiClient
     public function request(
         string $requestMethod,
         string $requestUriPath,
-        array $bodyData = null
+        ?array $bodyData = null
     ): ResponseInterface {
         $requestUri = $this->baseUri . $requestUriPath;
 
@@ -181,7 +177,7 @@ class ApiClient
         $nonce = uniqid((string) time(), true);
 
         if ($bodyData) {
-            $bodyContents = \GuzzleHttp\json_encode($bodyData);
+            $bodyContents = Json::encode($bodyData);
         } else {
             $bodyContents = null;
         }
@@ -210,7 +206,7 @@ class ApiClient
         $httpOptions['headers'] = [
                 'Authorization' => $authHeader,
                 'X-Sdk' => 'Php',
-                'X-Sdk-Version' => '1.8.14'
+                'X-Sdk-Version' => '1.9.0'
         ];
 
         if ($bodyContents) {

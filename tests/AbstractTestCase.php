@@ -41,10 +41,8 @@ abstract class AbstractTestCase extends TestCase
     protected function invokePrivateMethod($object, $methodName, array $parameters = array())
     {
         $reflection = new \ReflectionClass(get_class($object));
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
 
-        return $method->invokeArgs($object, $parameters);
+        return $reflection->getMethod($methodName)->invokeArgs($object, $parameters);
     }
 
     /**
@@ -61,10 +59,8 @@ abstract class AbstractTestCase extends TestCase
     protected function invokePrivateStaticMethod(string $fqcn, $methodName, array $parameters = array())
     {
         $reflection = new \ReflectionClass($fqcn);
-        $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
 
-        return $method->invokeArgs(null, $parameters);
+        return $reflection->getMethod($methodName)->invokeArgs(null, $parameters);
     }
 
     protected function getStdoutLogger(): LoggerInterface

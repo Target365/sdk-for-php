@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Resource;
 
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\BadResponseException;
 use Target365\ApiSdk\Model\Lookup;
 
 class LookupResource extends AbstractResource
@@ -35,18 +35,21 @@ class LookupResource extends AbstractResource
 
         try {
             $response = $this->apiClient->request('get', $uri);
-        } catch (RequestException $e) {
+        } catch (BadResponseException $e) {
             // Specifically to the lookup endpoint, we do not want to throw an Exception on 404
-            if ($e->getResponse()->getStatusCode() == 404) {
+            if ($e->getResponse()->getStatusCode() === 404) {
                 return null;
-            } else {
-                throw $e;
             }
+
+            throw $e;
         }
 
         $responseData = $this->decodeResponseJson($response);
 
-        return $this->instantiateModel($responseData);
+        /** @var Lookup $lookup */
+        $lookup = $this->instantiateModel($responseData);
+
+        return $lookup;
     }
 
     /**

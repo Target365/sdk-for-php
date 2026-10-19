@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace Target365\ApiSdk\Tests\Integration\Resource;
 
+use Target365\ApiSdk\Model\PublicKey;
 use Target365\ApiSdk\Tests\AbstractTestCase;
 
 
@@ -17,9 +18,10 @@ class ServerPublicKeyResourceTest extends AbstractTestCase
     {
         $apiClient = $this->getApiClient();
 
-        $serverPublicKey = $apiClient->clientPublicKeyResource()->get('2017-11-17');
+        $serverPublicKey = $apiClient->serverPublicKeyResource()->get('2017-11-17');
 
-        $this->assertEquals(8, $serverPublicKey->getAccountId());
+        $this->assertInstanceOf(PublicKey::class, $serverPublicKey);
+        $this->assertSame('2017-11-17', $serverPublicKey->getName());
     }
 
 }

@@ -149,9 +149,9 @@ class Keyword extends AbstractModel implements DynamicPropertiesInterface
         return $this->customProperties;
     }
 
-    public function setProperties(?Properties $customProperties): self
+    public function setProperties(?Properties $properties): self
     {
-        $this->customProperties = $customProperties;
+        $this->customProperties = $properties;
         return $this;
     }
 
