@@ -80,7 +80,7 @@ of the key in Strex Connect. Other EC curves than P-256 are not supported.
 
 ### Contributing
 New contributors to this project are welcome. If you are interested in contributing please
-send an email to sdk@strex.no.
+send an email to Target365 (<support@target365.no>).
 
 ### Automated Test
 Automated tests use PHPUnit framework. Here are some suggested steps to run
