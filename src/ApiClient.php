@@ -206,7 +206,7 @@ class ApiClient
         $httpOptions['headers'] = [
                 'Authorization' => $authHeader,
                 'X-Sdk' => 'Php',
-                'X-Sdk-Version' => '1.9.0'
+                'X-Sdk-Version' => '1.9.1'
         ];
 
         if ($bodyContents) {
@@ -214,7 +214,7 @@ class ApiClient
         }
 
         $response = $httpClient->request(
-            $requestMethod,
+            strtoupper($requestMethod),
             $requestUri,
             $httpOptions
         );
